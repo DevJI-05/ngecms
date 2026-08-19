@@ -1,0 +1,320 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+.pg{font-family:'Barlow',sans-serif;color:var(--color-text-primary);background:var(--color-background-tertiary);}
+.topbar{background:#042C53;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-box{width:32px;height:32px;background:#EF9F27;border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.logo-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:.3px;line-height:1.1;}
+.logo-tagline{font-size:9px;color:rgba(255,255,255,.55);letter-spacing:2px;text-transform:uppercase;}
+.nav-pills{display:flex;gap:20px;}
+.nav-pills a{color:rgba(255,255,255,.7);text-decoration:none;font-size:12.5px;font-weight:500;}
+.nav-pills a.active{color:#EF9F27;}
+
+.hero-strip{background:#0C447C;padding:28px 28px 24px;border-bottom:3px solid #EF9F27;}
+.breadcrumb{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.breadcrumb span{color:rgba(255,255,255,.8);}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:36px;color:#fff;letter-spacing:-.3px;line-height:1;}
+.page-sub{font-size:13px;color:rgba(255,255,255,.65);margin-top:5px;font-weight:300;}
+
+.body-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:0;}
+
+.form-panel{background:var(--color-background-primary);padding:28px;}
+.panel-heading{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:var(--color-text-primary);margin-bottom:4px;letter-spacing:.2px;}
+.panel-sub{font-size:12.5px;color:var(--color-text-secondary);margin-bottom:20px;line-height:1.5;}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11.5px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px;}
+.field input,.field select,.field textarea{width:100%;font-family:'Barlow',sans-serif;font-size:13.5px;padding:9px 12px;border:0.5px solid var(--color-border-secondary);border-radius:6px;background:var(--color-background-secondary);color:var(--color-text-primary);outline:none;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#185FA5;box-shadow:0 0 0 2px rgba(24,95,165,.15);}
+.field textarea{resize:vertical;min-height:90px;}
+
+.req-badge{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:#E6F1FB;color:#0C447C;padding:2px 7px;border-radius:3px;margin-left:6px;vertical-align:middle;}
+
+.submit-row{display:flex;align-items:center;gap:12px;margin-top:18px;}
+.btn-send{background:#185FA5;color:#fff;font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;padding:10px 22px;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:7px;letter-spacing:.3px;}
+.btn-send:active{opacity:.9;}
+.btn-wa{background:#EAF3DE;color:#27500A;font-family:'Barlow',sans-serif;font-weight:500;font-size:13px;padding:10px 18px;border:0.5px solid #97C459;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:7px;}
+.form-note{font-size:11px;color:var(--color-text-tertiary);margin-top:10px;line-height:1.5;}
+
+.success-box{display:none;background:#EAF3DE;border:0.5px solid #97C459;border-radius:8px;padding:16px 20px;margin-top:14px;align-items:flex-start;gap:12px;}
+.success-box.show{display:flex;}
+.success-title{font-weight:500;font-size:14px;color:#27500A;margin-bottom:3px;}
+.success-desc{font-size:12.5px;color:#3B6D11;line-height:1.5;}
+
+.info-panel{background:#042C53;padding:28px;}
+.info-section{margin-bottom:24px;}
+.info-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px;}
+.info-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.info-icon{width:32px;height:32px;background:rgba(255,255,255,.08);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#EF9F27;font-size:16px;}
+.info-text{font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.55;}
+.info-text strong{color:#fff;font-weight:500;display:block;font-size:13px;margin-bottom:1px;}
+
+.divider{border:none;border-top:0.5px solid rgba(255,255,255,.1);margin:20px 0;}
+
+.person-card{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.person-avatar{width:36px;height:36px;border-radius:50%;background:#185FA5;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:#B5D4F4;flex-shrink:0;}
+.person-name{font-size:13px;font-weight:500;color:#fff;}
+.person-role{font-size:11px;color:rgba(255,255,255,.5);}
+.person-phone{font-size:12px;color:#EF9F27;margin-top:2px;}
+
+.hours-row{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,.07);}
+.hours-day{color:rgba(255,255,255,.65);}
+.hours-time{color:#fff;font-weight:500;}
+.hours-row.active .hours-day{color:#EF9F27;}
+.hours-row.active .hours-time{color:#EF9F27;}
+
+.map-placeholder{background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);border-radius:8px;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;margin-top:4px;}
+.map-placeholder:hover{background:rgba(255,255,255,.09);}
+.map-label{font-size:11.5px;color:rgba(255,255,255,.55);}
+.map-link{font-size:11px;color:#EF9F27;text-decoration:none;font-weight:500;}
+
+.footer-strip{background:#031E3A;padding:12px 28px;display:flex;justify-content:space-between;align-items:center;}
+.footer-text{font-size:11px;color:rgba(255,255,255,.4);}
+.footer-cert{display:flex;gap:10px;}
+.cert-pill{font-size:10px;font-weight:600;letter-spacing:1px;background:rgba(239,159,39,.15);color:#EF9F27;padding:3px 9px;border-radius:3px;border:0.5px solid rgba(239,159,39,.3);}
+</style>
+
+<h2 class="sr-only">Halaman kontak Nusantara Gas Energy — form inquiry dan informasi kantor</h2>
+
+<div class="pg">
+  <div class="topbar">
+    <div class="logo-row">
+      <div class="logo-box"><i class="ti ti-flame" style="color:#042C53;font-size:18px;" aria-hidden="true"></i></div>
+      <div>
+        <div class="logo-name">NUSANTARA GAS ENERGY</div>
+        <div class="logo-tagline">Natural Gas Solutions</div>
+      </div>
+    </div>
+    <div class="nav-pills">
+      <a href="#">Beranda</a>
+      <a href="#">Layanan</a>
+      <a href="#">Proyek</a>
+      <a href="#">Sertifikasi</a>
+      <a href="#" class="active">Kontak</a>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <div class="breadcrumb">Beranda &rsaquo; <span>Hubungi Kami</span></div>
+    <div class="page-title">Hubungi Kami</div>
+    <div class="page-sub">Tim kami siap merespons inquiry Anda dalam 1&times;24 jam kerja</div>
+  </div>
+
+  <div class="body-wrap">
+    <div class="form-panel">
+      <div class="panel-heading">Kirim Pesan &amp; Inquiry Proyek</div>
+      <div class="panel-sub">Isi form di bawah untuk konsultasi teknis, penawaran proyek, atau pertanyaan umum seputar layanan gas pipeline dan CNG kami.</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Nama Lengkap <span class="req-badge">Wajib</span></label>
+          <input type="text" placeholder="Budi Santoso" id="f-nama">
+        </div>
+        <div class="field">
+          <label>Jabatan</label>
+          <input type="text" placeholder="Project Manager">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Email <span class="req-badge">Wajib</span></label>
+          <input type="email" placeholder="email@perusahaan.com" id="f-email">
+        </div>
+        <div class="field">
+          <label>No. Telepon / WhatsApp</label>
+          <input type="tel" placeholder="+62 812 xxxx xxxx">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nama Perusahaan</label>
+        <input type="text" placeholder="PT. Contoh Industri">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Jenis Layanan <span class="req-badge">Wajib</span></label>
+          <select id="f-layanan">
+            <option value="">-- Pilih layanan --</option>
+            <option>Gas Pipeline Construction</option>
+            <option>CNG Station &amp; Distribution</option>
+            <option>Maintenance &amp; Inspection</option>
+            <option>Engineering &amp; Consulting</option>
+            <option>Emergency Response</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Estimasi Nilai Proyek</label>
+          <select>
+            <option value="">-- Pilih rentang --</option>
+            <option>&lt; Rp 1 Miliar</option>
+            <option>Rp 1 – 5 Miliar</option>
+            <option>Rp 5 – 20 Miliar</option>
+            <option>Rp 20 – 100 Miliar</option>
+            <option>&gt; Rp 100 Miliar</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Lokasi Proyek</label>
+        <input type="text" placeholder="Contoh: Kawasan Industri Karawang, Jawa Barat">
+      </div>
+
+      <div class="field">
+        <label>Detail Pesan / Kebutuhan Teknis <span class="req-badge">Wajib</span></label>
+        <textarea placeholder="Jelaskan kebutuhan proyek Anda — panjang pipa, tekanan gas, kapasitas CNG, timeline, atau pertanyaan teknis lainnya..." id="f-pesan"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Dari mana Anda mengetahui kami?</label>
+        <select>
+          <option value="">-- Pilih --</option>
+          <option>Google / Search Engine</option>
+          <option>Referensi / Rekomendasi</option>
+          <option>LinkedIn</option>
+          <option>Pameran / Event Industri</option>
+          <option>Rekanan / Mitra Bisnis</option>
+          <option>Lainnya</option>
+        </select>
+      </div>
+
+      <div class="submit-row">
+        <button class="btn-send" id="btn-kirim">
+          <i class="ti ti-send" aria-hidden="true"></i> Kirim Inquiry
+        </button>
+        <button class="btn-wa" id="btn-wa">
+          <i class="ti ti-brand-whatsapp" aria-hidden="true"></i> Chat WhatsApp
+        </button>
+      </div>
+      <div class="form-note">
+        Dengan mengirimkan form ini, Anda menyetujui bahwa data Anda akan digunakan untuk keperluan tindak lanjut inquiry. Kami tidak akan membagikan data Anda kepada pihak ketiga.
+      </div>
+
+      <div class="success-box" id="success-box">
+        <i class="ti ti-circle-check" style="color:#3B6D11;font-size:22px;flex-shrink:0;margin-top:1px;" aria-hidden="true"></i>
+        <div>
+          <div class="success-title">Inquiry berhasil dikirim!</div>
+          <div class="success-desc">Terima kasih, <strong id="nama-conf"></strong>. Tim kami akan menghubungi Anda melalui email atau WhatsApp dalam 1&times;24 jam kerja. Nomor referensi inquiry Anda: <strong id="ref-num"></strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <div class="info-section">
+        <div class="info-label">Kantor Pusat</div>
+        <div class="info-item">
+          <div class="info-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+          <div class="info-text"><strong>Alamat</strong>Gedung Menara Gas Lt. 8, Jl. TB Simatupang No. 45, Jakarta Selatan 12560</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon"><i class="ti ti-phone" aria-hidden="true"></i></div>
+          <div class="info-text"><strong>Telepon</strong>+62 21 7890 1234<br>+62 21 7890 1235 (Fax)</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon"><i class="ti ti-mail" aria-hidden="true"></i></div>
+          <div class="info-text"><strong>Email</strong>info@nusantaragas.co.id<br>project@nusantaragas.co.id</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-section">
+        <div class="info-label">Person in Charge</div>
+        <div class="person-card">
+          <div class="person-avatar">RH</div>
+          <div>
+            <div class="person-name">Rudi Hartono</div>
+            <div class="person-role">Business Development Manager</div>
+            <div class="person-phone">+62 812 9876 5432</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-avatar" style="background:#0F6E56;color:#9FE1CB;">SA</div>
+          <div>
+            <div class="person-name">Sari Andini</div>
+            <div class="person-role">Engineering Consultant</div>
+            <div class="person-phone">+62 821 1234 5678</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-section">
+        <div class="info-label">Jam Operasional</div>
+        <div class="hours-row active">
+          <span class="hours-day"><i class="ti ti-circle-filled" style="font-size:8px;margin-right:4px;" aria-hidden="true"></i>Senin – Jumat</span>
+          <span class="hours-time">08.00 – 17.00 WIB</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Sabtu</span>
+          <span class="hours-time">08.00 – 13.00 WIB</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Minggu &amp; Libur</span>
+          <span class="hours-time">Tutup</span>
+        </div>
+        <div style="margin-top:10px;display:flex;align-items:center;gap:8px;background:rgba(239,159,39,.12);border-radius:6px;padding:9px 12px;border:0.5px solid rgba(239,159,39,.3);">
+          <i class="ti ti-emergency-bed" style="color:#EF9F27;font-size:18px;" aria-hidden="true"></i>
+          <div>
+            <div style="font-size:11.5px;font-weight:500;color:#EF9F27;">Emergency 24/7</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.6);">+62 800 1234 5678 (Gratis)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-section">
+        <div class="info-label">Lokasi di Peta</div>
+        <div class="map-placeholder" id="map-btn">
+          <i class="ti ti-map-2" style="color:rgba(255,255,255,.4);font-size:24px;" aria-hidden="true"></i>
+          <div class="map-label">Menara Gas, TB Simatupang</div>
+          <div class="map-link">Buka di Google Maps &rarr;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-strip">
+    <div class="footer-text">&copy; 2025 Nusantara Gas Energy. Semua hak cipta dilindungi.</div>
+    <div class="footer-cert">
+      <span class="cert-pill">BPH MIGAS</span>
+      <span class="cert-pill">ISO 9001</span>
+      <span class="cert-pill">OHSAS 18001</span>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('btn-kirim').addEventListener('click', function(){
+  var nama = document.getElementById('f-nama').value.trim();
+  var email = document.getElementById('f-email').value.trim();
+  var layanan = document.getElementById('f-layanan').value;
+  var pesan = document.getElementById('f-pesan').value.trim();
+  if(!nama || !email || !layanan || !pesan){
+    alert('Mohon lengkapi semua field yang wajib diisi (Nama, Email, Layanan, Pesan).');
+    return;
+  }
+  var ref = 'NGE-' + new Date().getFullYear() + '-' + Math.floor(Math.random()*9000+1000);
+  document.getElementById('nama-conf').textContent = nama;
+  document.getElementById('ref-num').textContent = ref;
+  var box = document.getElementById('success-box');
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+  document.getElementById('btn-kirim').disabled = true;
+  document.getElementById('btn-kirim').style.opacity = '0.5';
+});
+document.getElementById('btn-wa').addEventListener('click', function(){
+  sendPrompt('Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales');
+});
+document.getElementById('map-btn').addEventListener('click', function(){
+  openLink('https://maps.google.com/?q=TB+Simatupang+Jakarta+Selatan');
+});
+</script>

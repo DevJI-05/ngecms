@@ -1,0 +1,427 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+.pg{font-family:'Barlow',sans-serif;color:var(--color-text-primary);background:var(--color-background-tertiary);}
+
+.topbar{background:#042C53;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-box{width:32px;height:32px;background:#EF9F27;border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.logo-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:.3px;line-height:1.1;}
+.logo-sub{font-size:9px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;}
+.nav-pills{display:flex;gap:20px;}
+.nav-pills a{color:rgba(255,255,255,.7);text-decoration:none;font-size:12.5px;font-weight:500;}
+.nav-pills a.active{color:#EF9F27;}
+
+.hero-strip{background:#0C447C;padding:28px 28px 0;border-bottom:3px solid #EF9F27;}
+.breadcrumb{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.breadcrumb span{color:rgba(255,255,255,.8);}
+.hero-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;}
+.hero-left{padding-bottom:28px;}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:36px;color:#fff;letter-spacing:-.3px;line-height:1;}
+.page-sub{font-size:13px;color:rgba(255,255,255,.65);margin-top:6px;font-weight:300;max-width:420px;line-height:1.55;}
+.stat-row{display:flex;gap:0;}
+.stat-box{padding:14px 22px;background:rgba(255,255,255,.07);border-left:0.5px solid rgba(255,255,255,.12);text-align:center;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#EF9F27;display:block;}
+.stat-lbl{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:1px;text-transform:uppercase;}
+
+.filter-bar{background:var(--color-background-primary);padding:0 28px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;gap:0;}
+.ftab{padding:13px 18px;font-size:12.5px;font-weight:500;color:var(--color-text-secondary);border:none;background:transparent;cursor:pointer;border-bottom:2.5px solid transparent;font-family:'Barlow',sans-serif;white-space:nowrap;}
+.ftab.on{color:#185FA5;border-bottom-color:#185FA5;}
+
+.content-area{padding:24px 28px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:20px;}
+
+.service-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:14px;}
+.sc-head{padding:18px 20px 14px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:flex-start;gap:14px;}
+.sc-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.sc-title-block{flex:1;}
+.sc-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:var(--color-text-primary);letter-spacing:.1px;line-height:1.1;}
+.sc-tagline{font-size:12px;color:var(--color-text-secondary);margin-top:3px;font-weight:300;}
+.sc-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.badge{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:3px 8px;border-radius:4px;}
+.badge-blue{background:#E6F1FB;color:#0C447C;}
+.badge-amber{background:#FAEEDA;color:#633806;}
+.badge-green{background:#EAF3DE;color:#27500A;}
+.badge-teal{background:#E1F5EE;color:#085041;}
+
+.sc-body{padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.sc-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.65;grid-column:1/-1;}
+.sc-section{margin-top:2px;}
+.sc-sect-title{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:8px;}
+.sc-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.sc-list li{font-size:12.5px;color:var(--color-text-secondary);display:flex;align-items:flex-start;gap:7px;line-height:1.45;}
+.sc-list li i{color:#185FA5;font-size:14px;flex-shrink:0;margin-top:1px;}
+.sc-list li.amber i{color:#BA7517;}
+.sc-list li.green i{color:#3B6D11;}
+.sc-list li.teal i{color:#0F6E56;}
+
+.sc-foot{padding:12px 20px;background:var(--color-background-secondary);border-top:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between;}
+.sc-foot-note{font-size:12px;color:var(--color-text-tertiary);}
+.btn-inquiry{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;background:#185FA5;color:#fff;font-family:'Barlow',sans-serif;font-size:12.5px;font-weight:500;border:none;cursor:pointer;}
+.btn-inquiry:active{opacity:.85;}
+
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.side-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;}
+.side-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.side-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.side-item:last-child{border-bottom:none;padding-bottom:0;}
+.side-dot{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+.side-text{font-size:12px;color:var(--color-text-secondary);line-height:1.45;}
+.side-text strong{display:block;color:var(--color-text-primary);font-weight:500;font-size:12.5px;margin-bottom:1px;}
+
+.cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.cert-pill{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:7px 10px;text-align:center;}
+.cert-name{font-size:11.5px;font-weight:500;color:var(--color-text-primary);}
+.cert-sub{font-size:10px;color:var(--color-text-tertiary);}
+
+.cta-strip{background:#042C53;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.cta-text{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;color:#fff;}
+.cta-sub{font-size:12.5px;color:rgba(255,255,255,.6);margin-top:3px;font-weight:300;}
+.cta-btns{display:flex;gap:10px;flex-shrink:0;}
+.btn-wa{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;background:#EAF3DE;color:#27500A;font-family:'Barlow',sans-serif;font-size:13px;font-weight:500;border:none;cursor:pointer;}
+.btn-quote{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;background:#EF9F27;color:#412402;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;border:none;cursor:pointer;}
+
+.footer-strip{background:#031E3A;padding:11px 28px;display:flex;justify-content:space-between;align-items:center;}
+.footer-text{font-size:11px;color:rgba(255,255,255,.35);}
+.cert-row{display:flex;gap:8px;}
+.cpill{font-size:10px;font-weight:600;letter-spacing:1px;background:rgba(239,159,39,.12);color:#EF9F27;padding:3px 8px;border-radius:3px;border:0.5px solid rgba(239,159,39,.25);}
+</style>
+
+<h2 class="sr-only">Halaman layanan Nusantara Gas Energy — pipeline, CNG, maintenance, engineering, dan safety</h2>
+
+<div class="pg">
+
+  <div class="topbar">
+    <div class="logo-row">
+      <div class="logo-box"><i class="ti ti-flame" style="color:#042C53;font-size:18px;" aria-hidden="true"></i></div>
+      <div>
+        <div class="logo-name">NUSANTARA GAS ENERGY</div>
+        <div class="logo-sub">Natural Gas Solutions</div>
+      </div>
+    </div>
+    <div class="nav-pills">
+      <a href="#">Beranda</a>
+      <a href="#" class="active">Layanan</a>
+      <a href="#">Proyek</a>
+      <a href="#">Sertifikasi</a>
+      <a href="#">Kontak</a>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="breadcrumb">Beranda &rsaquo; <span>Layanan</span></div>
+        <div class="page-title">Layanan Kami</div>
+        <div class="page-sub">Solusi gas bumi terpadu dari perencanaan, konstruksi, hingga operasional dan pemeliharaan — bersertifikat MIGAS dan berpengalaman lebih dari 15 tahun.</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-num">6</span><span class="stat-lbl">Jenis Layanan</span></div>
+        <div class="stat-box"><span class="stat-num">500km</span><span class="stat-lbl">Pipeline</span></div>
+        <div class="stat-box"><span class="stat-num">200+</span><span class="stat-lbl">Proyek</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="ftab on" onclick="filterSvc('all',this)">Semua Layanan</button>
+    <button class="ftab" onclick="filterSvc('pipeline',this)">Gas Pipeline</button>
+    <button class="ftab" onclick="filterSvc('cng',this)">CNG</button>
+    <button class="ftab" onclick="filterSvc('maintenance',this)">Maintenance</button>
+    <button class="ftab" onclick="filterSvc('engineering',this)">Engineering</button>
+    <button class="ftab" onclick="filterSvc('safety',this)">Safety & HSE</button>
+  </div>
+
+  <div class="content-area">
+    <div id="svc-list">
+
+      <div class="service-card" data-cat="pipeline">
+        <div class="sc-head">
+          <div class="sc-icon" style="background:#E6F1FB;color:#185FA5;"><i class="ti ti-line-dashed" aria-hidden="true"></i></div>
+          <div class="sc-title-block">
+            <div class="sc-name">Gas Pipeline Construction</div>
+            <div class="sc-tagline">Perencanaan, instalasi & komisioning jaringan pipa gas bumi</div>
+            <div class="sc-badges">
+              <span class="badge badge-blue">Tekanan Tinggi</span>
+              <span class="badge badge-blue">Tekanan Menengah</span>
+              <span class="badge badge-blue">Tekanan Rendah</span>
+            </div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-desc">Kami menangani konstruksi jaringan distribusi dan transmisi gas bumi dari hulu ke hilir — mulai dari survei rute, FEED, pengadaan material, instalasi pipa, hingga pressure test dan komisioning. Dikerjakan sesuai standar SNI, ASME B31.8, dan regulasi BPH MIGAS.</div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Lingkup Pekerjaan</div>
+            <ul class="sc-list">
+              <li><i class="ti ti-check" aria-hidden="true"></i> Survei rute & studi kelayakan</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> FEED & detailed engineering</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> Pengadaan pipa API 5L & fitting</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> Pengelasan & NDT inspection</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> Hydrostatic / pneumatic test</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> Komisioning & serah terima</li>
+            </ul>
+          </div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Spesifikasi Teknis</div>
+            <ul class="sc-list">
+              <li><i class="ti ti-check" aria-hidden="true"></i> Diameter: 2" — 36" nominal</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> Tekanan operasi: s/d 100 bar</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> Material: CS, Stainless, PE80/100</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> Coating: 3LPE, FBE, Coal Tar</li>
+              <li><i class="ti ti-check" aria-hidden="true"></i> Standar: ASME B31.8 / SNI 4452</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sc-foot">
+          <div class="sc-foot-note"><i class="ti ti-clock" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Estimasi proyek: 3 — 18 bulan</div>
+          <button class="btn-inquiry" onclick="sendPrompt('Saya ingin tanya lebih detail tentang layanan Gas Pipeline Construction dan estimasi biayanya')"><i class="ti ti-send" aria-hidden="true"></i> Minta Penawaran</button>
+        </div>
+      </div>
+
+      <div class="service-card" data-cat="cng">
+        <div class="sc-head">
+          <div class="sc-icon" style="background:#FAEEDA;color:#BA7517;"><i class="ti ti-gas-station" aria-hidden="true"></i></div>
+          <div class="sc-title-block">
+            <div class="sc-name">CNG Station & Distribution</div>
+            <div class="sc-tagline">Pembangunan SPBG, mother/daughter station, dan virtual pipeline CNG</div>
+            <div class="sc-badges">
+              <span class="badge badge-amber">SPBG Publik</span>
+              <span class="badge badge-amber">Mother Station</span>
+              <span class="badge badge-amber">Virtual Pipeline</span>
+            </div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-desc">Layanan EPC (Engineering, Procurement & Construction) untuk fasilitas CNG lengkap — mulai dari compressor station, storage cascade, dispenser unit, hingga sistem keselamatan dan SCADA. Cocok untuk armada kendaraan, kawasan industri, dan daerah yang belum terjangkau jaringan pipa gas.</div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Jenis Fasilitas</div>
+            <ul class="sc-list">
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Mother Station (produksi CNG)</li>
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Daughter / Daughter-in-box</li>
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> SPBG Publik & SPBG Tertutup</li>
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Mobile Refueling Unit (MRU)</li>
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Virtual Pipeline (truk CNG)</li>
+            </ul>
+          </div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Kapasitas & Spesifikasi</div>
+            <ul class="sc-list">
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Kapasitas: 50 — 2.000 MMBtu/hari</li>
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Tekanan pengisian: 200 — 250 bar</li>
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Compressor: reciprocating / diaphragm</li>
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Sistem SCADA & telemetri</li>
+              <li class="amber"><i class="ti ti-check" aria-hidden="true"></i> Izin BPH MIGAS & K3LL</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sc-foot">
+          <div class="sc-foot-note"><i class="ti ti-clock" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Estimasi proyek: 4 — 12 bulan</div>
+          <button class="btn-inquiry" style="background:#BA7517;" onclick="sendPrompt('Saya ingin konsultasi layanan CNG Station dan virtual pipeline untuk kawasan industri')"><i class="ti ti-send" aria-hidden="true"></i> Minta Penawaran</button>
+        </div>
+      </div>
+
+      <div class="service-card" data-cat="maintenance">
+        <div class="sc-head">
+          <div class="sc-icon" style="background:#EAF3DE;color:#3B6D11;"><i class="ti ti-settings-2" aria-hidden="true"></i></div>
+          <div class="sc-title-block">
+            <div class="sc-name">Maintenance & Inspection</div>
+            <div class="sc-tagline">Inspeksi berkala, pigging, cathodic protection, dan perbaikan sistem gas</div>
+            <div class="sc-badges">
+              <span class="badge badge-green">Preventive</span>
+              <span class="badge badge-green">Corrective</span>
+              <span class="badge badge-green">Predictive</span>
+            </div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-desc">Program pemeliharaan terpadu untuk memastikan integritas dan keandalan sistem perpipaan gas Anda. Didukung peralatan inspeksi terkini — ILI tool, corrosion coupon, dan CCTV pipeline — serta tenaga ahli bersertifikat MIGAS Level 3.</div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Layanan Utama</div>
+            <ul class="sc-list">
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Intelligent pigging (ILI / MFL)</li>
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Cathodic protection survey</li>
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Leak detection & survey</li>
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Penggantian valve & fitting</li>
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Pressure test & leak test</li>
+            </ul>
+          </div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Dukungan Teknis</div>
+            <ul class="sc-list">
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Laporan inspeksi & rekomendasi</li>
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Jadwal pemeliharaan tahunan</li>
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Suku cadang tersertifikasi</li>
+              <li class="green"><i class="ti ti-check" aria-hidden="true"></i> Respon emergency 24/7</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sc-foot">
+          <div class="sc-foot-note"><i class="ti ti-clock" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Kontrak tahunan tersedia</div>
+          <button class="btn-inquiry" style="background:#3B6D11;" onclick="sendPrompt('Saya butuh informasi maintenance dan inspeksi pipeline gas secara rutin')"><i class="ti ti-send" aria-hidden="true"></i> Minta Penawaran</button>
+        </div>
+      </div>
+
+      <div class="service-card" data-cat="engineering">
+        <div class="sc-head">
+          <div class="sc-icon" style="background:#E1F5EE;color:#0F6E56;"><i class="ti ti-chart-dots-2" aria-hidden="true"></i></div>
+          <div class="sc-title-block">
+            <div class="sc-name">Engineering & Consulting</div>
+            <div class="sc-tagline">FEED, feasibility study, dan konsultasi teknis proyek gas</div>
+            <div class="sc-badges">
+              <span class="badge badge-teal">FEED</span>
+              <span class="badge badge-teal">Feasibility Study</span>
+              <span class="badge badge-teal">DED</span>
+            </div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-desc">Tim engineer berpengalaman kami membantu Anda dari tahap konseptual hingga dokumen tender — termasuk FEED, Detailed Engineering Design (DED), cost estimation, dan dukungan perizinan ke BPH MIGAS / Kementerian ESDM.</div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Lingkup Konsultasi</div>
+            <ul class="sc-list">
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> Pre-feasibility & feasibility study</li>
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> Front End Engineering Design</li>
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> Detailed Engineering Design</li>
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> HAZOP & risk assessment</li>
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> Dokumen perizinan MIGAS</li>
+            </ul>
+          </div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Deliverables</div>
+            <ul class="sc-list">
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> P&ID, isometric, general layout</li>
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> Pipeline hydraulic simulation</li>
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> Cost estimation & BOQ</li>
+              <li class="teal"><i class="ti ti-check" aria-hidden="true"></i> Dokumen tender & spesifikasi</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sc-foot">
+          <div class="sc-foot-note"><i class="ti ti-clock" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Durasi: 1 — 6 bulan</div>
+          <button class="btn-inquiry" style="background:#0F6E56;" onclick="sendPrompt('Saya tertarik layanan engineering consulting untuk proyek gas, bisa jelaskan prosesnya?')"><i class="ti ti-send" aria-hidden="true"></i> Minta Penawaran</button>
+        </div>
+      </div>
+
+      <div class="service-card" data-cat="safety">
+        <div class="sc-head">
+          <div class="sc-icon" style="background:#EEEDFE;color:#534AB7;"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+          <div class="sc-title-block">
+            <div class="sc-name">Safety, HSE & Commissioning</div>
+            <div class="sc-tagline">Manajemen K3LL, HAZOP study, commissioning test, dan sertifikasi operasional</div>
+            <div class="sc-badges">
+              <span class="badge" style="background:#EEEDFE;color:#3C3489;">HSE Management</span>
+              <span class="badge" style="background:#EEEDFE;color:#3C3489;">HAZOP</span>
+              <span class="badge" style="background:#EEEDFE;color:#3C3489;">Commissioning</span>
+            </div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-desc">Keselamatan adalah prioritas utama di setiap proyek gas. Kami menyediakan layanan HSE terintegrasi — dari penyusunan dokumen K3LL, safety induction, hingga pendampingan sertifikasi operasional fasilitas gas oleh Dirjen MIGAS.</div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Layanan Safety</div>
+            <ul class="sc-list">
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> HAZOP & SIL assessment</li>
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> Job Safety Analysis (JSA)</li>
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> Emergency Response Plan</li>
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> Safety induction & pelatihan</li>
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> Audit K3LL internal</li>
+            </ul>
+          </div>
+          <div class="sc-section">
+            <div class="sc-sect-title">Komisioning & Sertifikasi</div>
+            <ul class="sc-list">
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> Pre-commissioning & purging</li>
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> Gas tightness test</li>
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> Performance test & tuning</li>
+              <li><i class="ti ti-check" style="color:#534AB7;" aria-hidden="true"></i> Pendampingan sidang teknis MIGAS</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sc-foot">
+          <div class="sc-foot-note"><i class="ti ti-clock" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Dapat digabung dengan paket EPC</div>
+          <button class="btn-inquiry" style="background:#534AB7;" onclick="sendPrompt('Saya butuh layanan HSE management dan pendampingan komisioning fasilitas gas')"><i class="ti ti-send" aria-hidden="true"></i> Minta Penawaran</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sidebar">
+      <div class="side-card">
+        <div class="side-title"><i class="ti ti-award" style="font-size:16px;color:#EF9F27;" aria-hidden="true"></i> Sertifikasi & Izin</div>
+        <div class="cert-grid">
+          <div class="cert-pill"><div class="cert-name">BPH MIGAS</div><div class="cert-sub">Konstruksi & Operasi</div></div>
+          <div class="cert-pill"><div class="cert-name">ISO 9001</div><div class="cert-sub">:2015</div></div>
+          <div class="cert-pill"><div class="cert-name">OHSAS</div><div class="cert-sub">18001</div></div>
+          <div class="cert-pill"><div class="cert-name">IUJPTL</div><div class="cert-sub">Instalasi Gas</div></div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-title"><i class="ti ti-users" style="font-size:16px;color:#185FA5;" aria-hidden="true"></i> Mengapa kami?</div>
+        <div class="side-item">
+          <div class="side-dot" style="background:#E6F1FB;color:#185FA5;"><i class="ti ti-shield" style="font-size:14px;" aria-hidden="true"></i></div>
+          <div class="side-text"><strong>Zero accident record</strong>Lebih dari 3 juta man-hours tanpa kecelakaan fatal</div>
+        </div>
+        <div class="side-item">
+          <div class="side-dot" style="background:#EAF3DE;color:#3B6D11;"><i class="ti ti-clock" style="font-size:14px;" aria-hidden="true"></i></div>
+          <div class="side-text"><strong>On-time delivery</strong>96% proyek selesai tepat waktu sejak 2019</div>
+        </div>
+        <div class="side-item">
+          <div class="side-dot" style="background:#FAEEDA;color:#BA7517;"><i class="ti ti-tool" style="font-size:14px;" aria-hidden="true"></i></div>
+          <div class="side-text"><strong>Peralatan sendiri</strong>Armada alat berat & ILI tool milik perusahaan</div>
+        </div>
+        <div class="side-item">
+          <div class="side-dot" style="background:#E1F5EE;color:#0F6E56;"><i class="ti ti-headset" style="font-size:14px;" aria-hidden="true"></i></div>
+          <div class="side-text"><strong>Dukungan purna jual</strong>Tim after-sales & emergency 24/7 siap merespons</div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-title"><i class="ti ti-building" style="font-size:16px;color:#534AB7;" aria-hidden="true"></i> Klien & Mitra</div>
+        <div class="side-item">
+          <div class="side-dot" style="background:#E6F1FB;color:#185FA5;"><i class="ti ti-briefcase" style="font-size:14px;" aria-hidden="true"></i></div>
+          <div class="side-text"><strong>PGN / Pertamina Gas</strong>Sub-kontraktor jaringan distribusi</div>
+        </div>
+        <div class="side-item">
+          <div class="side-dot" style="background:#EAF3DE;color:#3B6D11;"><i class="ti ti-building-factory" style="font-size:14px;" aria-hidden="true"></i></div>
+          <div class="side-text"><strong>Kawasan Industri MM2100</strong>Infrastruktur gas kawasan</div>
+        </div>
+        <div class="side-item">
+          <div class="side-dot" style="background:#FAEEDA;color:#BA7517;"><i class="ti ti-bolt" style="font-size:14px;" aria-hidden="true"></i></div>
+          <div class="side-text"><strong>PLN Batam</strong>Fuel gas supply sistem</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <div class="cta-text">Siap berdiskusi tentang proyek Anda?</div>
+      <div class="cta-sub">Konsultasi teknis gratis — tim engineer kami siap merespons dalam 24 jam</div>
+    </div>
+    <div class="cta-btns">
+      <button class="btn-wa" onclick="sendPrompt('Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales')"><i class="ti ti-brand-whatsapp" style="font-size:16px;" aria-hidden="true"></i> Chat WA</button>
+      <button class="btn-quote" onclick="sendPrompt('Buatkan form inquiry proyek gas pipeline dan CNG')"><i class="ti ti-file-description" style="font-size:16px;" aria-hidden="true"></i> Minta Penawaran</button>
+    </div>
+  </div>
+
+  <div class="footer-strip">
+    <div class="footer-text">&copy; 2025 Nusantara Gas Energy. Semua hak cipta dilindungi.</div>
+    <div class="cert-row">
+      <span class="cpill">BPH MIGAS</span>
+      <span class="cpill">ISO 9001</span>
+      <span class="cpill">OHSAS 18001</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function filterSvc(cat, el) {
+  document.querySelectorAll('.ftab').forEach(function(t){ t.classList.remove('on'); });
+  el.classList.add('on');
+  document.querySelectorAll('.service-card').forEach(function(c){
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+  });
+}
+</script>

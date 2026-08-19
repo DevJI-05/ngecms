@@ -1,0 +1,518 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.nge-root {
+  font-family: 'Barlow', sans-serif;
+  color: var(--color-text-primary);
+  background: var(--color-background-tertiary);
+  overflow: hidden;
+}
+
+.hero {
+  background: linear-gradient(135deg, #042C53 0%, #0C447C 60%, #185FA5 100%);
+  padding: 0;
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 41px),
+    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 41px);
+}
+
+.navbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 32px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
+  position: relative; z-index: 2;
+}
+
+.logo {
+  display: flex; align-items: center; gap: 10px;
+}
+
+.logo-icon {
+  width: 36px; height: 36px;
+  background: #EF9F27;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.logo-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+}
+
+.logo-sub {
+  font-weight: 400;
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: block;
+}
+
+.nav-links {
+  display: flex; gap: 24px;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: #EF9F27; }
+
+.nav-cta {
+  background: #EF9F27;
+  color: #042C53 !important;
+  padding: 7px 16px;
+  border-radius: 4px;
+  font-weight: 600 !important;
+}
+
+.hero-body {
+  padding: 40px 32px 48px;
+  position: relative; z-index: 2;
+  display: flex; align-items: center; gap: 32px;
+}
+
+.hero-left { flex: 1; }
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(239,159,39,0.2);
+  color: #EF9F27;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(239,159,39,0.4);
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+}
+
+.hero-title span { color: #EF9F27; }
+
+.hero-desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.65;
+  max-width: 420px;
+  margin-bottom: 24px;
+  font-weight: 300;
+}
+
+.hero-btns {
+  display: flex; gap: 12px; align-items: center;
+}
+
+.btn-primary {
+  background: #EF9F27;
+  color: #042C53;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.3);
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.hero-right {
+  display: flex; flex-direction: column; gap: 10px;
+  min-width: 180px;
+}
+
+.stat-pill {
+  background: rgba(255,255,255,0.08);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #EF9F27;
+  display: block;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ticker {
+  background: #0C447C;
+  border-top: 2px solid #EF9F27;
+  padding: 10px 32px;
+  display: flex; gap: 32px; overflow: hidden;
+}
+
+.ticker-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  white-space: nowrap;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.ticker-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #EF9F27;
+}
+
+.services {
+  padding: 40px 32px 32px;
+  background: var(--color-background-primary);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #185FA5;
+  margin-bottom: 6px;
+}
+
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 24px;
+  letter-spacing: -0.3px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.service-card {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: 10px;
+  padding: 20px;
+  border-top: 3px solid transparent;
+  cursor: pointer;
+  transition: border-top-color 0.2s;
+}
+
+.service-card:hover { border-top-color: #EF9F27; }
+
+.service-icon {
+  width: 40px; height: 40px;
+  background: #E6F1FB;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px;
+  color: #185FA5;
+  font-size: 20px;
+}
+
+.service-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+}
+
+.service-desc {
+  font-size: 12.5px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.projects {
+  padding: 32px;
+  background: var(--color-background-tertiary);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.project-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+}
+
+.project-bar {
+  width: 5px;
+  background: #185FA5;
+  flex-shrink: 0;
+}
+
+.project-bar.cng { background: #EF9F27; }
+
+.project-content {
+  padding: 14px 16px;
+}
+
+.project-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #185FA5;
+  margin-bottom: 5px;
+}
+
+.project-tag.cng { color: #BA7517; }
+
+.project-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.project-info {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.contact-bar {
+  background: #042C53;
+  padding: 24px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.contact-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.2px;
+}
+
+.contact-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 3px;
+  font-weight: 300;
+}
+
+.contact-actions { display: flex; gap: 10px; }
+</style>
+
+<div class="nge-root">
+  <div class="hero">
+    <div class="hero-pattern"></div>
+
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="ti ti-flame" style="color:#042C53; font-size:20px;" aria-hidden="true"></i>
+        </div>
+        <div class="logo-text">
+          NUSANTARA GAS ENERGY
+          <span class="logo-sub">Natural Gas Solutions</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#">Beranda</a>
+        <a href="#">Layanan</a>
+        <a href="#">Proyek</a>
+        <a href="#">Sertifikasi</a>
+        <a href="#">Tentang</a>
+        <a href="#" class="nav-cta">Hubungi Kami</a>
+      </div>
+    </nav>
+
+    <div class="hero-body">
+      <div class="hero-left">
+        <div class="hero-badge">Solusi Energi Gas Bumi</div>
+        <h1 class="hero-title">
+          Infrastruktur Gas<br><span>Handal &amp; Efisien</span>
+        </h1>
+        <p class="hero-desc">
+          Spesialis pipeline gas bumi dan Compressed Natural Gas (CNG) untuk industri, komersial, dan transportasi. Bersertifikat MIGAS dengan pengalaman lebih dari 15 tahun.
+        </p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="sendPrompt('Tolong buatkan halaman detail layanan Pipeline Gas dan CNG')">
+            <i class="ti ti-file-description" aria-hidden="true"></i>
+            Lihat Layanan
+          </button>
+          <button class="btn-outline" onclick="sendPrompt('Tolong buatkan halaman proyek portfolio natural gas')">
+            Portofolio Proyek
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="stat-pill">
+          <span class="stat-num">200+</span>
+          <span class="stat-label">Proyek Selesai</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">500 km</span>
+          <span class="stat-label">Pipeline Terpasang</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">15+</span>
+          <span class="stat-label">Tahun Pengalaman</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-item"><span class="ticker-dot"></span> Bersertifikat BPH MIGAS</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> ISO 9001:2015</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> OHSAS 18001</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Member APINDO</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Rekanan PLN &amp; PGN</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 24/7 Emergency Response</div>
+  </div>
+
+  <div class="services">
+    <p class="section-label">Layanan Utama</p>
+    <h2 class="section-title">Solusi Gas Bumi Terpadu</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon"><i class="ti ti-line-dashed" aria-hidden="true"></i></div>
+        <div class="service-title">Gas Pipeline Construction</div>
+        <p class="service-desc">Perencanaan, instalasi, dan komisioning jaringan pipa gas bertekanan tinggi, menengah, dan rendah.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#FFF3E0; color:#BA7517;"><i class="ti ti-gas-station" aria-hidden="true"></i></div>
+        <div class="service-title">CNG Station &amp; Distribution</div>
+        <p class="service-desc">Pembangunan SPBG, mother station, dan sistem distribusi CNG untuk kendaraan dan industri.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#EAF3DE; color:#3B6D11;"><i class="ti ti-settings-2" aria-hidden="true"></i></div>
+        <div class="service-title">Maintenance &amp; Inspection</div>
+        <p class="service-desc">Inspeksi, pigging, cathodic protection, dan perawatan berkala sistem perpipaan gas.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#FBEAF0; color:#993556;"><i class="ti ti-chart-dots-2" aria-hidden="true"></i></div>
+        <div class="service-title">Engineering &amp; Consulting</div>
+        <p class="service-desc">Front End Engineering Design (FEED), feasibility study, dan konsultasi teknis gas.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#E1F5EE; color:#0F6E56;"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+        <div class="service-title">Safety &amp; Compliance</div>
+        <p class="service-desc">HSE management, HAZOP study, commissioning test, dan sertifikasi operasional BPH MIGAS.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#EEEDFE; color:#534AB7;"><i class="ti ti-tool" aria-hidden="true"></i></div>
+        <div class="service-title">Emergency Response</div>
+        <p class="service-desc">Tim siaga 24/7 untuk penanganan darurat kebocoran, perbaikan darurat, dan pemulihan sistem gas.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="projects">
+    <p class="section-label">Portofolio</p>
+    <h2 class="section-title">Proyek Unggulan</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-bar"></div>
+        <div class="project-content">
+          <div class="project-tag">Gas Pipeline</div>
+          <div class="project-name">Jaringan Distribusi Gas Industri Karawang</div>
+          <div class="project-info">45 km · 2023 · Jawa Barat</div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bar cng"></div>
+        <div class="project-content">
+          <div class="project-tag cng">CNG Station</div>
+          <div class="project-name">SPBG Bekasi Timur – Kapasitas 500 MMBtu/day</div>
+          <div class="project-info">2 Unit · 2023 · Bekasi</div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bar"></div>
+        <div class="project-content">
+          <div class="project-tag">Gas Pipeline</div>
+          <div class="project-name">Pipa Transmisi Gas Bumi Cilegon–Serang</div>
+          <div class="project-info">120 km · 2022 · Banten</div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bar cng"></div>
+        <div class="project-content">
+          <div class="project-tag cng">CNG Distribution</div>
+          <div class="project-name">Virtual Pipeline untuk Kawasan Industri Purwakarta</div>
+          <div class="project-info">12 unit truk CNG · 2022 · Jawa Barat</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-bar">
+    <div>
+      <div class="contact-text">Siap Konsultasi Proyek Gas Anda?</div>
+      <div class="contact-sub">Tim engineering kami siap memberikan solusi terbaik</div>
+    </div>
+    <div class="contact-actions">
+      <button class="btn-outline" style="border-color:rgba(255,255,255,0.3); color:#fff; font-family:'Barlow',sans-serif;" onclick="sendPrompt('Buatkan halaman kontak untuk website natural gas energy')">
+        <i class="ti ti-phone" aria-hidden="true"></i> Telepon
+      </button>
+      <button class="btn-primary" onclick="sendPrompt('Buatkan form inquiry proyek gas pipeline dan CNG')">
+        <i class="ti ti-mail" aria-hidden="true"></i> Kirim Inquiry
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,506 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+.pg{font-family:'Barlow',sans-serif;color:var(--color-text-primary);background:var(--color-background-tertiary);}
+
+/* NAV */
+.topbar{background:#042C53;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-box{width:32px;height:32px;background:#EF9F27;border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.logo-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:.3px;line-height:1.1;}
+.logo-sub{font-size:9px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;}
+.nav-pills{display:flex;gap:20px;}
+.nav-pills a{color:rgba(255,255,255,.7);text-decoration:none;font-size:12.5px;font-weight:500;}
+.nav-pills a.active{color:#EF9F27;}
+
+/* HERO */
+.hero-strip{background:#0C447C;padding:28px 28px 24px;border-bottom:3px solid #EF9F27;}
+.breadcrumb{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.breadcrumb span{color:rgba(255,255,255,.8);}
+.hero-flex{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:36px;color:#fff;letter-spacing:-.3px;line-height:1;}
+.page-sub{font-size:13px;color:rgba(255,255,255,.65);margin-top:6px;font-weight:300;line-height:1.6;max-width:440px;}
+.stat-row{display:flex;gap:0;flex-shrink:0;}
+.stat-box{padding:12px 18px;background:rgba(255,255,255,.07);border-left:0.5px solid rgba(255,255,255,.12);text-align:center;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#EF9F27;display:block;}
+.stat-lbl{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;}
+
+/* TAB NAV */
+.tab-nav{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 28px;display:flex;gap:0;}
+.tnav{padding:13px 18px;font-size:12.5px;font-weight:500;color:var(--color-text-secondary);border:none;background:transparent;cursor:pointer;border-bottom:2.5px solid transparent;font-family:'Barlow',sans-serif;white-space:nowrap;}
+.tnav.on{color:#185FA5;border-bottom-color:#185FA5;}
+
+/* SECTIONS */
+.section{display:none;padding:24px 28px;}
+.section.on{display:block;}
+
+/* PROFIL */
+.profil-grid{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:20px;}
+.prose-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:22px;}
+.prose-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#185FA5;margin-bottom:6px;}
+.prose-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:var(--color-text-primary);margin-bottom:12px;letter-spacing:.1px;}
+.prose-body{font-size:13px;color:var(--color-text-secondary);line-height:1.75;}
+.prose-body p{margin-bottom:10px;}
+.prose-body p:last-child{margin-bottom:0;}
+.mv-stack{display:flex;flex-direction:column;gap:12px;}
+.mv-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;}
+.mv-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;}
+.mv-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:var(--color-text-primary);margin-bottom:6px;}
+.mv-body{font-size:12.5px;color:var(--color-text-secondary);line-height:1.6;}
+
+.nilai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+.nilai-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;border-top:3px solid transparent;}
+.nilai-card.b1{border-top-color:#185FA5;}
+.nilai-card.b2{border-top-color:#EF9F27;}
+.nilai-card.b3{border-top-color:#3B6D11;}
+.nilai-card.b4{border-top-color:#534AB7;}
+.nilai-card.b5{border-top-color:#0F6E56;}
+.nilai-card.b6{border-top-color:#B53556;}
+.nilai-icon{font-size:22px;margin-bottom:8px;}
+.nilai-name{font-weight:500;font-size:13.5px;color:var(--color-text-primary);margin-bottom:4px;}
+.nilai-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5;}
+
+/* TIMELINE */
+.timeline-wrap{max-width:700px;margin:0 auto;position:relative;padding-left:32px;}
+.timeline-line{position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#185FA5,#EF9F27,#3B6D11);}
+.tl-item{position:relative;margin-bottom:22px;}
+.tl-dot{position:absolute;left:-26px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px #185FA5;}
+.tl-item.cng .tl-dot{box-shadow:0 0 0 2px #EF9F27;}
+.tl-item.maint .tl-dot{box-shadow:0 0 0 2px #3B6D11;}
+.tl-item.eng .tl-dot{box-shadow:0 0 0 2px #534AB7;}
+.tl-item.award .tl-dot{box-shadow:0 0 0 2px #B53556;}
+.tl-year{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:#185FA5;letter-spacing:.5px;margin-bottom:3px;}
+.tl-item.cng .tl-year{color:#BA7517;}
+.tl-item.maint .tl-year{color:#3B6D11;}
+.tl-item.eng .tl-year{color:#534AB7;}
+.tl-item.award .tl-year{color:#B53556;}
+.tl-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:13px 16px;}
+.tl-name{font-weight:500;font-size:13.5px;color:var(--color-text-primary);margin-bottom:3px;}
+.tl-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5;}
+.tl-badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:3px;margin-bottom:5px;}
+
+/* STRUKTUR ORGANISASI */
+.org-wrap{display:flex;flex-direction:column;align-items:center;gap:0;}
+.org-level{display:flex;justify-content:center;gap:14px;position:relative;padding:10px 0;}
+.org-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 16px;text-align:center;min-width:140px;max-width:160px;}
+.org-card.top{border-top:3px solid #185FA5;min-width:180px;}
+.org-card.mid{border-top:3px solid #EF9F27;}
+.org-card.dir{border-top:3px solid #3B6D11;}
+.org-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;margin:0 auto 8px;}
+.org-name{font-weight:500;font-size:13px;color:var(--color-text-primary);line-height:1.2;}
+.org-role{font-size:10.5px;color:var(--color-text-tertiary);margin-top:3px;line-height:1.3;}
+.org-line-v{width:2px;height:18px;background:var(--color-border-secondary);margin:0 auto;}
+.org-line-h{height:2px;background:var(--color-border-secondary);margin:0 14px;align-self:flex-start;margin-top:28px;}
+.org-branch{display:flex;align-items:flex-start;gap:0;justify-content:center;}
+.org-branch-item{display:flex;flex-direction:column;align-items:center;}
+
+/* SERTIFIKASI */
+.cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.cert-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px;display:flex;gap:14px;align-items:flex-start;}
+.cert-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.cert-name{font-weight:600;font-size:14px;color:var(--color-text-primary);margin-bottom:3px;}
+.cert-issuer{font-size:12px;color:var(--color-text-secondary);margin-bottom:5px;}
+.cert-valid{font-size:11px;font-weight:500;color:#3B6D11;background:#EAF3DE;padding:2px 8px;border-radius:3px;display:inline-block;}
+
+/* CTA & FOOTER */
+.cta-strip{background:#042C53;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.cta-text{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;color:#fff;}
+.cta-sub{font-size:12.5px;color:rgba(255,255,255,.6);margin-top:3px;font-weight:300;}
+.cta-btns{display:flex;gap:10px;flex-shrink:0;}
+.btn-wa{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;background:#EAF3DE;color:#27500A;font-family:'Barlow',sans-serif;font-size:12.5px;font-weight:500;border:none;cursor:pointer;}
+.btn-pri{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;background:#EF9F27;color:#412402;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;border:none;cursor:pointer;}
+.footer-strip{background:#031E3A;padding:11px 28px;display:flex;justify-content:space-between;align-items:center;}
+.footer-text{font-size:11px;color:rgba(255,255,255,.35);}
+.cert-row{display:flex;gap:8px;}
+.cpill{font-size:10px;font-weight:600;letter-spacing:1px;background:rgba(239,159,39,.12);color:#EF9F27;padding:3px 8px;border-radius:3px;border:0.5px solid rgba(239,159,39,.25);}
+</style>
+
+<h2 class="sr-only">Halaman Tentang Kami — Nusantara Gas Energy</h2>
+<div class="pg">
+
+  <!-- NAVBAR -->
+  <div class="topbar">
+    <div class="logo-row">
+      <div class="logo-box"><i class="ti ti-flame" style="color:#042C53;font-size:18px;" aria-hidden="true"></i></div>
+      <div><div class="logo-name">NUSANTARA GAS ENERGY</div><div class="logo-sub">Natural Gas Solutions</div></div>
+    </div>
+    <div class="nav-pills">
+      <a href="#">Beranda</a><a href="#">Layanan</a><a href="#">Proyek</a><a href="#" class="active">Tentang</a><a href="#">Kontak</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="breadcrumb">Beranda &rsaquo; <span>Tentang Kami</span></div>
+    <div class="hero-flex">
+      <div>
+        <div class="page-title">Tentang Kami</div>
+        <div class="page-sub">Lebih dari 15 tahun membangun infrastruktur gas bumi Indonesia — dari Jawa, Sumatera, hingga Kalimantan. Bersertifikat, berpengalaman, dan berkomitmen pada keselamatan.</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-num">2008</span><span class="stat-lbl">Berdiri</span></div>
+        <div class="stat-box"><span class="stat-num">200+</span><span class="stat-lbl">Proyek</span></div>
+        <div class="stat-box"><span class="stat-num">350+</span><span class="stat-lbl">Karyawan</span></div>
+        <div class="stat-box"><span class="stat-num">15</span><span class="stat-lbl">Provinsi</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav">
+    <button class="tnav on" onclick="showTab('profil',this)">Profil Perusahaan</button>
+    <button class="tnav" onclick="showTab('timeline',this)">Sejarah & Pencapaian</button>
+    <button class="tnav" onclick="showTab('org',this)">Struktur Organisasi</button>
+    <button class="tnav" onclick="showTab('cert',this)">Sertifikasi & Izin</button>
+  </div>
+
+  <!-- PROFIL -->
+  <div class="section on" id="sec-profil">
+    <div class="profil-grid">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="prose-card">
+          <div class="prose-label">Tentang Perusahaan</div>
+          <div class="prose-title">Spesialis Gas Bumi Terpercaya di Indonesia</div>
+          <div class="prose-body">
+            <p>PT. Nusantara Gas Energy didirikan pada tahun 2008 di Jakarta sebagai perusahaan Engineering, Procurement & Construction (EPC) yang fokus pada infrastruktur gas bumi. Bermula dari tim kecil 12 engineer berpengalaman, kini kami telah berkembang menjadi salah satu kontraktor gas pipeline dan CNG terkemuka di Indonesia dengan lebih dari 350 karyawan tetap.</p>
+            <p>Kami melayani klien dari berbagai segmen — mulai dari perusahaan minyak dan gas nasional seperti PGN dan Pertamina, kawasan industri, pemerintah daerah, hingga perusahaan swasta yang membutuhkan solusi energi gas bumi yang andal dan efisien.</p>
+            <p>Dengan rekam jejak lebih dari 200 proyek selesai, panjang pipeline terpasang lebih dari 500 km, dan fasilitas CNG yang tersebar di 15 provinsi, kami bangga menjadi bagian dari pilar ketahanan energi nasional.</p>
+          </div>
+        </div>
+
+        <div class="nilai-grid">
+          <div class="nilai-card b1">
+            <div class="nilai-icon">🛡️</div>
+            <div class="nilai-name">Safety First</div>
+            <div class="nilai-desc">Keselamatan kerja adalah prioritas utama di setiap proyek, tanpa kompromi.</div>
+          </div>
+          <div class="nilai-card b2">
+            <div class="nilai-icon">⚙️</div>
+            <div class="nilai-name">Integritas Teknis</div>
+            <div class="nilai-desc">Setiap pekerjaan dikerjakan sesuai standar teknis tertinggi dan regulasi yang berlaku.</div>
+          </div>
+          <div class="nilai-card b3">
+            <div class="nilai-icon">🤝</div>
+            <div class="nilai-name">Kemitraan Jangka Panjang</div>
+            <div class="nilai-desc">Kami membangun hubungan kepercayaan, bukan sekadar menyelesaikan kontrak.</div>
+          </div>
+          <div class="nilai-card b4">
+            <div class="nilai-icon">💡</div>
+            <div class="nilai-name">Inovasi</div>
+            <div class="nilai-desc">Terus mengadopsi teknologi terkini untuk solusi gas yang lebih efisien dan berkelanjutan.</div>
+          </div>
+          <div class="nilai-card b5">
+            <div class="nilai-icon">🌿</div>
+            <div class="nilai-name">Keberlanjutan</div>
+            <div class="nilai-desc">Gas bumi sebagai energi transisi menuju Indonesia yang lebih bersih dan rendah emisi.</div>
+          </div>
+          <div class="nilai-card b6">
+            <div class="nilai-icon">✅</div>
+            <div class="nilai-name">Ketepatan Waktu</div>
+            <div class="nilai-desc">96% proyek diselesaikan tepat waktu — komitmen kami kepada setiap klien.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mv-stack">
+        <div class="mv-card">
+          <div class="mv-icon" style="background:#E6F1FB;color:#185FA5;"><i class="ti ti-eye" aria-hidden="true"></i></div>
+          <div class="mv-title">Visi</div>
+          <div class="mv-body">Menjadi perusahaan EPC gas bumi terkemuka dan terpercaya di Asia Tenggara pada tahun 2030, dengan kontribusi nyata terhadap ketahanan energi nasional dan transisi menuju energi bersih.</div>
+        </div>
+        <div class="mv-card">
+          <div class="mv-icon" style="background:#FAEEDA;color:#BA7517;"><i class="ti ti-target" aria-hidden="true"></i></div>
+          <div class="mv-title">Misi</div>
+          <div class="mv-body">
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+              <li style="display:flex;gap:7px;font-size:12.5px;color:var(--color-text-secondary);line-height:1.5;"><i class="ti ti-check" style="color:#BA7517;font-size:14px;flex-shrink:0;margin-top:1px;" aria-hidden="true"></i>Membangun infrastruktur gas bumi berkualitas tinggi</li>
+              <li style="display:flex;gap:7px;font-size:12.5px;color:var(--color-text-secondary);line-height:1.5;"><i class="ti ti-check" style="color:#BA7517;font-size:14px;flex-shrink:0;margin-top:1px;" aria-hidden="true"></i>Mengutamakan keselamatan dan lingkungan</li>
+              <li style="display:flex;gap:7px;font-size:12.5px;color:var(--color-text-secondary);line-height:1.5;"><i class="ti ti-check" style="color:#BA7517;font-size:14px;flex-shrink:0;margin-top:1px;" aria-hidden="true"></i>Mengembangkan SDM profesional & kompeten</li>
+              <li style="display:flex;gap:7px;font-size:12.5px;color:var(--color-text-secondary);line-height:1.5;"><i class="ti ti-check" style="color:#BA7517;font-size:14px;flex-shrink:0;margin-top:1px;" aria-hidden="true"></i>Memberikan nilai tambah bagi klien & pemangku kepentingan</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mv-card">
+          <div class="mv-icon" style="background:#EAF3DE;color:#3B6D11;"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+          <div class="mv-title">Kantor & Wilayah Operasi</div>
+          <div class="mv-body" style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.6;">
+            <strong style="color:var(--color-text-primary);display:block;margin-bottom:4px;">Kantor Pusat</strong>
+            Gedung Menara Gas Lt. 8, Jl. TB Simatupang No. 45, Jakarta Selatan
+            <strong style="color:var(--color-text-primary);display:block;margin:8px 0 4px;">Kantor Cabang</strong>
+            Surabaya · Palembang · Balikpapan · Medan
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section" id="sec-timeline">
+    <div class="timeline-wrap">
+      <div class="timeline-line"></div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#185FA5;"></div>
+        <div class="tl-year">2008 — Pendirian</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#E6F1FB;color:#0C447C;">Milestone</span>
+          <div class="tl-name">PT. Nusantara Gas Energy Berdiri</div>
+          <div class="tl-desc">Didirikan oleh 3 engineer berpengalaman dari industri migas nasional. Proyek pertama: jaringan gas industri 8 km di Tangerang. Tim awal 12 orang.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#185FA5;"></div>
+        <div class="tl-year">2010</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#E6F1FB;color:#0C447C;">Sertifikasi</span>
+          <div class="tl-name">Memperoleh Izin BPH MIGAS & ISO 9001:2008</div>
+          <div class="tl-desc">Resmi terdaftar sebagai kontraktor gas bumi berlisensi. Merekrut 50 tenaga ahli bersertifikat MIGAS Level 2 & 3.</div>
+        </div>
+      </div>
+
+      <div class="tl-item cng">
+        <div class="tl-dot" style="background:#EF9F27;"></div>
+        <div class="tl-year">2012 — Ekspansi CNG</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#FAEEDA;color:#633806;">CNG</span>
+          <div class="tl-name">Divisi CNG & Virtual Pipeline Diluncurkan</div>
+          <div class="tl-desc">Memenangkan tender SPBG pertama di Bekasi. Membuka lini bisnis CNG Station & Virtual Pipeline untuk kawasan industri yang belum terjangkau pipa gas.</div>
+        </div>
+      </div>
+
+      <div class="tl-item award">
+        <div class="tl-dot" style="background:#B53556;"></div>
+        <div class="tl-year">2014</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#FBEAF0;color:#993556;">Penghargaan</span>
+          <div class="tl-name">Best EPC Contractor — Indonesia Gas & Energy Award</div>
+          <div class="tl-desc">Penghargaan pertama atas kinerja keselamatan dan kualitas konstruksi pipeline gas di Jawa Barat. Zero accident dalam 500.000 man-hours.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#185FA5;"></div>
+        <div class="tl-year">2016 — Ekspansi Nasional</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#E6F1FB;color:#0C447C;">Milestone</span>
+          <div class="tl-name">Proyek Pertama di Luar Jawa — Sumatera & Kalimantan</div>
+          <div class="tl-desc">Membuka kantor cabang di Palembang dan Balikpapan. Menyelesaikan 2 proyek transmisi gas di Sumatera Selatan (75 km) dan pipeline industri di Kaltim.</div>
+        </div>
+      </div>
+
+      <div class="tl-item maint">
+        <div class="tl-dot" style="background:#3B6D11;"></div>
+        <div class="tl-year">2018</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#EAF3DE;color:#27500A;">Maintenance</span>
+          <div class="tl-name">Divisi Maintenance & Inspection Terbentuk</div>
+          <div class="tl-desc">Melengkapi layanan dengan unit O&M — termasuk intelligent pigging dan cathodic protection survey. Kontrak pertama dengan PGN untuk inspeksi 200 km pipeline.</div>
+        </div>
+      </div>
+
+      <div class="tl-item eng">
+        <div class="tl-dot" style="background:#534AB7;"></div>
+        <div class="tl-year">2020</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#EEEDFE;color:#3C3489;">Engineering</span>
+          <div class="tl-name">ISO 9001:2015 & OHSAS 18001 Diraih</div>
+          <div class="tl-desc">Upgrade sertifikasi mutu & K3. Meluncurkan divisi Engineering & Consulting — menerima proyek FEED & feasibility study pertama dari pemerintah daerah.</div>
+        </div>
+      </div>
+
+      <div class="tl-item award">
+        <div class="tl-dot" style="background:#B53556;"></div>
+        <div class="tl-year">2022</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#FBEAF0;color:#993556;">Penghargaan</span>
+          <div class="tl-name">Top 10 EPC Gas — Kementerian ESDM RI</div>
+          <div class="tl-desc">Masuk daftar 10 perusahaan EPC gas terbaik versi Kementerian ESDM. Total pipeline terpasang melampaui 400 km. Karyawan tumbuh menjadi 300+.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#185FA5;"></div>
+        <div class="tl-year">2024 — Kini</div>
+        <div class="tl-card">
+          <span class="tl-badge" style="background:#E6F1FB;color:#0C447C;">Milestone</span>
+          <div class="tl-name">500 km Pipeline & 200+ Proyek Selesai</div>
+          <div class="tl-desc">Merayakan 16 tahun dengan pencapaian: 500 km pipeline terpasang, 200+ proyek selesai, 32 klien aktif di 15 provinsi, dan 350+ karyawan. Ekspansi ke Sulawesi dimulai.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRUKTUR ORG -->
+  <div class="section" id="sec-org">
+    <div class="org-wrap">
+      <!-- Komisaris -->
+      <div style="text-align:center;margin-bottom:4px;">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:6px;">Dewan Komisaris</div>
+        <div class="org-card top" style="margin:0 auto;">
+          <div class="org-avatar" style="background:#E6F1FB;color:#0C447C;">DK</div>
+          <div class="org-name">Ir. Darmawan Kurniawan</div>
+          <div class="org-role">Komisaris Utama</div>
+        </div>
+      </div>
+      <div class="org-line-v"></div>
+      <!-- Direktur Utama -->
+      <div style="text-align:center;margin-bottom:4px;">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:6px;">Direksi</div>
+        <div class="org-card top" style="margin:0 auto;">
+          <div class="org-avatar" style="background:#042C53;color:#B5D4F4;">HS</div>
+          <div class="org-name">Ir. Hendra Santoso, M.T.</div>
+          <div class="org-role">Direktur Utama</div>
+        </div>
+      </div>
+      <div class="org-line-v"></div>
+      <!-- Level 2 Direktur -->
+      <div style="display:flex;gap:14px;justify-content:center;margin-bottom:4px;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="org-card mid">
+            <div class="org-avatar" style="background:#FAEEDA;color:#633806;">RP</div>
+            <div class="org-name">Rudi Pratama, S.T.</div>
+            <div class="org-role">Direktur Teknik & Operasi</div>
+          </div>
+          <div class="org-line-v"></div>
+          <!-- Divisi bawah Teknik -->
+          <div style="display:flex;gap:10px;">
+            <div class="org-card dir" style="min-width:120px;max-width:130px;">
+              <div class="org-avatar" style="width:30px;height:30px;font-size:11px;background:#EAF3DE;color:#3B6D11;">EP</div>
+              <div class="org-name" style="font-size:11.5px;">Engineering</div>
+              <div class="org-role">Dept. Pipeline</div>
+            </div>
+            <div class="org-card dir" style="min-width:120px;max-width:130px;border-top-color:#EF9F27;">
+              <div class="org-avatar" style="width:30px;height:30px;font-size:11px;background:#FAEEDA;color:#BA7517;">EC</div>
+              <div class="org-name" style="font-size:11.5px;">Engineering</div>
+              <div class="org-role">Dept. CNG</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="org-card mid">
+            <div class="org-avatar" style="background:#FAEEDA;color:#633806;">SA</div>
+            <div class="org-name">Sari Andini, M.B.A.</div>
+            <div class="org-role">Direktur Bisnis & Keuangan</div>
+          </div>
+          <div class="org-line-v"></div>
+          <div style="display:flex;gap:10px;">
+            <div class="org-card dir" style="min-width:120px;max-width:130px;border-top-color:#534AB7;">
+              <div class="org-avatar" style="width:30px;height:30px;font-size:11px;background:#EEEDFE;color:#534AB7;">BD</div>
+              <div class="org-name" style="font-size:11.5px;">Business</div>
+              <div class="org-role">Development</div>
+            </div>
+            <div class="org-card dir" style="min-width:120px;max-width:130px;border-top-color:#B53556;">
+              <div class="org-avatar" style="width:30px;height:30px;font-size:11px;background:#FBEAF0;color:#B53556;">KU</div>
+              <div class="org-name" style="font-size:11.5px;">Keuangan</div>
+              <div class="org-role">& Akuntansi</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="org-card mid">
+            <div class="org-avatar" style="background:#FAEEDA;color:#633806;">AW</div>
+            <div class="org-name">Agus Wibowo, S.T.</div>
+            <div class="org-role">Direktur HSE & QA/QC</div>
+          </div>
+          <div class="org-line-v"></div>
+          <div style="display:flex;gap:10px;">
+            <div class="org-card dir" style="min-width:120px;max-width:130px;border-top-color:#3B6D11;">
+              <div class="org-avatar" style="width:30px;height:30px;font-size:11px;background:#EAF3DE;color:#3B6D11;">HS</div>
+              <div class="org-name" style="font-size:11.5px;">HSE</div>
+              <div class="org-role">Dept.</div>
+            </div>
+            <div class="org-card dir" style="min-width:120px;max-width:130px;border-top-color:#0F6E56;">
+              <div class="org-avatar" style="width:30px;height:30px;font-size:11px;background:#E1F5EE;color:#0F6E56;">QA</div>
+              <div class="org-name" style="font-size:11.5px;">QA / QC</div>
+              <div class="org-role">Dept.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERTIFIKASI -->
+  <div class="section" id="sec-cert">
+    <div class="cert-grid">
+      <div class="cert-card">
+        <div class="cert-icon" style="background:#E6F1FB;color:#185FA5;"><i class="ti ti-certificate" aria-hidden="true"></i></div>
+        <div>
+          <div class="cert-name">Izin Usaha BPH MIGAS</div>
+          <div class="cert-issuer">Badan Pengatur Hilir Minyak & Gas Bumi — Kementerian ESDM RI</div>
+          <span class="cert-valid"><i class="ti ti-circle-check" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i> Berlaku s/d 2027</span>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon" style="background:#EAF3DE;color:#3B6D11;"><i class="ti ti-rosette" aria-hidden="true"></i></div>
+        <div>
+          <div class="cert-name">ISO 9001:2015</div>
+          <div class="cert-issuer">Sistem Manajemen Mutu — TÜV Rheinland Indonesia</div>
+          <span class="cert-valid"><i class="ti ti-circle-check" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i> Berlaku s/d 2026</span>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon" style="background:#FAEEDA;color:#BA7517;"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+        <div>
+          <div class="cert-name">OHSAS 18001 / ISO 45001</div>
+          <div class="cert-issuer">Sistem Manajemen K3 — Bureau Veritas Indonesia</div>
+          <span class="cert-valid"><i class="ti ti-circle-check" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i> Berlaku s/d 2026</span>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon" style="background:#EEEDFE;color:#534AB7;"><i class="ti ti-license" aria-hidden="true"></i></div>
+        <div>
+          <div class="cert-name">IUJPTL — Instalasi Gas</div>
+          <div class="cert-issuer">Izin Usaha Jasa Penunjang Tenaga Listrik & Gas — Kementerian ESDM</div>
+          <span class="cert-valid"><i class="ti ti-circle-check" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i> Berlaku s/d 2026</span>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon" style="background:#E1F5EE;color:#0F6E56;"><i class="ti ti-building" aria-hidden="true"></i></div>
+        <div>
+          <div class="cert-name">Member APINDO & GAPENSI</div>
+          <div class="cert-issuer">Asosiasi Pengusaha Indonesia & Gabungan Pelaksana Konstruksi Nasional</div>
+          <span class="cert-valid"><i class="ti ti-circle-check" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i> Aktif 2024</span>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon" style="background:#FBEAF0;color:#B53556;"><i class="ti ti-award" aria-hidden="true"></i></div>
+        <div>
+          <div class="cert-name">Sertifikasi Kompetensi SDM</div>
+          <div class="cert-issuer">Tenaga Ahli Bersertifikat MIGAS Level 2 & 3 — Ditjen Migas</div>
+          <span class="cert-valid"><i class="ti ti-circle-check" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i> 85 Tenaga Ahli Aktif</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-strip">
+    <div>
+      <div class="cta-text">Ingin bergabung atau bermitra dengan kami?</div>
+      <div class="cta-sub">Tersedia posisi engineer & konsultasi kemitraan terbuka</div>
+    </div>
+    <div class="cta-btns">
+      <button class="btn-wa" onclick="sendPrompt('Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales')"><i class="ti ti-brand-whatsapp" style="font-size:15px;" aria-hidden="true"></i> Chat WA</button>
+      <button class="btn-pri" onclick="sendPrompt('Buatkan halaman kontak untuk website natural gas energy')"><i class="ti ti-mail" style="font-size:15px;" aria-hidden="true"></i> Hubungi Kami</button>
+    </div>
+  </div>
+
+  <div class="footer-strip">
+    <div class="footer-text">&copy; 2025 Nusantara Gas Energy. Semua hak cipta dilindungi.</div>
+    <div class="cert-row"><span class="cpill">BPH MIGAS</span><span class="cpill">ISO 9001</span><span class="cpill">OHSAS 18001</span></div>
+  </div>
+</div>
+
+<script>
+function showTab(id, el){
+  document.querySelectorAll('.tnav').forEach(function(t){t.classList.remove('on');});
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('on');});
+  el.classList.add('on');
+  document.getElementById('sec-'+id).classList.add('on');
+}
+</script>

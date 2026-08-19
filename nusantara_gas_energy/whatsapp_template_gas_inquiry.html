@@ -1,0 +1,211 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans);color:var(--color-text-primary);}
+.wrap{padding:1rem 0;}
+.tab-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.tab{padding:7px 14px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:12.5px;font-weight:500;cursor:pointer;color:var(--color-text-secondary);transition:all .15s;}
+.tab.on{background:#E6F1FB;border-color:#85B7EB;color:#0C447C;}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;}
+.form-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px;}
+.form-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.fld{margin-bottom:11px;}
+.fld label{display:block;font-size:11px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:4px;}
+.fld input,.fld select,.fld textarea{width:100%;font-family:var(--font-sans);font-size:13px;padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:6px;background:var(--color-background-secondary);color:var(--color-text-primary);outline:none;}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:#378ADD;}
+.fld textarea{resize:vertical;min-height:68px;}
+.preview-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px;display:flex;flex-direction:column;gap:12px;}
+.preview-title{font-size:13px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:7px;}
+.wa-bubble{background:#EAF3DE;border-radius:10px;border-bottom-left-radius:2px;padding:12px 14px;border:0.5px solid #97C459;}
+.wa-text{font-size:12.5px;color:#27500A;line-height:1.65;white-space:pre-wrap;word-break:break-word;}
+.wa-time{font-size:10.5px;color:#639922;text-align:right;margin-top:6px;}
+.action-row{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-copy{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:6px;background:#27500A;color:#EAF3DE;font-family:var(--font-sans);font-size:12.5px;font-weight:500;border:none;cursor:pointer;}
+.btn-wa{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:6px;background:#EAF3DE;color:#27500A;font-family:var(--font-sans);font-size:12.5px;font-weight:500;border:0.5px solid #97C459;cursor:pointer;}
+.copied{font-size:11.5px;color:var(--color-text-success);display:none;align-items:center;gap:4px;padding:8px 0;}
+.copied.show{display:flex;}
+.tip{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5;background:var(--color-background-secondary);border-radius:6px;padding:9px 12px;border-left:3px solid #378ADD;border-radius:0 6px 6px 0;}
+</style>
+
+<h2 class="sr-only">Generator template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG</h2>
+
+<div class="wrap">
+  <div class="tab-row">
+    <button class="tab on" onclick="setTab(0,this)"><i class="ti ti-pipe" style="font-size:14px;" aria-hidden="true"></i> Gas Pipeline</button>
+    <button class="tab" onclick="setTab(1,this)"><i class="ti ti-gas-station" style="font-size:14px;" aria-hidden="true"></i> CNG Station</button>
+    <button class="tab" onclick="setTab(2,this)"><i class="ti ti-tool" style="font-size:14px;" aria-hidden="true"></i> Maintenance</button>
+  </div>
+
+  <div class="cols">
+    <div class="form-box">
+      <div class="form-title"><i class="ti ti-edit" style="font-size:16px;color:#378ADD;" aria-hidden="true"></i> Isi data Anda</div>
+
+      <div id="fields-0">
+        <div class="fld"><label>Nama Anda</label><input id="f0-nama" oninput="render(0)" placeholder="Budi Santoso"></div>
+        <div class="fld"><label>Jabatan</label><input id="f0-jabatan" oninput="render(0)" placeholder="Project Manager"></div>
+        <div class="fld"><label>Perusahaan</label><input id="f0-perusahaan" oninput="render(0)" placeholder="PT. Maju Bersama"></div>
+        <div class="fld"><label>Lokasi Proyek</label><input id="f0-lokasi" oninput="render(0)" placeholder="Karawang, Jawa Barat"></div>
+        <div class="fld"><label>Panjang Pipa (km)</label><input id="f0-panjang" oninput="render(0)" placeholder="25 km"></div>
+        <div class="fld"><label>Jenis / Tekanan Gas</label>
+          <select id="f0-tekanan" onchange="render(0)">
+            <option value="tekanan rendah (< 1 bar)">Tekanan rendah (&lt; 1 bar)</option>
+            <option value="tekanan menengah (1–4 bar)">Tekanan menengah (1–4 bar)</option>
+            <option value="tekanan tinggi (> 4 bar)" selected>Tekanan tinggi (&gt; 4 bar)</option>
+          </select>
+        </div>
+        <div class="fld"><label>Target Waktu Mulai</label><input id="f0-waktu" oninput="render(0)" placeholder="Q3 2025 / Bulan Juli 2025"></div>
+        <div class="fld"><label>Keterangan Tambahan</label><textarea id="f0-info" oninput="render(0)" placeholder="Contoh: koneksi ke jaringan PGN, crossing jalan tol, dll."></textarea></div>
+      </div>
+
+      <div id="fields-1" style="display:none;">
+        <div class="fld"><label>Nama Anda</label><input id="f1-nama" oninput="render(1)" placeholder="Siti Rahayu"></div>
+        <div class="fld"><label>Jabatan</label><input id="f1-jabatan" oninput="render(1)" placeholder="Direktur Operasional"></div>
+        <div class="fld"><label>Perusahaan</label><input id="f1-perusahaan" oninput="render(1)" placeholder="PT. Trans Nusantara"></div>
+        <div class="fld"><label>Lokasi SPBG</label><input id="f1-lokasi" oninput="render(1)" placeholder="Bekasi Barat, Jawa Barat"></div>
+        <div class="fld"><label>Jenis CNG</label>
+          <select id="f1-jenis" onchange="render(1)">
+            <option value="Mother Station">Mother Station</option>
+            <option value="Daughter Station">Daughter Station</option>
+            <option value="SPBG Publik" selected>SPBG Publik</option>
+            <option value="Mobile Refueling Unit (MRU)">Mobile Refueling Unit (MRU)</option>
+            <option value="Virtual Pipeline">Virtual Pipeline</option>
+          </select>
+        </div>
+        <div class="fld"><label>Kapasitas (MMBtu/hari)</label><input id="f1-kapasitas" oninput="render(1)" placeholder="200"></div>
+        <div class="fld"><label>Peruntukan</label>
+          <select id="f1-peruntukan" onchange="render(1)">
+            <option value="kendaraan umum / angkutan kota">Kendaraan umum</option>
+            <option value="armada truk / bus perusahaan" selected>Armada truk / bus</option>
+            <option value="industri / pabrik">Industri / pabrik</option>
+            <option value="pembangkit listrik">Pembangkit listrik</option>
+          </select>
+        </div>
+        <div class="fld"><label>Keterangan Tambahan</label><textarea id="f1-info" oninput="render(1)" placeholder="Contoh: lahan sudah tersedia, perlu kajian perizinan, dsb."></textarea></div>
+      </div>
+
+      <div id="fields-2" style="display:none;">
+        <div class="fld"><label>Nama Anda</label><input id="f2-nama" oninput="render(2)" placeholder="Agus Priyanto"></div>
+        <div class="fld"><label>Jabatan</label><input id="f2-jabatan" oninput="render(2)" placeholder="Facility Manager"></div>
+        <div class="fld"><label>Perusahaan</label><input id="f2-perusahaan" oninput="render(2)" placeholder="PT. Kilang Mandiri"></div>
+        <div class="fld"><label>Lokasi Fasilitas</label><input id="f2-lokasi" oninput="render(2)" placeholder="Cilegon, Banten"></div>
+        <div class="fld"><label>Jenis Pekerjaan</label>
+          <select id="f2-jenis" onchange="render(2)">
+            <option value="inspeksi rutin pipeline" selected>Inspeksi rutin pipeline</option>
+            <option value="pigging & cleaning">Pigging & cleaning</option>
+            <option value="cathodic protection">Cathodic protection</option>
+            <option value="penggantian valve / fitting">Penggantian valve / fitting</option>
+            <option value="leak test & commissioning">Leak test & commissioning</option>
+          </select>
+        </div>
+        <div class="fld"><label>Panjang / Aset yang Dirawat</label><input id="f2-aset" oninput="render(2)" placeholder="Contoh: 15 km, 3 unit compressor"></div>
+        <div class="fld"><label>Urgensi</label>
+          <select id="f2-urgensi" onchange="render(2)">
+            <option value="rutin / terjadwal" selected>Rutin / terjadwal</option>
+            <option value="mendesak (dalam 1 minggu)">Mendesak (1 minggu)</option>
+            <option value="darurat / emergency">Darurat / emergency</option>
+          </select>
+        </div>
+        <div class="fld"><label>Keterangan Tambahan</label><textarea id="f2-info" oninput="render(2)" placeholder="Kendala atau kondisi khusus yang perlu diketahui tim..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="preview-box">
+      <div class="preview-title"><i class="ti ti-brand-whatsapp" style="font-size:16px;color:#3B6D11;" aria-hidden="true"></i> Preview pesan WA</div>
+      <div class="wa-bubble">
+        <div class="wa-text" id="wa-preview">Isi form di sebelah kiri untuk melihat preview pesan...</div>
+        <div class="wa-time" id="wa-time"></div>
+      </div>
+      <div class="action-row">
+        <button class="btn-copy" id="btn-copy" onclick="copyText()"><i class="ti ti-copy" style="font-size:15px;" aria-hidden="true"></i> Salin pesan</button>
+        <button class="btn-wa" onclick="openWA()"><i class="ti ti-brand-whatsapp" style="font-size:15px;" aria-hidden="true"></i> Buka WA</button>
+      </div>
+      <div class="copied" id="copied-notif"><i class="ti ti-circle-check" style="font-size:15px;" aria-hidden="true"></i> Pesan berhasil disalin!</div>
+      <div class="tip"><i class="ti ti-info-circle" style="font-size:14px;vertical-align:-2px;" aria-hidden="true"></i> Kirim ke <strong>+62 812 9876 5432</strong> (Rudi – BD Manager) atau <strong>+62 821 1234 5678</strong> (Sari – Engineering).</div>
+    </div>
+  </div>
+</div>
+
+<script>
+var activeTab = 0;
+
+function setTab(n, el) {
+  activeTab = n;
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
+  el.classList.add('on');
+  [0,1,2].forEach(function(i){
+    document.getElementById('fields-'+i).style.display = i===n ? '' : 'none';
+  });
+  render(n);
+}
+
+function g(id){ var el=document.getElementById(id); return el ? el.value.trim() : ''; }
+
+function getTime(){
+  var d=new Date();
+  return d.getHours().toString().padStart(2,'0')+'.'+d.getMinutes().toString().padStart(2,'0');
+}
+
+function render(tab){
+  var msg='';
+  if(tab===0){
+    var nama=g('f0-nama')||'[Nama Anda]';
+    var jabatan=g('f0-jabatan')||'[Jabatan]';
+    var perusahaan=g('f0-perusahaan')||'[Nama Perusahaan]';
+    var lokasi=g('f0-lokasi')||'[Lokasi Proyek]';
+    var panjang=g('f0-panjang')||'[Panjang Pipa]';
+    var tekanan=g('f0-tekanan')||'tekanan tinggi (> 4 bar)';
+    var waktu=g('f0-waktu')||'[Target Mulai]';
+    var info=g('f0-info');
+    msg='Halo, selamat '+greet()+' 🙏\n\nPerkenalkan, saya *'+nama+'*, '+jabatan+' dari *'+perusahaan+'*.\n\nKami tertarik untuk mendapatkan informasi dan penawaran terkait jasa *konstruksi gas pipeline* dengan rincian sebagai berikut:\n\n📍 *Lokasi Proyek:* '+lokasi+'\n📏 *Estimasi Panjang Pipa:* '+panjang+'\n⚙️ *Jenis/Tekanan Gas:* '+tekanan+'\n📅 *Target Mulai:* '+waktu+(info ? '\n\n*Keterangan Tambahan:*\n'+info : '')+'\n\nMohon dapat diberikan informasi awal dan jadwal konsultasi teknis. Terima kasih.';
+  } else if(tab===1){
+    var nama=g('f1-nama')||'[Nama Anda]';
+    var jabatan=g('f1-jabatan')||'[Jabatan]';
+    var perusahaan=g('f1-perusahaan')||'[Nama Perusahaan]';
+    var lokasi=g('f1-lokasi')||'[Lokasi]';
+    var jenis=g('f1-jenis')||'SPBG Publik';
+    var kapasitas=g('f1-kapasitas')||'[Kapasitas]';
+    var peruntukan=g('f1-peruntukan')||'[Peruntukan]';
+    var info=g('f1-info');
+    msg='Halo, selamat '+greet()+' 🙏\n\nSaya *'+nama+'*, '+jabatan+' dari *'+perusahaan+'*.\n\nKami berencana membangun fasilitas *CNG – '+jenis+'* dan ingin mendapatkan penawaran dari Nusantara Gas Energy:\n\n📍 *Lokasi:* '+lokasi+'\n🏭 *Jenis Fasilitas:* '+jenis+'\n⚡ *Kapasitas:* '+kapasitas+' MMBtu/hari\n🚌 *Peruntukan:* '+peruntukan+(info ? '\n\n*Info Tambahan:*\n'+info : '')+'\n\nDapat dijadwalkan sesi konsultasi teknis? Terima kasih 🙏';
+  } else {
+    var nama=g('f2-nama')||'[Nama Anda]';
+    var jabatan=g('f2-jabatan')||'[Jabatan]';
+    var perusahaan=g('f2-perusahaan')||'[Nama Perusahaan]';
+    var lokasi=g('f2-lokasi')||'[Lokasi]';
+    var jenis=g('f2-jenis')||'Inspeksi rutin pipeline';
+    var aset=g('f2-aset')||'[Aset]';
+    var urgensi=g('f2-urgensi')||'Rutin / terjadwal';
+    var info=g('f2-info');
+    msg='Halo, selamat '+greet()+' 🙏\n\nSaya *'+nama+'*, '+jabatan+' dari *'+perusahaan+'*.\n\nKami membutuhkan jasa *maintenance & inspeksi gas* untuk fasilitas kami:\n\n📍 *Lokasi:* '+lokasi+'\n🔧 *Jenis Pekerjaan:* '+jenis+'\n📐 *Aset/Cakupan:* '+aset+'\n⏱️ *Urgensi:* '+urgensi+(info ? '\n\n*Catatan:*\n'+info : '')+'\n\nMohon info ketersediaan tim dan estimasi biaya. Terima kasih.';
+  }
+  document.getElementById('wa-preview').textContent = msg;
+  document.getElementById('wa-time').textContent = getTime();
+}
+
+function greet(){
+  var h=new Date().getHours();
+  if(h<12) return 'pagi';
+  if(h<15) return 'siang';
+  if(h<18) return 'sore';
+  return 'malam';
+}
+
+function copyText(){
+  var txt=document.getElementById('wa-preview').textContent;
+  navigator.clipboard.writeText(txt).then(function(){
+    var n=document.getElementById('copied-notif');
+    n.classList.add('show');
+    setTimeout(function(){ n.classList.remove('show'); }, 2500);
+  });
+}
+
+function openWA(){
+  var txt=document.getElementById('wa-preview').textContent;
+  var phone='6281298765432';
+  var url='https://wa.me/'+phone+'?text='+encodeURIComponent(txt);
+  openLink(url);
+}
+
+render(0);
+document.getElementById('wa-time').textContent = getTime();
+</script>

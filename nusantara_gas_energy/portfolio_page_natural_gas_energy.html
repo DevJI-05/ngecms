@@ -1,0 +1,320 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+.pg{font-family:'Barlow',sans-serif;color:var(--color-text-primary);background:var(--color-background-tertiary);}
+.topbar{background:#042C53;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-box{width:32px;height:32px;background:#EF9F27;border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.logo-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:.3px;line-height:1.1;}
+.logo-sub{font-size:9px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;}
+.nav-pills{display:flex;gap:20px;}
+.nav-pills a{color:rgba(255,255,255,.7);text-decoration:none;font-size:12.5px;font-weight:500;}
+.nav-pills a.active{color:#EF9F27;}
+
+.hero-strip{background:#0C447C;padding:26px 28px 22px;border-bottom:3px solid #EF9F27;}
+.breadcrumb{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.breadcrumb span{color:rgba(255,255,255,.8);}
+.hero-flex{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:36px;color:#fff;letter-spacing:-.3px;line-height:1;}
+.page-sub{font-size:13px;color:rgba(255,255,255,.65);margin-top:6px;font-weight:300;line-height:1.5;max-width:380px;}
+.stat-row{display:flex;gap:0;flex-shrink:0;}
+.stat-box{padding:12px 18px;background:rgba(255,255,255,.07);border-left:0.5px solid rgba(255,255,255,.12);text-align:center;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#EF9F27;display:block;}
+.stat-lbl{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;}
+
+.toolbar{background:var(--color-background-primary);padding:12px 28px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;}
+.ftag{padding:5px 13px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:transparent;font-size:12px;font-weight:500;cursor:pointer;color:var(--color-text-secondary);font-family:'Barlow',sans-serif;transition:all .15s;}
+.ftag.on{background:#042C53;border-color:#042C53;color:#fff;}
+.sort-row{display:flex;align-items:center;gap:8px;}
+.sort-label{font-size:12px;color:var(--color-text-tertiary);}
+.sort-sel{font-family:'Barlow',sans-serif;font-size:12.5px;padding:5px 10px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);}
+
+.grid-area{padding:20px 28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+
+.pcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.pcard:hover{border-color:#378ADD;}
+.pcard-img{height:110px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.pcard-img-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.pcard-cat-badge{position:absolute;top:10px;left:10px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:4px;}
+.pcard-year{position:absolute;top:10px;right:10px;font-size:10px;font-weight:600;color:rgba(255,255,255,.8);background:rgba(0,0,0,.35);padding:3px 8px;border-radius:4px;}
+.pcard-body{padding:14px 16px;}
+.pcard-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:var(--color-text-primary);line-height:1.2;margin-bottom:5px;}
+.pcard-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.pmeta{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--color-text-secondary);}
+.pmeta i{font-size:13px;}
+.pcard-specs{display:flex;gap:6px;flex-wrap:wrap;}
+.spec-pill{font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:4px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);}
+.pcard-foot{padding:10px 16px;border-top:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between;}
+.status-pill{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:4px;letter-spacing:.5px;}
+.status-done{background:#EAF3DE;color:#27500A;}
+.status-ongoing{background:#FAEEDA;color:#633806;}
+.pcard-client{font-size:11.5px;color:var(--color-text-tertiary);display:flex;align-items:center;gap:4px;}
+
+.detail-overlay{display:none;background:rgba(4,44,83,.92);padding:20px 28px;}
+.detail-overlay.open{display:block;}
+.detail-box{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden;max-width:600px;margin:0 auto;}
+.detail-head{padding:20px;background:#042C53;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.detail-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#fff;line-height:1.15;}
+.detail-sub{font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;}
+.close-btn{background:rgba(255,255,255,.12);border:none;color:#fff;font-size:18px;width:30px;height:30px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Barlow',sans-serif;}
+.detail-body{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.det-sect{margin-bottom:4px;}
+.det-label{font-size:10.5px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:7px;}
+.det-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.det-list li{font-size:12.5px;color:var(--color-text-secondary);display:flex;align-items:flex-start;gap:7px;line-height:1.4;}
+.det-list li i{font-size:14px;flex-shrink:0;margin-top:1px;}
+.det-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;grid-column:1/-1;}
+.det-stat{background:var(--color-background-secondary);border-radius:6px;padding:10px;text-align:center;}
+.det-stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:var(--color-text-primary);}
+.det-stat-lbl{font-size:10px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.8px;margin-top:2px;}
+.det-foot{padding:14px 20px;border-top:0.5px solid var(--color-border-tertiary);display:flex;gap:10px;align-items:center;justify-content:flex-end;}
+.btn-close-det{padding:8px 16px;border-radius:6px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);font-family:'Barlow',sans-serif;font-size:13px;color:var(--color-text-secondary);cursor:pointer;}
+.btn-inquiry-det{padding:8px 18px;border-radius:6px;background:#185FA5;border:none;font-family:'Barlow',sans-serif;font-size:13px;color:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;}
+
+.cta-strip{background:#042C53;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.cta-text{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#fff;}
+.cta-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;}
+.cta-btns{display:flex;gap:10px;flex-shrink:0;}
+.btn-cta-sec{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;background:transparent;border:0.5px solid rgba(255,255,255,.3);font-family:'Barlow',sans-serif;font-size:12.5px;color:#fff;font-weight:500;cursor:pointer;}
+.btn-cta-pri{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;background:#EF9F27;border:none;font-family:'Barlow',sans-serif;font-size:12.5px;color:#412402;font-weight:600;cursor:pointer;}
+.footer-strip{background:#031E3A;padding:10px 28px;display:flex;justify-content:space-between;align-items:center;}
+.footer-text{font-size:11px;color:rgba(255,255,255,.35);}
+.cert-row{display:flex;gap:8px;}
+.cpill{font-size:10px;font-weight:600;letter-spacing:1px;background:rgba(239,159,39,.12);color:#EF9F27;padding:3px 8px;border-radius:3px;border:0.5px solid rgba(239,159,39,.25);}
+</style>
+
+<h2 class="sr-only">Halaman portofolio proyek Nusantara Gas Energy</h2>
+
+<div class="pg">
+  <div class="topbar">
+    <div class="logo-row">
+      <div class="logo-box"><i class="ti ti-flame" style="color:#042C53;font-size:18px;" aria-hidden="true"></i></div>
+      <div><div class="logo-name">NUSANTARA GAS ENERGY</div><div class="logo-sub">Natural Gas Solutions</div></div>
+    </div>
+    <div class="nav-pills">
+      <a href="#">Beranda</a><a href="#">Layanan</a><a href="#" class="active">Proyek</a><a href="#">Sertifikasi</a><a href="#">Kontak</a>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <div class="breadcrumb">Beranda &rsaquo; <span>Portofolio Proyek</span></div>
+    <div class="hero-flex">
+      <div>
+        <div class="page-title">Portofolio Proyek</div>
+        <div class="page-sub">Rekam jejak lebih dari 200 proyek gas bumi yang telah diselesaikan di seluruh Indonesia sejak 2008.</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-num">200+</span><span class="stat-lbl">Total Proyek</span></div>
+        <div class="stat-box"><span class="stat-num">500km</span><span class="stat-lbl">Pipeline</span></div>
+        <div class="stat-box"><span class="stat-num">32</span><span class="stat-lbl">Klien Aktif</span></div>
+        <div class="stat-box"><span class="stat-num">15</span><span class="stat-lbl">Provinsi</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter-row">
+      <button class="ftag on" onclick="filter('all',this)">Semua</button>
+      <button class="ftag" onclick="filter('pipeline',this)">Gas Pipeline</button>
+      <button class="ftag" onclick="filter('cng',this)">CNG Station</button>
+      <button class="ftag" onclick="filter('maintenance',this)">Maintenance</button>
+      <button class="ftag" onclick="filter('engineering',this)">Engineering</button>
+    </div>
+    <div class="sort-row">
+      <span class="sort-label">Urutkan:</span>
+      <select class="sort-sel" onchange="sortCards(this.value)">
+        <option value="year">Terbaru</option>
+        <option value="name">Nama A–Z</option>
+        <option value="scale">Skala Terbesar</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid-area" id="card-grid"></div>
+
+  <div class="detail-overlay" id="detail-overlay">
+    <div class="detail-box">
+      <div class="detail-head">
+        <div>
+          <div class="detail-title" id="det-title"></div>
+          <div class="detail-sub" id="det-sub"></div>
+        </div>
+        <button class="close-btn" onclick="closeDetail()" aria-label="Tutup detail">&#x2715;</button>
+      </div>
+      <div class="detail-body" id="det-body"></div>
+      <div class="det-foot">
+        <button class="btn-close-det" onclick="closeDetail()">Tutup</button>
+        <button class="btn-inquiry-det" onclick="inquiryFromDetail()"><i class="ti ti-send" aria-hidden="true"></i> Minta Penawaran Serupa</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <div class="cta-text">Proyek Anda bisa menjadi yang berikutnya</div>
+      <div class="cta-sub">Konsultasi teknis gratis — respons dalam 24 jam kerja</div>
+    </div>
+    <div class="cta-btns">
+      <button class="btn-cta-sec" onclick="sendPrompt('Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales')"><i class="ti ti-brand-whatsapp" style="font-size:15px;" aria-hidden="true"></i> Chat WA</button>
+      <button class="btn-cta-pri" onclick="sendPrompt('Buatkan halaman kontak untuk website natural gas energy')"><i class="ti ti-file-description" style="font-size:15px;" aria-hidden="true"></i> Hubungi Kami</button>
+    </div>
+  </div>
+
+  <div class="footer-strip">
+    <div class="footer-text">&copy; 2025 Nusantara Gas Energy. Semua hak cipta dilindungi.</div>
+    <div class="cert-row"><span class="cpill">BPH MIGAS</span><span class="cpill">ISO 9001</span><span class="cpill">OHSAS 18001</span></div>
+  </div>
+</div>
+
+<script>
+var projects = [
+  {id:0, cat:'pipeline', year:2024, name:'Jaringan Distribusi Gas Industri Karawang Fase 2', location:'Karawang, Jawa Barat', client:'PT. KIE / PGN', scale:3, specs:['45 km pipa','MDPE & CS','6 bar MAOP'],
+   status:'ongoing', icon:'ti-line-dashed', color:'#042C53', bgLight:'#E6F1FB', accentText:'#0C447C',
+   stats:['45 km','6 bar','2024–2025'], statLabels:['Panjang Pipa','Tekanan','Periode'],
+   scope:['FEED & detailed engineering','Pengadaan pipa MDPE PE100','Instalasi & pengelasan','Pressure test & komisioning','Interfacing dengan jaringan PGN'],
+   highlights:['Jaringan distribusi kawasan industri terbesar di Karawang','Melayani 120+ pelanggan industri','Integrasi SCADA real-time monitoring']},
+  {id:1, cat:'cng', year:2023, name:'SPBG Bekasi Timur — Kapasitas 500 MMBtu/hari', location:'Bekasi, Jawa Barat', client:'PT. Trans Bekasi Mandiri', scale:4, specs:['500 MMBtu/hari','250 bar filling','Dual dispenser'],
+   status:'done', icon:'ti-gas-station', color:'#854F0B', bgLight:'#FAEEDA', accentText:'#633806',
+   stats:['500','250 bar','4 unit'], statLabels:['MMBtu/hari','Tekanan Isi','Dispenser'],
+   scope:['Engineering & design SPBG','Pengadaan compressor & storage','Instalasi mekanikal & elektrikal','Commissioning & uji operasional','Pendampingan sertifikasi BPH MIGAS'],
+   highlights:['SPBG terbesar di Bekasi Timur','Melayani 300+ kendaraan CNG/hari','Teknologi fast-fill & slow-fill']},
+  {id:2, cat:'pipeline', year:2023, name:'Pipa Transmisi Gas Bumi Cilegon–Serang', location:'Banten', client:'Pemprov Banten / PGN', scale:5, specs:['120 km','API 5L X60','40 bar MAOP'],
+   status:'done', icon:'ti-line-dashed', color:'#042C53', bgLight:'#E6F1FB', accentText:'#0C447C',
+   stats:['120 km','40 bar','18 bln'], statLabels:['Panjang','Tekanan','Durasi'],
+   scope:['Survei rute & AMDAL','FEED & DED transmisi','Pengadaan pipa API 5L X60','Pengelasan & coating 3LPE','HDD crossing jalan tol & sungai','Hydrostatic test & komisioning'],
+   highlights:['Proyek transmisi terpanjang yang pernah dikerjakan','3 titik river crossing & 2 road crossing','Coating 3LPE anti-korosi premium']},
+  {id:3, cat:'cng', year:2023, name:'Virtual Pipeline CNG Kawasan Industri Purwakarta', location:'Purwakarta, Jawa Barat', client:'PT. KIIC Purwakarta', scale:2, specs:['12 truk CNG','200 bar','30 MMBtu/hari'],
+   status:'done', icon:'ti-truck', color:'#854F0B', bgLight:'#FAEEDA', accentText:'#633806',
+   stats:['12 unit','200 bar','30 MMBtu'], statLabels:['Armada Truk','Tekanan','Kapasitas/hari'],
+   scope:['Desain sistem virtual pipeline','Pengadaan tube trailer CNG','Instalasi metering & regulasi di pabrik','Pelatihan operator','SOP operasional & safety'],
+   highlights:['Solusi gas untuk area belum terjangkau pipa','Pengiriman just-in-time ke 8 pabrik','Penghematan energi 35% vs LPG']},
+  {id:4, cat:'maintenance', year:2023, name:'Inspeksi & Rehabilitasi Pipeline PGN Bekasi–Cikampek', location:'Jawa Barat', client:'PT. PGN Tbk', scale:3, specs:['80 km ILI','MFL Tool','Cathodic Protection'],
+   status:'done', icon:'ti-settings-2', color:'#27500A', bgLight:'#EAF3DE', accentText:'#3B6D11',
+   stats:['80 km','6 titik','100%'], statLabels:['Panjang ILI','Anomali Kritis','Selesai Tepat Waktu'],
+   scope:['Intelligent pig launching & receiving','MFL inspection & data analysis','Excavation & repair 6 titik anomali','Penggantian cathodic protection anode','Laporan integritas pipeline'],
+   highlights:['Zero incident selama pekerjaan','6 titik korosi berhasil direhabilitasi','Laporan ILI sesuai ASME B31.8S']},
+  {id:5, cat:'engineering', year:2022, name:'FEED & DED SPBG Mother Station Cikarang', location:'Bekasi, Jawa Barat', client:'PT. Cikarang Energi', scale:2, specs:['DED lengkap','HAZOP study','BOQ & tender'],
+   status:'done', icon:'ti-chart-dots-2', color:'#085041', bgLight:'#E1F5EE', accentText:'#0F6E56',
+   stats:['1.000','4 bln','100%'], statLabels:['MMBtu Rancangan','Durasi FEED','Akurasi Dokumen'],
+   scope:['Conceptual design & feasibility','Front End Engineering Design','Process flow diagram & P&ID','HAZOP & SIL assessment','Bill of Quantity & dokumen tender'],
+   highlights:['Desain mother station kapasitas 1.000 MMBtu/hari','Dokumen tender digunakan langsung oleh owner','Proses approval BPH MIGAS hanya 3 bulan']},
+  {id:6, cat:'pipeline', year:2022, name:'Gas Distribution Network Kawasan Industri MM2100', location:'Bekasi, Jawa Barat', client:'PT. MM2100 Industrial Town', scale:4, specs:['35 km','Low–Medium pressure','50+ pelanggan'],
+   status:'done', icon:'ti-line-dashed', color:'#042C53', bgLight:'#E6F1FB', accentText:'#0C447C',
+   stats:['35 km','52','2022'], statLabels:['Panjang Jaringan','Pelanggan Industri','Selesai'],
+   scope:['Master plan jaringan gas kawasan','Engineering & procurement','Instalasi jaringan LP & MP','Pemasangan metering station tiap pabrik','Komisioning & serah terima'],
+   highlights:['Melayani 52 pabrik multinasional','Sistem metering individual per pelanggan','Backup supply CNG terintegrasi']},
+  {id:7, cat:'cng', year:2022, name:'Daughter Station CNG Armada Bus TransJakarta Rute Barat', location:'Jakarta Barat', client:'PT. Transjakarta', scale:3, specs:['300 MMBtu/hari','Daughter Station','8 dispenser'],
+   status:'done', icon:'ti-gas-station', color:'#854F0B', bgLight:'#FAEEDA', accentText:'#633806',
+   stats:['300','8 unit','200+'], statLabels:['MMBtu/hari','Dispenser','Bus/hari'],
+   scope:['Engineering daughter station','Pengadaan storage cascade & dispenser','Instalasi sistem safety & CCTV','Commissioning & uji beban','Pelatihan teknisi Transjakarta'],
+   highlights:['Mendukung program bus ramah lingkungan DKI','Kapasitas pengisian 200+ bus CNG per hari','Sistem monitoring real-time terintegrasi']},
+  {id:8, cat:'pipeline', year:2021, name:'City Gas Distribution Kota Cirebon Fase 1', location:'Cirebon, Jawa Barat', client:'PGN / Pemkot Cirebon', scale:3, specs:['28 km','PE80/100','Rumah tangga'],
+   status:'done', icon:'ti-home', color:'#042C53', bgLight:'#E6F1FB', accentText:'#0C447C',
+   stats:['28 km','4.200','2021'], statLabels:['Jaringan HDPE','Sambungan Rumah','Selesai'],
+   scope:['Desain jaringan city gas','Instalasi pipa HDPE PE80/100','Pemasangan regulator & metering rumah','Uji kebocoran & komisioning','Pelatihan operator kota'],
+   highlights:['4.200 sambungan rumah tangga aktif','Pengurangan emisi LPG di Cirebon','Program pemerintah strategis nasional']},
+  {id:9, cat:'maintenance', year:2021, name:'Perawatan Tahunan Sistem Gas PT. Chandra Asri Petrochemical', location:'Cilegon, Banten', client:'PT. Chandra Asri Petrochemical', scale:3, specs:['Kontrak 3 tahun','Pigging rutin','Valve maintenance'],
+   status:'ongoing', icon:'ti-settings-2', color:'#27500A', bgLight:'#EAF3DE', accentText:'#3B6D11',
+   stats:['3 tahun','15 km','24/7'], statLabels:['Kontrak','Pipa Dirawat','Siaga Emergency'],
+   scope:['Pemeliharaan preventif bulanan','Pigging & pembersihan pipa','Kalibrasi metering & instrument','Penggantian valve & gasket','Laporan kondisi & rekomendasi'],
+   highlights:['Kontrak jangka panjang 3 tahun','Zero unplanned shutdown sejak kontrak','Tim resident engineer di lokasi']},
+  {id:10, cat:'engineering', year:2020, name:'Studi Kelayakan Pipeline Gas Sumatera Selatan', location:'Sumatera Selatan', client:'Pemerintah Provinsi Sumsel', scale:2, specs:['200 km rencana','Feasibility Study','ROI analysis'],
+   status:'done', icon:'ti-chart-dots-2', color:'#085041', bgLight:'#E1F5EE', accentText:'#0F6E56',
+   stats:['200 km','6 bln','2020'], statLabels:['Panjang Rencana','Durasi Studi','Selesai'],
+   scope:['Studi kelayakan teknis & ekonomis','Survei kondisi lapangan','Analisis rute & topografi','Estimasi CAPEX & OPEX','Rekomendasi skema pembiayaan'],
+   highlights:['Studi menjadi dasar program infrastruktur provinsi','Potensi investasi Rp 2,4 Triliun teridentifikasi','Presentasi ke Kementerian ESDM']},
+  {id:11, cat:'cng', year:2020, name:'Mobile Refueling Unit (MRU) Armada Tambang Kaltim', location:'Kutai Kartanegara, Kalimantan Timur', client:'PT. Kideco Jaya Agung', scale:3, specs:['5 unit MRU','200 bar','Alat berat CNG'],
+   status:'done', icon:'ti-truck', color:'#854F0B', bgLight:'#FAEEDA', accentText:'#633806',
+   stats:['5 unit','200 bar','60 unit'], statLabels:['MRU','Tekanan Isi','Alat Berat Dilayani'],
+   scope:['Desain sistem MRU untuk tambang','Pengadaan compressor mobile','Konversi alat berat ke CNG','Pelatihan operator & mekanik','SOP operasional area tambang'],
+   highlights:['Pertama di Indonesia untuk alat berat tambang batubara','Penghematan bahan bakar 40% vs HSD','Sertifikat K3 alat berat dari Kemnaker']}
+];
+
+var activeFilter = 'all';
+var activeSort = 'year';
+var selectedProject = null;
+
+function getIcon(p){
+  return '<i class="ti '+p.icon+'" aria-hidden="true" style="font-size:36px;color:'+p.color+';opacity:.18;"></i>';
+}
+
+function renderCards(){
+  var list = projects.filter(function(p){ return activeFilter==='all'||p.cat===activeFilter; });
+  if(activeSort==='year') list.sort(function(a,b){return b.year-a.year;});
+  else if(activeSort==='name') list.sort(function(a,b){return a.name.localeCompare(b.name);});
+  else if(activeSort==='scale') list.sort(function(a,b){return b.scale-a.scale;});
+
+  var html='';
+  list.forEach(function(p){
+    var catLabel = p.cat==='pipeline'?'Gas Pipeline':p.cat==='cng'?'CNG':p.cat==='maintenance'?'Maintenance':'Engineering';
+    var specPills = p.specs.map(function(s){return '<span class="spec-pill">'+s+'</span>';}).join('');
+    var statusHtml = p.status==='done'
+      ? '<span class="status-pill status-done"><i class="ti ti-circle-check" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i> Selesai</span>'
+      : '<span class="status-pill status-ongoing"><i class="ti ti-progress" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i> Berlangsung</span>';
+    html+='<div class="pcard" data-cat="'+p.cat+'" onclick="openDetail('+p.id+')">'
+      +'<div class="pcard-img" style="background:'+p.bgLight+';">'
+      +'<div class="pcard-img-inner">'+getIcon(p)+'</div>'
+      +'<span class="pcard-cat-badge" style="background:'+p.color+';color:#fff;">'+catLabel+'</span>'
+      +'<span class="pcard-year">'+p.year+'</span>'
+      +'</div>'
+      +'<div class="pcard-body">'
+      +'<div class="pcard-name">'+p.name+'</div>'
+      +'<div class="pcard-meta">'
+      +'<span class="pmeta"><i class="ti ti-map-pin" aria-hidden="true"></i>'+p.location+'</span>'
+      +'</div>'
+      +'<div class="pcard-specs">'+specPills+'</div>'
+      +'</div>'
+      +'<div class="pcard-foot">'+statusHtml+'<span class="pcard-client"><i class="ti ti-building" style="font-size:13px;" aria-hidden="true"></i>'+p.client+'</span></div>'
+      +'</div>';
+  });
+  if(!list.length) html='<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--color-text-tertiary);font-size:14px;">Tidak ada proyek ditemukan.</div>';
+  document.getElementById('card-grid').innerHTML=html;
+}
+
+function filter(cat,el){
+  activeFilter=cat;
+  document.querySelectorAll('.ftag').forEach(function(t){t.classList.remove('on');});
+  el.classList.add('on');
+  renderCards();
+}
+
+function sortCards(val){
+  activeSort=val;
+  renderCards();
+}
+
+function openDetail(id){
+  var p=projects[id];
+  selectedProject=p;
+  document.getElementById('det-title').textContent=p.name;
+  document.getElementById('det-sub').textContent=p.location+' · '+p.year+' · '+p.client;
+  var catLabel=p.cat==='pipeline'?'Gas Pipeline':p.cat==='cng'?'CNG':p.cat==='maintenance'?'Maintenance':'Engineering';
+  var statsHtml='<div class="det-stat-row">';
+  p.stats.forEach(function(s,i){
+    statsHtml+='<div class="det-stat"><div class="det-stat-num">'+s+'</div><div class="det-stat-lbl">'+p.statLabels[i]+'</div></div>';
+  });
+  statsHtml+='</div>';
+  var scopeHtml='<div class="det-sect"><div class="det-label">Lingkup Pekerjaan</div><ul class="det-list">'
+    +p.scope.map(function(s){return '<li><i class="ti ti-check" style="color:'+p.color+';" aria-hidden="true"></i>'+s+'</li>';}).join('')
+    +'</ul></div>';
+  var hlHtml='<div class="det-sect"><div class="det-label">Keunggulan Proyek</div><ul class="det-list">'
+    +p.highlights.map(function(s){return '<li><i class="ti ti-star" style="color:#BA7517;" aria-hidden="true"></i>'+s+'</li>';}).join('')
+    +'</ul></div>';
+  document.getElementById('det-body').innerHTML=statsHtml+scopeHtml+hlHtml;
+  document.getElementById('detail-overlay').classList.add('open');
+}
+
+function closeDetail(){
+  document.getElementById('detail-overlay').classList.remove('open');
+  selectedProject=null;
+}
+
+function inquiryFromDetail(){
+  if(selectedProject) sendPrompt('Saya tertarik dengan proyek serupa: '+selectedProject.name+'. Bisa minta penawaran untuk proyek sejenis?');
+  closeDetail();
+}
+
+renderCards();
+</script>
