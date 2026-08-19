@@ -22,17 +22,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        User::query()->updateOrCreate(
-            ['email' => 'admin@nusantaragas.co.id'],
-            [
-                'name' => 'Admin Nusantara Gas Energy',
-                'password' => 'password',
-                'is_admin' => true,
-                'email_verified_at' => now(),
-            ],
-        );
-
         $this->call([
+            AdminUserSeeder::class,
             PortfolioProjectSeeder::class,
             ServiceSeeder::class,
             MilestoneSeeder::class,
