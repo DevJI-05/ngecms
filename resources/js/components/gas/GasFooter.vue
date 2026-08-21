@@ -7,7 +7,7 @@ withDefaults(defineProps<{ badges?: string[] }>(), {
 <template>
     <div class="footer-strip">
         <div class="footer-text">
-            &copy; 2025 Nusantara Gas Energy. Semua hak cipta dilindungi.
+            &copy; 2026 Nusantara Gas Energy. Semua hak cipta dilindungi.
         </div>
         <div class="cert-row">
             <span v-for="b in badges" :key="b" class="cpill">{{ b }}</span>

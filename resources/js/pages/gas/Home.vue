@@ -3,6 +3,7 @@ import { Head, router } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import GasBtnOutline from '@/components/gas/GasBtnOutline.vue';
 import GasBtnPrimary from '@/components/gas/GasBtnPrimary.vue';
+import GasFooter from '@/components/gas/GasFooter.vue';
 import GasNavbar from '@/components/gas/GasNavbar.vue';
 import GasProjectMiniCard from '@/components/gas/GasProjectMiniCard.vue';
 import GasServiceMiniCard from '@/components/gas/GasServiceMiniCard.vue';
@@ -170,6 +171,8 @@ const serviceCards = computed(() =>
                 >
             </div>
         </div>
+
+        <GasFooter />
     </div>
 </template>
 
