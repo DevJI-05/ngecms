@@ -183,4 +183,13 @@
     --color-border-secondary: #d7dee5;
     --color-border-tertiary: #e4e9ee;
     --border-radius-lg: 12px;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--color-background-primary);
+}
+
+.nge > .footer-strip {
+    margin-top: auto;
 }
