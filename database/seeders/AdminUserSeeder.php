@@ -13,10 +13,10 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::query()->updateOrCreate(
-            ['email' => env('ADMIN_EMAIL', 'admin@nusantaragas.co.id')],
+            ['email' => 'admin@nusantaragas.co.id'],
             [
-                'name' => env('ADMIN_NAME', 'Admin Nusantara Gas Energy'),
-                'password' => env('ADMIN_PASSWORD', 'password'),
+                'name' => 'Admin N.G.E',
+                'password' => 'qweasdzxcedcwsxqaz',
                 'is_admin' => true,
                 'email_verified_at' => now(),
             ],
