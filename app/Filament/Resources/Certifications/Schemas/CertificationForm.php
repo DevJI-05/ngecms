@@ -2,39 +2,61 @@
 
 namespace App\Filament\Resources\Certifications\Schemas;
 
+use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Support\HtmlString;
 
 class CertificationForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->columns(2)
             ->components([
-                TextInput::make('name')
-                    ->label('Nama Sertifikat')
-                    ->required()
-                    ->columnSpanFull(),
-                TextInput::make('issuer')
-                    ->label('Penerbit')
-                    ->required()
-                    ->columnSpanFull(),
-                TextInput::make('valid_text')
-                    ->label('Keterangan Masa Berlaku')
-                    ->helperText('Contoh: Berlaku s/d 2027')
-                    ->required(),
-                TextInput::make('icon')
-                    ->label('Tabler Icon')
-                    ->helperText('Contoh: ti-certificate, ti-shield-check')
-                    ->required(),
-                TextInput::make('sort_order')
-                    ->label('Urutan Tampil')
-                    ->numeric()
-                    ->default(0),
-                ColorPicker::make('icon_bg')->label('Warna Latar Ikon')->required(),
-                ColorPicker::make('icon_color')->label('Warna Ikon')->required(),
+                Section::make('Certificate Details')
+                    ->columns(2)
+                    ->components([
+                        TextInput::make('name')
+                            ->label('Certificate Name')
+                            ->required()
+                            ->columnSpanFull(),
+                        TextInput::make('issuer')
+                            ->label('Issuer')
+                            ->required()
+                            ->columnSpanFull(),
+                        TextInput::make('valid_text')
+                            ->label('Validity Note')
+                            ->helperText('Example: Valid through 2027')
+                            ->required(),
+                        TextInput::make('sort_order')
+                            ->label('Display Order')
+                            ->numeric()
+                            ->default(0),
+                    ]),
+
+                Section::make('Icon Appearance')
+                    ->columns(3)
+                    ->components([
+                        Select::make('icon')
+                            ->label('Icon')
+                            ->options(ServiceIconOptions::options())
+                            ->searchable()
+                            ->native(false)
+                            ->live()
+                            ->required(),
+                        ColorPicker::make('icon_bg')->label('Icon Background')->required(),
+                        ColorPicker::make('icon_color')->label('Icon Color')->required(),
+                        Placeholder::make('icon_preview')
+                            ->label('Preview')
+                            ->content(fn (Get $get): HtmlString => new HtmlString(
+                                '<i class="ti '.e($get('icon')).'" style="font-size: 22px;"></i>',
+                            )),
+                    ]),
             ]);
     }
 }

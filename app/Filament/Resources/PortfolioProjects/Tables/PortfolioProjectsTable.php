@@ -5,6 +5,7 @@ namespace App\Filament\Resources\PortfolioProjects\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -17,30 +18,38 @@ class PortfolioProjectsTable
         return $table
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
+            ->striped()
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nama Proyek')
+                    ->label('Project Name')
+                    ->weight('semibold')
                     ->searchable()
                     ->limit(40),
                 TextColumn::make('cat')
-                    ->label('Kategori')
-                    ->badge(),
-                TextColumn::make('status')
+                    ->label('Category')
                     ->badge()
-                    ->color(fn (string $state) => $state === 'done' ? 'success' : 'warning'),
+                    ->color('info'),
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state) => $state === 'done' ? 'success' : 'warning')
+                    ->formatStateUsing(fn (string $state) => $state === 'done' ? 'Completed' : 'Ongoing'),
                 TextColumn::make('year')
-                    ->label('Tahun')
+                    ->label('Year')
                     ->sortable(),
                 TextColumn::make('location')
-                    ->label('Lokasi'),
+                    ->label('Location')
+                    ->toggleable(),
                 TextColumn::make('client')
-                    ->label('Klien'),
+                    ->label('Client')
+                    ->toggleable(),
                 ColorColumn::make('color')
-                    ->label('Warna'),
+                    ->label('Color')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('cat')
-                    ->label('Kategori')
+                    ->label('Category')
                     ->options([
                         'pipeline' => 'Gas Pipeline',
                         'cng' => 'CNG',
@@ -48,9 +57,10 @@ class PortfolioProjectsTable
                         'engineering' => 'Engineering',
                     ]),
                 SelectFilter::make('status')
+                    ->label('Status')
                     ->options([
-                        'done' => 'Selesai',
-                        'ongoing' => 'Berlangsung',
+                        'done' => 'Completed',
+                        'ongoing' => 'Ongoing',
                     ]),
             ])
             ->recordActions([
@@ -60,6 +70,9 @@ class PortfolioProjectsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('No projects yet')
+            ->emptyStateDescription('Add a portfolio project to showcase it on the website.')
+            ->emptyStateIcon(Heroicon::OutlinedFolderOpen);
     }
 }

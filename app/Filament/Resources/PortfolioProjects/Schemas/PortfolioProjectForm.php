@@ -2,12 +2,16 @@
 
 namespace App\Filament\Resources\PortfolioProjects\Schemas;
 
+use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Support\HtmlString;
 
 class PortfolioProjectForm
 {
@@ -15,97 +19,108 @@ class PortfolioProjectForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Proyek')
+                Section::make('Project Information')
                     ->columns(2)
                     ->components([
                         TextInput::make('name')
-                            ->label('Nama Proyek')
+                            ->label('Project Name')
                             ->required()
                             ->columnSpanFull(),
                         Select::make('cat')
-                            ->label('Kategori')
+                            ->label('Category')
                             ->options([
                                 'pipeline' => 'Gas Pipeline',
                                 'cng' => 'CNG',
                                 'maintenance' => 'Maintenance',
                                 'engineering' => 'Engineering',
                             ])
+                            ->native(false)
                             ->required(),
                         Select::make('status')
+                            ->label('Status')
                             ->options([
-                                'done' => 'Selesai',
-                                'ongoing' => 'Berlangsung',
+                                'done' => 'Completed',
+                                'ongoing' => 'Ongoing',
                             ])
+                            ->native(false)
                             ->required(),
                         TextInput::make('year')
-                            ->label('Tahun')
+                            ->label('Year')
                             ->numeric()
                             ->required(),
                         TextInput::make('scale')
-                            ->label('Skala (1-5)')
+                            ->label('Scale (1-5)')
                             ->numeric()
                             ->minValue(1)
                             ->maxValue(5)
                             ->default(1)
                             ->required(),
                         TextInput::make('location')
-                            ->label('Lokasi')
+                            ->label('Location')
                             ->required(),
                         TextInput::make('client')
-                            ->label('Klien')
+                            ->label('Client')
                             ->required(),
-                        TextInput::make('icon')
-                            ->label('Tabler Icon')
-                            ->helperText('Contoh: ti-line-dashed, ti-gas-station, ti-truck')
+                        Select::make('icon')
+                            ->label('Icon')
+                            ->options(ServiceIconOptions::options())
+                            ->searchable()
+                            ->native(false)
+                            ->live()
                             ->required(),
+                        Placeholder::make('icon_preview')
+                            ->label('Preview')
+                            ->content(fn (Get $get): HtmlString => new HtmlString(
+                                '<i class="ti '.e($get('icon')).'" style="font-size: 22px;"></i>',
+                            )),
                     ]),
 
-                Section::make('Tampilan')
+                Section::make('Appearance')
                     ->columns(3)
                     ->components([
-                        ColorPicker::make('color')->label('Warna Utama')->required(),
-                        ColorPicker::make('bg_light')->label('Warna Latar')->required(),
-                        ColorPicker::make('accent_text')->label('Warna Aksen Teks')->required(),
+                        ColorPicker::make('color')->label('Primary Color')->required(),
+                        ColorPicker::make('bg_light')->label('Background Color')->required(),
+                        ColorPicker::make('accent_text')->label('Accent Text Color')->required(),
                     ]),
 
-                Section::make('Spesifikasi & Statistik')
+                Section::make('Specifications & Stats')
                     ->columns(3)
                     ->components([
                         Repeater::make('specs')
-                            ->label('Spesifikasi Singkat (badge di kartu)')
+                            ->label('Quick Specs (card badges)')
                             ->simple(TextInput::make('spec')->required())
                             ->default([])
-                            ->addActionLabel('Tambah spesifikasi'),
+                            ->addActionLabel('Add spec'),
                         Repeater::make('stats')
-                            ->label('Nilai Statistik Detail')
-                            ->helperText('Urutan harus sejajar dengan Label Statistik')
+                            ->label('Stat Values')
+                            ->helperText('Order must match Stat Labels')
                             ->simple(TextInput::make('value')->required())
                             ->default([])
-                            ->addActionLabel('Tambah nilai'),
+                            ->addActionLabel('Add value'),
                         Repeater::make('stat_labels')
-                            ->label('Label Statistik Detail')
+                            ->label('Stat Labels')
                             ->simple(TextInput::make('label')->required())
                             ->default([])
-                            ->addActionLabel('Tambah label'),
+                            ->addActionLabel('Add label'),
                     ]),
 
-                Section::make('Lingkup Pekerjaan & Keunggulan')
+                Section::make('Scope of Work & Highlights')
                     ->columns(2)
                     ->components([
                         Repeater::make('scope')
-                            ->label('Lingkup Pekerjaan')
+                            ->label('Scope of Work')
                             ->simple(TextInput::make('item')->required())
                             ->default([])
-                            ->addActionLabel('Tambah item'),
+                            ->addActionLabel('Add item'),
                         Repeater::make('highlights')
-                            ->label('Keunggulan Proyek')
+                            ->label('Project Highlights')
                             ->simple(TextInput::make('item')->required())
                             ->default([])
-                            ->addActionLabel('Tambah item'),
+                            ->addActionLabel('Add item'),
                     ]),
 
                 TextInput::make('sort_order')
-                    ->label('Urutan Tampil')
+                    ->label('Display Order')
                     ->numeric()
                     ->default(0),
             ]);

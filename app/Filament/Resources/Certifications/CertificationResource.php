@@ -9,21 +9,23 @@ use App\Filament\Resources\Certifications\Schemas\CertificationForm;
 use App\Filament\Resources\Certifications\Tables\CertificationsTable;
 use App\Models\Certification;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class CertificationResource extends Resource
 {
     protected static ?string $model = Certification::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCheck;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Konten Website';
+    protected static string|UnitEnum|null $navigationGroup = 'Company Profile';
 
-    protected static ?string $navigationLabel = 'Sertifikasi & Izin';
+    protected static ?int $navigationSort = 4;
+
+    protected static ?string $navigationLabel = 'Certifications & Licenses';
 
     protected static ?string $recordTitleAttribute = 'name';
 

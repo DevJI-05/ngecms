@@ -5,6 +5,7 @@ namespace App\Filament\Resources\CompanyValues\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -15,18 +16,19 @@ class CompanyValuesTable
         return $table
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
+            ->striped()
             ->columns([
                 TextColumn::make('icon')
-                    ->label('Ikon'),
+                    ->label('Icon')
+                    ->size('lg'),
                 TextColumn::make('name')
-                    ->label('Nama Nilai')
+                    ->label('Value Name')
+                    ->weight('semibold')
                     ->searchable(),
                 TextColumn::make('description')
-                    ->label('Deskripsi')
-                    ->limit(60),
-            ])
-            ->filters([
-                //
+                    ->label('Description')
+                    ->limit(60)
+                    ->toggleable(),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -35,6 +37,9 @@ class CompanyValuesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('No company values yet')
+            ->emptyStateDescription('Add a value to showcase what the company stands for.')
+            ->emptyStateIcon(Heroicon::OutlinedHeart);
     }
 }

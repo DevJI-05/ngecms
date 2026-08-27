@@ -9,21 +9,23 @@ use App\Filament\Resources\CompanyValues\Schemas\CompanyValueForm;
 use App\Filament\Resources\CompanyValues\Tables\CompanyValuesTable;
 use App\Models\CompanyValue;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class CompanyValueResource extends Resource
 {
     protected static ?string $model = CompanyValue::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHeart;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Konten Website';
+    protected static string|UnitEnum|null $navigationGroup = 'Company Profile';
 
-    protected static ?string $navigationLabel = 'Nilai Perusahaan';
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $navigationLabel = 'Company Values';
 
     protected static ?string $recordTitleAttribute = 'name';
 

@@ -8,11 +8,11 @@ use App\Filament\Resources\Inquiries\Schemas\InquiryForm;
 use App\Filament\Resources\Inquiries\Tables\InquiriesTable;
 use App\Models\Inquiry;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class InquiryResource extends Resource
 {
@@ -20,11 +20,23 @@ class InquiryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedEnvelope;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Konten Website';
+    protected static string|UnitEnum|null $navigationGroup = 'Inbox';
 
-    protected static ?string $navigationLabel = 'Inquiry Masuk';
+    protected static ?string $navigationLabel = 'Inquiries';
 
     protected static ?string $recordTitleAttribute = 'nama';
+
+    public static function getNavigationBadge(): ?string
+    {
+        $newCount = static::getModel()::query()->where('status', 'baru')->count();
+
+        return $newCount > 0 ? (string) $newCount : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'danger';
+    }
 
     public static function form(Schema $schema): Schema
     {

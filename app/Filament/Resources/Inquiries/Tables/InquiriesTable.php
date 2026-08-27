@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Inquiries\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -15,39 +16,54 @@ class InquiriesTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
+            ->striped()
             ->columns([
                 TextColumn::make('created_at')
-                    ->label('Masuk')
+                    ->label('Received')
                     ->dateTime('d M Y H:i')
                     ->sortable(),
                 TextColumn::make('nama')
-                    ->label('Nama')
+                    ->label('Name')
+                    ->weight('semibold')
                     ->searchable(),
                 TextColumn::make('perusahaan')
-                    ->label('Perusahaan')
-                    ->searchable(),
+                    ->label('Company')
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make('layanan')
-                    ->label('Layanan'),
+                    ->label('Service')
+                    ->toggleable(),
                 TextColumn::make('email')
                     ->label('Email')
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
                 TextColumn::make('telepon')
-                    ->label('Telepon'),
+                    ->label('Phone')
+                    ->copyable()
+                    ->toggleable(),
                 TextColumn::make('status')
+                    ->label('Status')
                     ->badge()
                     ->color(fn (string $state) => match ($state) {
                         'baru' => 'danger',
                         'dihubungi' => 'warning',
                         'selesai' => 'success',
                         default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state) => match ($state) {
+                        'baru' => 'New',
+                        'dihubungi' => 'Contacted',
+                        'selesai' => 'Completed',
+                        default => $state,
                     }),
             ])
             ->filters([
                 SelectFilter::make('status')
+                    ->label('Status')
                     ->options([
-                        'baru' => 'Baru',
-                        'dihubungi' => 'Sudah Dihubungi',
-                        'selesai' => 'Selesai',
+                        'baru' => 'New',
+                        'dihubungi' => 'Contacted',
+                        'selesai' => 'Completed',
                     ]),
             ])
             ->recordActions([
@@ -57,6 +73,9 @@ class InquiriesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('No inquiries yet')
+            ->emptyStateDescription('Submitted inquiries from the website will appear here.')
+            ->emptyStateIcon(Heroicon::OutlinedEnvelope);
     }
 }

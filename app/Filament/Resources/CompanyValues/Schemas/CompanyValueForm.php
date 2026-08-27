@@ -5,6 +5,7 @@ namespace App\Filament\Resources\CompanyValues\Schemas;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class CompanyValueForm
@@ -13,23 +14,28 @@ class CompanyValueForm
     {
         return $schema
             ->components([
-                TextInput::make('icon')
-                    ->label('Ikon (emoji)')
-                    ->helperText('Contoh: 🛡️, ⚙️, 🤝')
-                    ->required(),
-                TextInput::make('name')
-                    ->label('Nama Nilai')
-                    ->required(),
-                Textarea::make('description')
-                    ->label('Deskripsi')
-                    ->required(),
-                ColorPicker::make('accent')
-                    ->label('Warna Aksen')
-                    ->required(),
-                TextInput::make('sort_order')
-                    ->label('Urutan Tampil')
-                    ->numeric()
-                    ->default(0),
+                Section::make('Value Details')
+                    ->columns(2)
+                    ->components([
+                        TextInput::make('icon')
+                            ->label('Icon (emoji)')
+                            ->helperText('Example: 🛡️, ⚙️, 🤝')
+                            ->required(),
+                        TextInput::make('name')
+                            ->label('Value Name')
+                            ->required(),
+                        Textarea::make('description')
+                            ->label('Description')
+                            ->required()
+                            ->columnSpanFull(),
+                        ColorPicker::make('accent')
+                            ->label('Accent Color')
+                            ->required(),
+                        TextInput::make('sort_order')
+                            ->label('Display Order')
+                            ->numeric()
+                            ->default(0),
+                    ]),
             ]);
     }
 }

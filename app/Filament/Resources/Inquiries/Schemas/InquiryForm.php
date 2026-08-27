@@ -14,36 +14,37 @@ class InquiryForm
     {
         return $schema
             ->components([
-                Section::make('Data Pengirim')
+                Section::make('Sender Details')
                     ->columns(2)
                     ->components([
-                        TextInput::make('nama')->label('Nama')->required()->disabled(),
-                        TextInput::make('jabatan')->label('Jabatan')->disabled(),
+                        TextInput::make('nama')->label('Name')->required()->disabled(),
+                        TextInput::make('jabatan')->label('Job Title')->disabled(),
                         TextInput::make('email')->label('Email')->required()->disabled(),
-                        TextInput::make('telepon')->label('Telepon')->disabled(),
-                        TextInput::make('perusahaan')->label('Perusahaan')->disabled(),
-                        TextInput::make('sumber')->label('Sumber')->disabled(),
+                        TextInput::make('telepon')->label('Phone')->disabled(),
+                        TextInput::make('perusahaan')->label('Company')->disabled(),
+                        TextInput::make('sumber')->label('Source')->disabled(),
                     ]),
 
-                Section::make('Detail Kebutuhan')
+                Section::make('Request Details')
                     ->columns(2)
                     ->components([
-                        TextInput::make('layanan')->label('Layanan')->disabled(),
-                        TextInput::make('estimasi')->label('Estimasi Nilai')->disabled(),
-                        TextInput::make('lokasi')->label('Lokasi Proyek')->disabled(),
+                        TextInput::make('layanan')->label('Service')->disabled(),
+                        TextInput::make('estimasi')->label('Estimated Value')->disabled(),
+                        TextInput::make('lokasi')->label('Project Location')->disabled(),
                         Textarea::make('pesan')
-                            ->label('Pesan')
+                            ->label('Message')
                             ->disabled()
                             ->columnSpanFull(),
                     ]),
 
                 Select::make('status')
-                    ->label('Status Follow-up')
+                    ->label('Follow-up Status')
                     ->options([
-                        'baru' => 'Baru',
-                        'dihubungi' => 'Sudah Dihubungi',
-                        'selesai' => 'Selesai',
+                        'baru' => 'New',
+                        'dihubungi' => 'Contacted',
+                        'selesai' => 'Completed',
                     ])
+                    ->native(false)
                     ->required(),
             ]);
     }

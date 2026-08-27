@@ -9,21 +9,23 @@ use App\Filament\Resources\PortfolioProjects\Schemas\PortfolioProjectForm;
 use App\Filament\Resources\PortfolioProjects\Tables\PortfolioProjectsTable;
 use App\Models\PortfolioProject;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PortfolioProjectResource extends Resource
 {
     protected static ?string $model = PortfolioProject::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolderOpen;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Konten Website';
+    protected static string|UnitEnum|null $navigationGroup = 'Services & Portfolio';
 
-    protected static ?string $navigationLabel = 'Portofolio Proyek';
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationLabel = 'Portfolio Projects';
 
     protected static ?string $recordTitleAttribute = 'name';
 

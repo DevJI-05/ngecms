@@ -9,21 +9,23 @@ use App\Filament\Resources\Milestones\Schemas\MilestoneForm;
 use App\Filament\Resources\Milestones\Tables\MilestonesTable;
 use App\Models\Milestone;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class MilestoneResource extends Resource
 {
     protected static ?string $model = Milestone::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFlag;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Konten Website';
+    protected static string|UnitEnum|null $navigationGroup = 'Company Profile';
 
-    protected static ?string $navigationLabel = 'Sejarah & Pencapaian';
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationLabel = 'History & Milestones';
 
     protected static ?string $recordTitleAttribute = 'name';
 
