@@ -47,11 +47,13 @@ class PortfolioProjectForm
                             ->required(),
                         TextInput::make('year')
                             ->label('Year')
-                            ->numeric()
+                            ->integer()
+                            ->minValue(1900)
+                            ->maxValue(fn (): int => (int) now()->year)
                             ->required(),
                         TextInput::make('scale')
                             ->label('Scale (1-5)')
-                            ->numeric()
+                            ->integer()
                             ->minValue(1)
                             ->maxValue(5)
                             ->default(1)

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TeamMembers\Schemas;
 
+use App\Support\HexColor;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -53,8 +54,8 @@ class TeamMemberForm
                 Section::make('Avatar Appearance')
                     ->columns(2)
                     ->components([
-                        ColorPicker::make('avatar_bg')->label('Background Color')->required(),
-                        ColorPicker::make('avatar_color')->label('Text Color')->required(),
+                        ColorPicker::make('avatar_bg')->label('Background Color')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('avatar_color')->label('Text Color')->regex(HexColor::REGEX)->required(),
                     ]),
             ]);
     }

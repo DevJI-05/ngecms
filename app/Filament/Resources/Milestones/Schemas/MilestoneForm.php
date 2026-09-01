@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Milestones\Schemas;
 
+use App\Support\HexColor;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -23,7 +24,9 @@ class MilestoneForm
                             ->required(),
                         TextInput::make('year')
                             ->label('Year (for ordering)')
-                            ->numeric()
+                            ->integer()
+                            ->minValue(1900)
+                            ->maxValue(fn (): int => (int) now()->year)
                             ->required(),
                         TextInput::make('name')
                             ->label('Title')
@@ -47,9 +50,9 @@ class MilestoneForm
                 Section::make('Timeline Appearance')
                     ->columns(3)
                     ->components([
-                        ColorPicker::make('dot_color')->label('Timeline Dot Color')->required(),
-                        ColorPicker::make('badge_bg')->label('Badge Background')->required(),
-                        ColorPicker::make('badge_color')->label('Badge Text Color')->required(),
+                        ColorPicker::make('dot_color')->label('Timeline Dot Color')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('badge_bg')->label('Badge Background')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('badge_color')->label('Badge Text Color')->regex(HexColor::REGEX)->required(),
                     ]),
             ]);
     }
