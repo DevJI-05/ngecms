@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import GasBtnOutline from '@/components/gas/GasBtnOutline.vue';
 import GasBtnPrimary from '@/components/gas/GasBtnPrimary.vue';
@@ -36,6 +36,8 @@ const activeFilter = ref('all');
 const activeSort = ref<'year' | 'name' | 'scale'>('year');
 const selectedId = ref<number | null>(null);
 
+const page = usePage<{ siteSettings: { whatsapp_number: string } }>();
+
 const selectedProject = computed(
     () => props.projects.find((p) => p.id === selectedId.value) ?? null,
 );
@@ -65,6 +67,7 @@ function inquiryFromDetail() {
     if (selectedProject.value) {
         openWhatsApp(
             `Saya tertarik dengan proyek serupa: ${selectedProject.value.name}. Bisa minta penawaran untuk proyek sejenis?`,
+            page.props.siteSettings.whatsapp_number,
         );
     }
 
@@ -140,6 +143,7 @@ function inquiryFromDetail() {
                 @click="
                     openWhatsApp(
                         'Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales',
+                        page.props.siteSettings.whatsapp_number,
                     )
                 "
                 >Chat WA</GasBtnOutline

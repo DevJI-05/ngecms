@@ -1,13 +1,18 @@
 <script setup lang="ts">
+import { usePage } from '@inertiajs/vue3';
+
 withDefaults(defineProps<{ badges?: string[] }>(), {
     badges: () => ['BPH MIGAS', 'ISO 9001', 'OHSAS 18001'],
 });
+
+const page = usePage<{ siteSettings: { company_name: string } }>();
 </script>
 
 <template>
     <div class="footer-strip">
         <div class="footer-text">
-            &copy; 2026 Nusantara Gas Energy. Semua hak cipta dilindungi.
+            &copy; 2026 {{ page.props.siteSettings.company_name }}. Semua hak
+            cipta dilindungi.
         </div>
         <div class="cert-row">
             <span v-for="b in badges" :key="b" class="cpill">{{ b }}</span>

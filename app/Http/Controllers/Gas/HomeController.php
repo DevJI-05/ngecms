@@ -25,9 +25,9 @@ class HomeController extends Controller
                 ->limit(4)
                 ->get(['cat', 'name', 'location', 'year', 'specs']),
             'stats' => [
-                'projectsCompleted' => $settings->stat_projects_completed,
-                'pipelineKm' => $settings->stat_pipeline_km,
-                'yearsExperience' => $settings->stat_years_experience,
+                'projectsCompleted' => "{$settings->stat_projects_completed}+",
+                'pipelineKm' => "{$settings->stat_pipeline_km} km",
+                'yearsExperience' => "{$settings->stat_years_experience}+",
             ],
         ]);
     }

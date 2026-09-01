@@ -23,6 +23,11 @@ class AboutController extends Controller
             'teamMembers' => TeamMember::query()->orderBy('sort_order')->get(),
             'certifications' => Certification::query()->orderBy('sort_order')->get(),
             'settings' => $settings,
+            'stats' => [
+                'projectsCompleted' => "{$settings->stat_projects_completed}+",
+                'employees' => "{$settings->stat_employees}+",
+                'provinces' => (string) $settings->stat_provinces,
+            ],
         ]);
     }
 }

@@ -52,9 +52,12 @@ const props = defineProps<{
     }[];
     settings: {
         established_year: number;
-        stat_projects_completed: string;
-        stat_employees: string;
-        stat_provinces: string;
+        whatsapp_number: string;
+    };
+    stats: {
+        projectsCompleted: string;
+        employees: string;
+        provinces: string;
     };
 }>();
 
@@ -100,11 +103,11 @@ const directors = computed(() =>
                     label="Berdiri"
                 />
                 <GasStatBox
-                    :num="settings.stat_projects_completed"
+                    :num="stats.projectsCompleted"
                     label="Proyek"
                 />
-                <GasStatBox :num="settings.stat_employees" label="Karyawan" />
-                <GasStatBox :num="settings.stat_provinces" label="Provinsi" />
+                <GasStatBox :num="stats.employees" label="Karyawan" />
+                <GasStatBox :num="stats.provinces" label="Provinsi" />
             </template>
         </GasHeroStrip>
 
@@ -476,6 +479,7 @@ const directors = computed(() =>
                 @click="
                     openWhatsApp(
                         'Halo, saya ingin bertanya tentang peluang kemitraan / karier di Nusantara Gas Energy.',
+                        settings.whatsapp_number,
                     )
                 "
                 >Chat WA</GasBtnWa

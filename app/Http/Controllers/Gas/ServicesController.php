@@ -18,8 +18,8 @@ class ServicesController extends Controller
             'services' => Service::query()->orderBy('sort_order')->get(),
             'stats' => [
                 'serviceCount' => Service::query()->count(),
-                'pipelineKm' => $settings->stat_pipeline_km,
-                'projectsCompleted' => $settings->stat_projects_completed,
+                'pipelineKm' => "{$settings->stat_pipeline_km} km",
+                'projectsCompleted' => "{$settings->stat_projects_completed}+",
             ],
         ]);
     }

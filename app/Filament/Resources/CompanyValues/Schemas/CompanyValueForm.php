@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CompanyValues\Schemas;
 
+use App\Support\HexColor;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -30,10 +31,12 @@ class CompanyValueForm
                             ->columnSpanFull(),
                         ColorPicker::make('accent')
                             ->label('Accent Color')
+                            ->regex(HexColor::REGEX)
                             ->required(),
                         TextInput::make('sort_order')
                             ->label('Display Order')
-                            ->numeric()
+                            ->integer()
+                            ->minValue(0)
                             ->default(0),
                     ]),
             ]);

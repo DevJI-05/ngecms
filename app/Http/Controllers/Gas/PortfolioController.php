@@ -17,10 +17,10 @@ class PortfolioController extends Controller
         return Inertia::render('gas/Portfolio', [
             'projects' => PortfolioProject::query()->orderBy('sort_order')->get(),
             'stats' => [
-                'totalProjects' => $settings->stat_projects_completed,
-                'pipelineKm' => $settings->stat_pipeline_km,
-                'activeClients' => $settings->stat_active_clients,
-                'provinces' => $settings->stat_provinces,
+                'totalProjects' => "{$settings->stat_projects_completed}+",
+                'pipelineKm' => "{$settings->stat_pipeline_km} km",
+                'activeClients' => (string) $settings->stat_active_clients,
+                'provinces' => (string) $settings->stat_provinces,
             ],
         ]);
     }

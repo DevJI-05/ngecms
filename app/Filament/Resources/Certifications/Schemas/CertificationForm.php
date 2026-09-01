@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Certifications\Schemas;
 
+use App\Support\HexColor;
 use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Placeholder;
@@ -35,7 +36,8 @@ class CertificationForm
                             ->required(),
                         TextInput::make('sort_order')
                             ->label('Display Order')
-                            ->numeric()
+                            ->integer()
+                            ->minValue(0)
                             ->default(0),
                     ]),
 
@@ -49,8 +51,8 @@ class CertificationForm
                             ->native(false)
                             ->live()
                             ->required(),
-                        ColorPicker::make('icon_bg')->label('Icon Background')->required(),
-                        ColorPicker::make('icon_color')->label('Icon Color')->required(),
+                        ColorPicker::make('icon_bg')->label('Icon Background')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('icon_color')->label('Icon Color')->regex(HexColor::REGEX)->required(),
                         Placeholder::make('icon_preview')
                             ->label('Preview')
                             ->content(fn (Get $get): HtmlString => new HtmlString(

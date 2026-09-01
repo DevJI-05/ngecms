@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PortfolioProjects\Schemas;
 
+use App\Support\HexColor;
 use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Placeholder;
@@ -78,9 +79,9 @@ class PortfolioProjectForm
                 Section::make('Appearance')
                     ->columns(3)
                     ->components([
-                        ColorPicker::make('color')->label('Primary Color')->required(),
-                        ColorPicker::make('bg_light')->label('Background Color')->required(),
-                        ColorPicker::make('accent_text')->label('Accent Text Color')->required(),
+                        ColorPicker::make('color')->label('Primary Color')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('bg_light')->label('Background Color')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('accent_text')->label('Accent Text Color')->regex(HexColor::REGEX)->required(),
                     ]),
 
                 Section::make('Specifications & Stats')
@@ -121,7 +122,8 @@ class PortfolioProjectForm
 
                 TextInput::make('sort_order')
                     ->label('Display Order')
-                    ->numeric()
+                    ->integer()
+                    ->minValue(0)
                     ->default(0),
             ]);
     }

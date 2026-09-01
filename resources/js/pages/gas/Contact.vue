@@ -17,6 +17,7 @@ const props = defineProps<{
         hours_saturday: string;
         hours_sunday: string;
         emergency_phone: string;
+        whatsapp_number: string;
         pic1_name: string;
         pic1_role: string;
         pic1_phone: string;
@@ -55,6 +56,7 @@ function submitInquiry() {
 function chatWhatsApp() {
     openWhatsApp(
         'Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales',
+        props.settings.whatsapp_number,
     );
 }
 

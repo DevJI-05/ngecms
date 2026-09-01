@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import GasBtnPrimary from '@/components/gas/GasBtnPrimary.vue';
 import GasBtnWa from '@/components/gas/GasBtnWa.vue';
@@ -30,6 +30,8 @@ const filters = [
 ];
 const activeFilter = ref('all');
 
+const page = usePage<{ siteSettings: { whatsapp_number: string } }>();
+
 const visibleServices = computed(() =>
     props.services.filter(
         (s) => activeFilter.value === 'all' || s.cat === activeFilter.value,
@@ -37,7 +39,7 @@ const visibleServices = computed(() =>
 );
 
 function inquiryAbout(prompt: string) {
-    openWhatsApp(prompt);
+    openWhatsApp(prompt, page.props.siteSettings.whatsapp_number);
 }
 </script>
 
@@ -275,6 +277,7 @@ function inquiryAbout(prompt: string) {
                 @click="
                     openWhatsApp(
                         'Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales',
+                        page.props.siteSettings.whatsapp_number,
                     )
                 "
                 >Chat WA</GasBtnWa
@@ -284,6 +287,7 @@ function inquiryAbout(prompt: string) {
                 @click="
                     openWhatsApp(
                         'Buatkan form inquiry proyek gas pipeline dan CNG',
+                        page.props.siteSettings.whatsapp_number,
                     )
                 "
                 >Minta Penawaran</GasBtnPrimary

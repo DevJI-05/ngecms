@@ -39,7 +39,8 @@ class MilestoneForm
                             ->required(),
                         TextInput::make('sort_order')
                             ->label('Display Order')
-                            ->numeric()
+                            ->integer()
+                            ->minValue(0)
                             ->default(0),
                     ]),
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Services\Schemas;
 
+use App\Support\HexColor;
 use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Placeholder;
@@ -71,11 +72,11 @@ class ServiceForm
                 Section::make('Appearance')
                     ->columns(3)
                     ->components([
-                        ColorPicker::make('icon_bg')->label('Icon Background')->required(),
-                        ColorPicker::make('icon_color')->label('Icon Color')->required(),
-                        ColorPicker::make('accent')->label('Accent Color')->required(),
-                        ColorPicker::make('badge_bg')->label('Badge Background')->required(),
-                        ColorPicker::make('badge_color')->label('Badge Text Color')->required(),
+                        ColorPicker::make('icon_bg')->label('Icon Background')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('icon_color')->label('Icon Color')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('accent')->label('Accent Color')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('badge_bg')->label('Badge Background')->regex(HexColor::REGEX)->required(),
+                        ColorPicker::make('badge_color')->label('Badge Text Color')->regex(HexColor::REGEX)->required(),
                     ]),
 
                 Section::make('Badges')
@@ -108,7 +109,8 @@ class ServiceForm
 
                 TextInput::make('sort_order')
                     ->label('Display Order')
-                    ->numeric()
+                    ->integer()
+                    ->minValue(0)
                     ->default(0),
             ]);
     }

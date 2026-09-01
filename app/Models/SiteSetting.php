@@ -35,6 +35,15 @@ class SiteSetting extends Model
         'established_year',
     ];
 
+    protected $casts = [
+        'stat_projects_completed' => 'integer',
+        'stat_pipeline_km' => 'integer',
+        'stat_years_experience' => 'integer',
+        'stat_provinces' => 'integer',
+        'stat_employees' => 'integer',
+        'stat_active_clients' => 'integer',
+    ];
+
     public static function current(): self
     {
         return static::query()->firstOrCreate(['id' => 1], [
@@ -57,12 +66,12 @@ class SiteSetting extends Model
             'pic2_role' => 'Engineering Consultant',
             'pic2_phone' => '+62 821 1234 5678',
             'map_query' => 'TB Simatupang Jakarta Selatan',
-            'stat_projects_completed' => '200+',
-            'stat_pipeline_km' => '500 km',
-            'stat_years_experience' => '15+',
-            'stat_provinces' => '15',
-            'stat_employees' => '350+',
-            'stat_active_clients' => '32',
+            'stat_projects_completed' => 200,
+            'stat_pipeline_km' => 500,
+            'stat_years_experience' => 15,
+            'stat_provinces' => 15,
+            'stat_employees' => 350,
+            'stat_active_clients' => 32,
             'established_year' => 2008,
         ]);
     }

@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import { about, contact, home, portfolio, services } from '@/routes';
 
 defineProps<{
     active: 'home' | 'services' | 'portfolio' | 'about' | 'contact' | 'inquiry';
     variant?: 'hero' | 'topbar';
 }>();
+
+const page = usePage<{
+    siteSettings: { company_name: string; tagline: string };
+}>();
+const companyName = computed(() =>
+    page.props.siteSettings.company_name.toUpperCase(),
+);
+const tagline = computed(() => page.props.siteSettings.tagline);
 
 const mobileOpen = ref(false);
 </script>
@@ -25,12 +33,12 @@ const mobileOpen = ref(false);
                 ></i>
             </div>
             <div v-if="variant === 'topbar'">
-                <div class="logo-name">NUSANTARA GAS ENERGY</div>
-                <div class="logo-sub">Natural Gas Solutions</div>
+                <div class="logo-name">{{ companyName }}</div>
+                <div class="logo-sub">{{ tagline }}</div>
             </div>
             <div v-else class="logo-text">
-                NUSANTARA GAS ENERGY
-                <span class="logo-sub">Natural Gas Solutions</span>
+                {{ companyName }}
+                <span class="logo-sub">{{ tagline }}</span>
             </div>
         </div>
 
