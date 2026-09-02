@@ -2,17 +2,16 @@
 
 namespace App\Filament\Resources\PortfolioProjects\Schemas;
 
+use App\Filament\Forms\Components\IconPicker;
 use App\Support\HexColor;
 use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Illuminate\Support\HtmlString;
+use Illuminate\Validation\Rule;
 
 class PortfolioProjectForm
 {
@@ -64,18 +63,11 @@ class PortfolioProjectForm
                         TextInput::make('client')
                             ->label('Client')
                             ->required(),
-                        Select::make('icon')
+                        IconPicker::make('icon')
                             ->label('Icon')
                             ->options(ServiceIconOptions::options())
-                            ->searchable()
-                            ->native(false)
-                            ->live()
-                            ->required(),
-                        Placeholder::make('icon_preview')
-                            ->label('Preview')
-                            ->content(fn (Get $get): HtmlString => new HtmlString(
-                                '<i class="ti '.e($get('icon')).'" style="font-size: 22px;"></i>',
-                            )),
+                            ->required()
+                            ->rule(Rule::in(array_keys(ServiceIconOptions::options()))),
                     ]),
 
                 Section::make('Appearance')

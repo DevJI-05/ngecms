@@ -4,7 +4,9 @@ defineProps<{ icon: string; name: string; desc: string; accent: string }>();
 
 <template>
     <div class="nilai-card" :style="{ borderTopColor: accent }">
-        <div class="nilai-icon">{{ icon }}</div>
+        <div class="nilai-icon">
+            <i class="ti" :class="icon" aria-hidden="true"></i>
+        </div>
         <div class="nilai-name">{{ name }}</div>
         <div class="nilai-desc">{{ desc }}</div>
     </div>
@@ -19,6 +21,8 @@ defineProps<{ icon: string; name: string; desc: string; accent: string }>();
     border-top: 3px solid transparent;
 }
 .nilai-icon {
+    display: flex;
+    align-items: center;
     font-size: 22px;
     margin-bottom: 8px;
 }

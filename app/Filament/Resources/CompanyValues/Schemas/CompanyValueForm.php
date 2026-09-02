@@ -2,12 +2,15 @@
 
 namespace App\Filament\Resources\CompanyValues\Schemas;
 
+use App\Filament\Forms\Components\IconPicker;
+use App\Support\CompanyValueIcons;
 use App\Support\HexColor;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Validation\Rule;
 
 class CompanyValueForm
 {
@@ -18,10 +21,11 @@ class CompanyValueForm
                 Section::make('Value Details')
                     ->columns(2)
                     ->components([
-                        TextInput::make('icon')
-                            ->label('Icon (emoji)')
-                            ->helperText('Example: 🛡️, ⚙️, 🤝')
-                            ->required(),
+                        IconPicker::make('icon')
+                            ->label('Icon')
+                            ->options(CompanyValueIcons::options())
+                            ->required()
+                            ->rule(Rule::in(array_keys(CompanyValueIcons::options()))),
                         TextInput::make('name')
                             ->label('Value Name')
                             ->required(),

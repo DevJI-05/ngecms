@@ -2,16 +2,14 @@
 
 namespace App\Filament\Resources\Certifications\Schemas;
 
+use App\Filament\Forms\Components\IconPicker;
 use App\Support\HexColor;
 use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Illuminate\Support\HtmlString;
+use Illuminate\Validation\Rule;
 
 class CertificationForm
 {
@@ -44,20 +42,13 @@ class CertificationForm
                 Section::make('Icon Appearance')
                     ->columns(3)
                     ->components([
-                        Select::make('icon')
+                        IconPicker::make('icon')
                             ->label('Icon')
                             ->options(ServiceIconOptions::options())
-                            ->searchable()
-                            ->native(false)
-                            ->live()
-                            ->required(),
+                            ->required()
+                            ->rule(Rule::in(array_keys(ServiceIconOptions::options()))),
                         ColorPicker::make('icon_bg')->label('Icon Background')->regex(HexColor::REGEX)->required(),
                         ColorPicker::make('icon_color')->label('Icon Color')->regex(HexColor::REGEX)->required(),
-                        Placeholder::make('icon_preview')
-                            ->label('Preview')
-                            ->content(fn (Get $get): HtmlString => new HtmlString(
-                                '<i class="ti '.e($get('icon')).'" style="font-size: 22px;"></i>',
-                            )),
                     ]),
             ]);
     }

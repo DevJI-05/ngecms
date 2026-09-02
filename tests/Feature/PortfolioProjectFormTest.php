@@ -75,3 +75,33 @@ test('portfolio project scale rejects decimal values', function () {
         ->call('create')
         ->assertHasFormErrors(['scale']);
 });
+
+test('portfolio project display order rejects decimal values', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $this->actingAs($admin);
+
+    Livewire::test(CreatePortfolioProject::class)
+        ->fillForm(validPortfolioProjectData(['sort_order' => '2.5']))
+        ->call('create')
+        ->assertHasFormErrors(['sort_order']);
+});
+
+test('portfolio project display order rejects negative values', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $this->actingAs($admin);
+
+    Livewire::test(CreatePortfolioProject::class)
+        ->fillForm(validPortfolioProjectData(['sort_order' => '-1']))
+        ->call('create')
+        ->assertHasFormErrors(['sort_order']);
+});
+
+test('portfolio project creation rejects an icon that is not in the curated picker list', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $this->actingAs($admin);
+
+    Livewire::test(CreatePortfolioProject::class)
+        ->fillForm(validPortfolioProjectData(['icon' => 'test']))
+        ->call('create')
+        ->assertHasFormErrors(['icon']);
+});

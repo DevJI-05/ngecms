@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 
 class CompanyValuesTable
 {
@@ -20,7 +21,9 @@ class CompanyValuesTable
             ->columns([
                 TextColumn::make('icon')
                     ->label('Icon')
-                    ->size('lg'),
+                    ->formatStateUsing(fn (?string $state): HtmlString => new HtmlString(
+                        '<i class="ti '.e($state).'" style="font-size: 20px;"></i>',
+                    )),
                 TextColumn::make('name')
                     ->label('Value Name')
                     ->weight('semibold')
