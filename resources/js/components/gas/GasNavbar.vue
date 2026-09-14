@@ -1,10 +1,24 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
-import { about, contact, home, portfolio, services } from '@/routes';
+import {
+    about,
+    certifications,
+    contact,
+    home,
+    portfolio,
+    services,
+} from '@/routes';
 
 defineProps<{
-    active: 'home' | 'services' | 'portfolio' | 'about' | 'contact' | 'inquiry';
+    active:
+        | 'home'
+        | 'services'
+        | 'portfolio'
+        | 'about'
+        | 'certifications'
+        | 'contact'
+        | 'inquiry';
     variant?: 'hero' | 'topbar';
 }>();
 
@@ -80,8 +94,8 @@ const mobileOpen = ref(false);
             >
             <Link
                 v-if="variant === 'hero'"
-                :href="about()"
-                :class="{ active: active === 'about' }"
+                :href="certifications()"
+                :class="{ active: active === 'certifications' }"
                 @click="mobileOpen = false"
                 >Sertifikasi</Link
             >

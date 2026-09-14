@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { computed, reactive, ref } from 'vue';
+import GasBtnOutline from '@/components/gas/GasBtnOutline.vue';
+import GasBtnWa from '@/components/gas/GasBtnWa.vue';
 import GasFooter from '@/components/gas/GasFooter.vue';
+import GasHero from '@/components/gas/GasHero.vue';
 import GasNavbar from '@/components/gas/GasNavbar.vue';
 import { openWhatsApp } from '@/lib/whatsapp';
 
@@ -116,18 +119,23 @@ function openWA() {
     <Head title="Template Pesan WhatsApp — Nusantara Gas Energy" />
 
     <div class="nge pg">
-        <GasNavbar active="inquiry" variant="topbar" />
-
-        <div class="hero-strip">
-            <div class="breadcrumb">
-                Beranda &rsaquo; <span>Template Inquiry WhatsApp</span>
-            </div>
-            <div class="page-title">Template Pesan WhatsApp</div>
-            <div class="page-sub">
-                Isi data proyek Anda dan salin pesan siap kirim ke tim sales
-                kami
-            </div>
-        </div>
+        <GasHero
+            badge="Template Inquiry"
+            description="Isi data proyek Anda dan salin pesan siap kirim ke tim sales kami"
+        >
+            <template #navbar>
+                <GasNavbar active="inquiry" variant="hero" />
+            </template>
+            <template #title>
+                Kirim Pesan<br /><span>Lewat WhatsApp</span>
+            </template>
+            <template #buttons>
+                <GasBtnWa @click="openWA">Buka WhatsApp</GasBtnWa>
+                <GasBtnOutline icon="ti-copy" @click="copyText"
+                    >Salin Pesan</GasBtnOutline
+                >
+            </template>
+        </GasHero>
 
         <div class="wrap">
             <div class="tab-row">
@@ -423,36 +431,6 @@ function openWA() {
     color: var(--color-text-primary);
     background: var(--color-background-tertiary);
 }
-.hero-strip {
-    background: #0c447c;
-    padding: 28px 28px 24px;
-    border-bottom: 3px solid #ef9f27;
-}
-.breadcrumb {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-.breadcrumb span {
-    color: rgba(255, 255, 255, 0.8);
-}
-.page-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
-    color: #fff;
-    letter-spacing: -0.3px;
-    line-height: 1;
-}
-.page-sub {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.65);
-    margin-top: 6px;
-    font-weight: 300;
-}
-
 .wrap {
     padding: 24px 28px;
 }
@@ -633,12 +611,6 @@ function openWA() {
 }
 
 @media (max-width: 640px) {
-    .hero-strip {
-        padding: 22px 20px 18px;
-    }
-    .page-title {
-        font-size: 28px;
-    }
     .wrap {
         padding: 20px;
     }

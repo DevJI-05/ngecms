@@ -2,7 +2,10 @@
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { store } from '@/actions/App/Http/Controllers/Gas/ContactController';
+import GasBtnOutline from '@/components/gas/GasBtnOutline.vue';
+import GasBtnWa from '@/components/gas/GasBtnWa.vue';
 import GasFooter from '@/components/gas/GasFooter.vue';
+import GasHero from '@/components/gas/GasHero.vue';
 import GasNavbar from '@/components/gas/GasNavbar.vue';
 import { openWhatsApp } from '@/lib/whatsapp';
 
@@ -60,6 +63,10 @@ function chatWhatsApp() {
     );
 }
 
+function callPhone() {
+    window.location.href = `tel:${props.settings.phone}`;
+}
+
 function openMap() {
     const query = encodeURIComponent(
         props.settings.map_query ?? props.settings.address,
@@ -76,17 +83,23 @@ function openMap() {
     <Head title="Hubungi Kami — Nusantara Gas Energy" />
 
     <div class="nge pg">
-        <GasNavbar active="contact" variant="topbar" />
-
-        <div class="hero-strip">
-            <div class="breadcrumb">
-                Beranda &rsaquo; <span>Hubungi Kami</span>
-            </div>
-            <div class="page-title">Hubungi Kami</div>
-            <div class="page-sub">
-                Tim kami siap merespons inquiry Anda dalam 1&times;24 jam kerja
-            </div>
-        </div>
+        <GasHero
+            badge="Hubungi Kami"
+            description="Tim kami siap merespons inquiry Anda dalam 1×24 jam kerja"
+        >
+            <template #navbar>
+                <GasNavbar active="contact" variant="hero" />
+            </template>
+            <template #title>
+                Mari Diskusikan<br /><span>Proyek Gas Anda</span>
+            </template>
+            <template #buttons>
+                <GasBtnWa @click="chatWhatsApp">Chat WhatsApp</GasBtnWa>
+                <GasBtnOutline icon="ti-phone" @click="callPhone"
+                    >Telepon</GasBtnOutline
+                >
+            </template>
+        </GasHero>
 
         <div class="body-wrap">
             <div class="form-panel">
@@ -434,36 +447,6 @@ function openMap() {
     background: var(--color-background-tertiary);
 }
 
-.hero-strip {
-    background: #0c447c;
-    padding: 28px 28px 24px;
-    border-bottom: 3px solid #ef9f27;
-}
-.breadcrumb {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-.breadcrumb span {
-    color: rgba(255, 255, 255, 0.8);
-}
-.page-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
-    color: #fff;
-    letter-spacing: -0.3px;
-    line-height: 1;
-}
-.page-sub {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.65);
-    margin-top: 5px;
-    font-weight: 300;
-}
-
 .body-wrap {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
@@ -757,12 +740,6 @@ function openMap() {
 }
 
 @media (max-width: 640px) {
-    .hero-strip {
-        padding: 22px 20px 18px;
-    }
-    .page-title {
-        font-size: 28px;
-    }
     .form-panel,
     .info-panel {
         padding: 20px;

@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
+import GasBtnOutline from '@/components/gas/GasBtnOutline.vue';
 import GasBtnPrimary from '@/components/gas/GasBtnPrimary.vue';
 import GasBtnWa from '@/components/gas/GasBtnWa.vue';
-import GasCertCard from '@/components/gas/GasCertCard.vue';
 import GasCtaStrip from '@/components/gas/GasCtaStrip.vue';
 import GasFooter from '@/components/gas/GasFooter.vue';
-import GasHeroStrip from '@/components/gas/GasHeroStrip.vue';
+import GasHero from '@/components/gas/GasHero.vue';
 import GasNavbar from '@/components/gas/GasNavbar.vue';
 import GasStatBox from '@/components/gas/GasStatBox.vue';
 import GasTimelineItem from '@/components/gas/GasTimelineItem.vue';
 import GasValueCard from '@/components/gas/GasValueCard.vue';
 import { openWhatsApp } from '@/lib/whatsapp';
-import { contact } from '@/routes';
+import { certifications, contact } from '@/routes';
 
 interface TeamMember {
     id: number;
@@ -42,14 +42,6 @@ const props = defineProps<{
         description: string;
     }[];
     teamMembers: TeamMember[];
-    certifications: {
-        icon: string;
-        icon_bg: string;
-        icon_color: string;
-        name: string;
-        issuer: string;
-        valid_text: string;
-    }[];
     settings: {
         established_year: number;
         whatsapp_number: string;
@@ -65,7 +57,6 @@ const tabs = [
     { id: 'profil', label: 'Profil Perusahaan' },
     { id: 'timeline', label: 'Sejarah & Pencapaian' },
     { id: 'org', label: 'Struktur Organisasi' },
-    { id: 'cert', label: 'Sertifikasi & Izin' },
 ];
 const activeTab = ref('profil');
 
@@ -89,27 +80,38 @@ const directors = computed(() =>
     <Head title="Tentang Kami — Nusantara Gas Energy" />
 
     <div class="nge pg">
-        <GasNavbar active="about" variant="topbar" />
-
-        <GasHeroStrip
-            crumb="Tentang Kami"
-            title="Tentang Kami"
-            subtitle="Lebih dari 15 tahun membangun infrastruktur gas bumi Indonesia — dari Jawa, Sumatera, hingga Kalimantan. Bersertifikat, berpengalaman, dan berkomitmen pada keselamatan."
-            subtitle-width="440px"
+        <GasHero
+            badge="Tentang Kami"
+            description="Lebih dari 15 tahun membangun infrastruktur gas bumi Indonesia — dari Jawa, Sumatera, hingga Kalimantan. Bersertifikat, berpengalaman, dan berkomitmen pada keselamatan."
         >
+            <template #navbar>
+                <GasNavbar active="about" variant="hero" />
+            </template>
+            <template #title>
+                Membangun Infrastruktur<br /><span>Gas Bumi Indonesia</span>
+            </template>
+            <template #buttons>
+                <GasBtnPrimary
+                    icon="ti-certificate"
+                    text-color="#042C53"
+                    @click="router.visit(certifications())"
+                >
+                    Lihat Sertifikasi
+                </GasBtnPrimary>
+                <GasBtnOutline icon="ti-sitemap" @click="activeTab = 'org'">
+                    Struktur Organisasi
+                </GasBtnOutline>
+            </template>
             <template #stats>
                 <GasStatBox
                     :num="String(settings.established_year)"
                     label="Berdiri"
                 />
-                <GasStatBox
-                    :num="stats.projectsCompleted"
-                    label="Proyek"
-                />
+                <GasStatBox :num="stats.projectsCompleted" label="Proyek" />
                 <GasStatBox :num="stats.employees" label="Karyawan" />
                 <GasStatBox :num="stats.provinces" label="Provinsi" />
             </template>
-        </GasHeroStrip>
+        </GasHero>
 
         <div class="tab-nav">
             <button
@@ -455,22 +457,6 @@ const directors = computed(() =>
             </div>
         </div>
 
-        <!-- SERTIFIKASI -->
-        <div v-show="activeTab === 'cert'" class="section">
-            <div class="cert-grid">
-                <GasCertCard
-                    v-for="c in certifications"
-                    :key="c.name"
-                    :icon="c.icon"
-                    :icon-bg="c.icon_bg"
-                    :icon-color="c.icon_color"
-                    :name="c.name"
-                    :issuer="c.issuer"
-                    :valid="c.valid_text"
-                />
-            </div>
-        </div>
-
         <GasCtaStrip
             text="Ingin bergabung atau bermitra dengan kami?"
             sub="Tersedia posisi engineer & konsultasi kemitraan terbuka"
@@ -692,13 +678,6 @@ const directors = computed(() =>
     margin: 0 auto;
 }
 
-/* SERTIFIKASI */
-.cert-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-}
-
 .org-directors-row {
     display: flex;
     gap: 14px;
@@ -722,9 +701,6 @@ const directors = computed(() =>
     }
     .tab-nav {
         padding: 0 20px;
-    }
-    .cert-grid {
-        grid-template-columns: 1fr;
     }
     .timeline-wrap {
         padding-left: 24px;

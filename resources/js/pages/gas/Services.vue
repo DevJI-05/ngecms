@@ -5,6 +5,7 @@ import GasBtnPrimary from '@/components/gas/GasBtnPrimary.vue';
 import GasBtnWa from '@/components/gas/GasBtnWa.vue';
 import GasCtaStrip from '@/components/gas/GasCtaStrip.vue';
 import GasFooter from '@/components/gas/GasFooter.vue';
+import GasHero from '@/components/gas/GasHero.vue';
 import GasNavbar from '@/components/gas/GasNavbar.vue';
 import GasServiceDetailCard from '@/components/gas/GasServiceDetailCard.vue';
 import type { ServiceDetail } from '@/components/gas/GasServiceDetailCard.vue';
@@ -47,40 +48,56 @@ function inquiryAbout(prompt: string) {
     <Head title="Layanan Kami — Nusantara Gas Energy" />
 
     <div class="nge pg">
-        <GasNavbar active="services" variant="topbar" />
-
-        <div class="hero-strip">
-            <div class="hero-inner">
-                <div class="hero-left">
-                    <div class="breadcrumb">
-                        Beranda &rsaquo; <span>Layanan</span>
-                    </div>
-                    <div class="page-title">Layanan Kami</div>
-                    <div class="page-sub">
-                        Solusi gas bumi terpadu dari perencanaan, konstruksi,
-                        hingga operasional dan pemeliharaan — bersertifikat
-                        MIGAS dan berpengalaman lebih dari 15 tahun.
-                    </div>
-                </div>
-                <div class="stat-row">
-                    <GasStatBox
-                        size="lg"
-                        :num="String(stats.serviceCount)"
-                        label="Jenis Layanan"
-                    />
-                    <GasStatBox
-                        size="lg"
-                        :num="stats.pipelineKm"
-                        label="Pipeline"
-                    />
-                    <GasStatBox
-                        size="lg"
-                        :num="stats.projectsCompleted"
-                        label="Proyek"
-                    />
-                </div>
-            </div>
-        </div>
+        <GasHero
+            badge="Layanan Utama"
+            description="Solusi gas bumi terpadu dari perencanaan, konstruksi, hingga operasional dan pemeliharaan — bersertifikat MIGAS dan berpengalaman lebih dari 15 tahun."
+        >
+            <template #navbar>
+                <GasNavbar active="services" variant="hero" />
+            </template>
+            <template #title>
+                Solusi Gas Bumi<br /><span>Terpadu &amp; Andal</span>
+            </template>
+            <template #buttons>
+                <GasBtnWa
+                    @click="
+                        openWhatsApp(
+                            'Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales',
+                            page.props.siteSettings.whatsapp_number,
+                        )
+                    "
+                    >Chat WA</GasBtnWa
+                >
+                <GasBtnPrimary
+                    icon="ti-file-description"
+                    text-color="#042C53"
+                    @click="
+                        openWhatsApp(
+                            'Buatkan form inquiry proyek gas pipeline dan CNG',
+                            page.props.siteSettings.whatsapp_number,
+                        )
+                    "
+                    >Minta Penawaran</GasBtnPrimary
+                >
+            </template>
+            <template #stats>
+                <GasStatBox
+                    size="lg"
+                    :num="String(stats.serviceCount)"
+                    label="Jenis Layanan"
+                />
+                <GasStatBox
+                    size="lg"
+                    :num="stats.pipelineKm"
+                    label="Pipeline"
+                />
+                <GasStatBox
+                    size="lg"
+                    :num="stats.projectsCompleted"
+                    label="Proyek"
+                />
+            </template>
+        </GasHero>
 
         <div class="filter-bar">
             <button
@@ -305,51 +322,6 @@ function inquiryAbout(prompt: string) {
     background: var(--color-background-tertiary);
 }
 
-.hero-strip {
-    background: #0c447c;
-    padding: 28px 28px 0;
-    border-bottom: 3px solid #ef9f27;
-}
-.breadcrumb {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-.breadcrumb span {
-    color: rgba(255, 255, 255, 0.8);
-}
-.hero-inner {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 20px;
-}
-.hero-left {
-    padding-bottom: 28px;
-}
-.page-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
-    color: #fff;
-    letter-spacing: -0.3px;
-    line-height: 1;
-}
-.page-sub {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.65);
-    margin-top: 6px;
-    font-weight: 300;
-    max-width: 420px;
-    line-height: 1.55;
-}
-.stat-row {
-    display: flex;
-    gap: 0;
-}
-
 .filter-bar {
     background: var(--color-background-primary);
     padding: 0 28px;
@@ -468,27 +440,6 @@ function inquiryAbout(prompt: string) {
 }
 
 @media (max-width: 640px) {
-    .hero-strip {
-        padding: 22px 20px 0;
-    }
-    .hero-inner {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-    }
-    .hero-left {
-        padding-bottom: 20px;
-    }
-    .page-title {
-        font-size: 28px;
-    }
-    .stat-row {
-        flex-wrap: wrap;
-    }
-    .stat-row :deep(.stat-box) {
-        flex: 1;
-        min-width: 100px;
-    }
     .filter-bar {
         padding: 0 20px;
     }

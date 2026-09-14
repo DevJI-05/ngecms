@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Gas;
 
 use App\Http\Controllers\Controller;
-use App\Models\Certification;
 use App\Models\CompanyValue;
 use App\Models\Milestone;
 use App\Models\SiteSetting;
@@ -21,7 +20,6 @@ class AboutController extends Controller
             'values' => CompanyValue::query()->orderBy('sort_order')->get(),
             'timeline' => Milestone::query()->orderBy('year')->get(),
             'teamMembers' => TeamMember::query()->orderBy('sort_order')->get(),
-            'certifications' => Certification::query()->orderBy('sort_order')->get(),
             'settings' => $settings,
             'stats' => [
                 'projectsCompleted' => "{$settings->stat_projects_completed}+",

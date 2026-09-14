@@ -5,7 +5,7 @@ import GasBtnOutline from '@/components/gas/GasBtnOutline.vue';
 import GasBtnPrimary from '@/components/gas/GasBtnPrimary.vue';
 import GasCtaStrip from '@/components/gas/GasCtaStrip.vue';
 import GasFooter from '@/components/gas/GasFooter.vue';
-import GasHeroStrip from '@/components/gas/GasHeroStrip.vue';
+import GasHero from '@/components/gas/GasHero.vue';
 import GasNavbar from '@/components/gas/GasNavbar.vue';
 import GasPortfolioCard from '@/components/gas/GasPortfolioCard.vue';
 import type { PortfolioProject } from '@/components/gas/GasPortfolioCard.vue';
@@ -79,20 +79,40 @@ function inquiryFromDetail() {
     <Head title="Portofolio Proyek — Nusantara Gas Energy" />
 
     <div class="nge pg">
-        <GasNavbar active="portfolio" variant="topbar" />
-
-        <GasHeroStrip
-            crumb="Portofolio Proyek"
-            title="Portofolio Proyek"
-            subtitle="Rekam jejak lebih dari 200 proyek gas bumi yang telah diselesaikan di seluruh Indonesia sejak 2008."
+        <GasHero
+            badge="Portofolio Proyek"
+            description="Rekam jejak lebih dari 200 proyek gas bumi yang telah diselesaikan di seluruh Indonesia sejak 2008."
         >
+            <template #navbar>
+                <GasNavbar active="portfolio" variant="hero" />
+            </template>
+            <template #title>
+                Rekam Jejak<br /><span>200+ Proyek Gas Bumi</span>
+            </template>
+            <template #buttons>
+                <GasBtnPrimary
+                    icon="ti-file-description"
+                    text-color="#042C53"
+                    @click="
+                        openWhatsApp(
+                            'Buatkan template pesan WhatsApp untuk inquiry proyek gas pipeline dan CNG ke tim sales',
+                            page.props.siteSettings.whatsapp_number,
+                        )
+                    "
+                >
+                    Konsultasi Proyek
+                </GasBtnPrimary>
+                <GasBtnOutline @click="router.visit(contact())"
+                    >Hubungi Kami</GasBtnOutline
+                >
+            </template>
             <template #stats>
                 <GasStatBox :num="stats.totalProjects" label="Total Proyek" />
                 <GasStatBox :num="stats.pipelineKm" label="Pipeline" />
                 <GasStatBox :num="stats.activeClients" label="Klien Aktif" />
                 <GasStatBox :num="stats.provinces" label="Provinsi" />
             </template>
-        </GasHeroStrip>
+        </GasHero>
 
         <div class="toolbar">
             <div class="filter-row">
