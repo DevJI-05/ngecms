@@ -1,86 +1,22 @@
-# Laporan Pengerjaan Website Nusantara Gas Energy
+# Laporan Pengerjaan — Website Nusantara Gas Energy
 
 **Klien:** PT. Nusantara Gas Energy
-**Jenis Pekerjaan:** Pembuatan Website Company Profile + Sistem Admin (CMS)
-**Durasi Pengerjaan:** 2 hari
-**Status:** ✅ Selesai 100%
+**Status:** ✅ Selesai, dalam tahap pemeliharaan/perbaikan lanjutan
 
----
+## Progress
 
-## Ringkasan Singkat
+- [x] **2026-08-19** — Setup awal proyek: struktur website, seed akun admin default
+- [x] **2026-08-21** — Pasang favicon & logo, perbaikan tahun di footer (2026)
+- [x] **2026-08-24** — Perbaikan footer, perbaikan password admin
+- [x] **2026-08-26** — Perbaikan username akun admin
+- [x] **2026-08-27** — Fitur ganti password di panel admin, penerjemahan ke Inggris, perapian tampilan admin
+- [x] **2026-09-01** — Perkuat validasi form (warna hex, telepon, email, angka) di seluruh form admin
+- [x] **2026-09-02** — Tambah fitur pemilih ikon (icon picker); perbaikan bug struktur organisasi (mencegah hierarki berputar/circular)
+- [x] **2026-09-14** — Pisahkan halaman Sertifikasi dari halaman Tentang Kami; aktifkan form "New Inquiry" manual di panel admin
+- [x] **2026-09-16** — Verifikasi laporan bug validasi desimal pada field Scale & Display Order (Portofolio Proyek): sudah tertutup di kode, dites ulang lulus 10/10; ditemukan penyebab tampilan Navbar tidak konsisten di halaman internal adalah build frontend yang belum di-rebuild setelah perbaikan terakhir (bukan bug kode)
 
-Website company profile dibangun dari desain awal menjadi website yang benar-benar bisa dipakai — lengkap dengan sistem admin supaya tim internal bisa update isi website sendiri (foto proyek, layanan, data tim, dll) **tanpa perlu bantuan programmer lagi**. Semua halaman juga sudah rapi dibuka dari HP, tablet, maupun laptop.
+## Belum dikerjakan / potensi lanjutan
 
----
-
-## Timeline Pengerjaan
-
-### 🗓️ Hari ke-1 — Pembangunan Website & Tampilan
-
-**1. Analisis desain & struktur halaman**
-Meninjau 6 desain halaman yang sudah ada (Beranda, Tentang Kami, Layanan, Portofolio, Kontak, Template WhatsApp) untuk dipetakan menjadi struktur website yang rapi dan mudah dikembangkan ke depannya.
-
-**2. Membangun 6 halaman utama website**
-Setiap halaman disusun ulang jadi komponen-komponen kecil yang bisa dipakai berulang (contoh: kartu layanan, kartu proyek, tombol, navigasi) — supaya ke depannya kalau ada perubahan tampilan, cukup diubah di satu tempat saja dan otomatis berlaku ke semua halaman.
-
-**3. Pasang alamat halaman (routing)**
-Setiap halaman diberi alamat sendiri yang rapi: `/`, `/about`, `/contact`, `/portofolio`, `/services`, `/inquiry` — supaya bisa dibagikan dan diakses langsung.
-
-**4. Penyesuaian font, ikon, dan warna**
-Memastikan semua font, ikon, dan warna tampil identik dengan desain awal di semua browser.
-
-**5. Uji coba tampilan & perbaikan teknis**
-Melakukan pengecekan menyeluruh saat website diakses lewat berbagai metode (localhost, domain lokal, tunneling publik), sekaligus menyelesaikan beberapa kendala teknis koneksi yang muncul di tengah proses testing.
-
-**6. Membuat tampilan responsive (mobile-friendly)**
-Seluruh halaman dirapikan ulang supaya nyaman dilihat di HP, tablet, maupun laptop — termasuk menu navigasi yang otomatis berubah jadi menu geser (hamburger menu) di layar kecil, dan semua kotak/gambar/tombol menyesuaikan ukuran layar secara otomatis.
-
----
-
-### 🗓️ Hari ke-2 — Sistem Admin (CMS) & Database
-
-**7. Instalasi sistem admin (Filament)**
-Memasang panel admin di alamat `/admin` lengkap dengan halaman login khusus untuk pemilik website.
-
-**8. Pembuatan akun superadmin**
-Membuat 1 akun khusus pemilik website yang punya akses penuh untuk mengelola seluruh isi website.
-
-**9. Membangun 8 modul pengelolaan data**, masing-masing dengan fitur tambah / ubah / hapus data:
-   - Data Portofolio Proyek (12 proyek)
-   - Data Layanan Perusahaan (5 layanan)
-   - Data Pesan Masuk dari Pengunjung (Inquiry / calon klien)
-   - Data Sejarah & Pencapaian Perusahaan (9 milestone)
-   - Data Sertifikasi & Izin Usaha (6 sertifikat)
-   - Data Struktur Organisasi & Tim (11 posisi, lengkap dengan hierarki jabatan)
-   - Data Nilai-Nilai Perusahaan (6 nilai)
-   - Pengaturan Umum Website (alamat, telepon, jam operasional, kontak PIC, angka statistik)
-
-**10. Migrasi seluruh isi website ke database**
-Semua teks, angka, dan data yang sebelumnya "tertanam" langsung di kode website dipindahkan ke database — artinya sekarang bisa diubah kapan saja lewat halaman admin, tanpa perlu edit kode sama sekali.
-
-**11. Menghubungkan halaman ke sistem admin**
-Semua 6 halaman website disambungkan ke database, jadi begitu ada perubahan data di admin panel, otomatis langsung tampil di website.
-
-**12. Mengaktifkan form kontak yang sesungguhnya**
-Form "Hubungi Kami" yang tadinya cuma simulasi, sekarang benar-benar menyimpan data pengunjung ke database dan bisa dipantau/ditindaklanjuti lewat admin panel (status: Baru → Dihubungi → Selesai).
-
-**13. Pengecekan kualitas & pengujian akhir**
-Menjalankan serangkaian pengecekan otomatis (format kode, validasi tipe data, build produksi) untuk memastikan seluruh sistem berjalan tanpa error sebelum dinyatakan selesai.
-
----
-
-## Hasil Akhir
-
-✅ Website company profile lengkap 6 halaman, sudah online dan siap diakses
-✅ Tampilan rapi & nyaman dibuka dari perangkat apa saja (HP/tablet/laptop)
-✅ Sistem admin (CMS) untuk kelola semua konten sendiri tanpa perlu programmer
-✅ Form kontak yang benar-benar menyimpan data calon klien
-✅ 8 modul data yang bisa diatur bebas lewat panel admin
-✅ Semua sudah melalui pengujian teknis sebelum serah terima
-
----
-
-## Catatan untuk Langkah Berikutnya
-
-- Ganti password akun admin default sebelum website dipakai publik secara resmi.
-- Tim internal bisa mulai belajar pakai panel admin di `/admin` untuk update konten kapan saja.
+- [ ] Ganti password default superadmin sebelum dipakai publik secara resmi
+- [ ] Samakan sumber nomor WhatsApp di semua halaman (masih ada yang hardcoded, belum semua pakai Site Settings)
+- [ ] Tambah test otomatis untuk beberapa bagian yang belum tercover
