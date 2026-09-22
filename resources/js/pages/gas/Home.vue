@@ -157,8 +157,10 @@ const serviceCards = computed(() =>
                 <GasBtnOutline icon="ti-phone" @click="router.visit(contact())"
                     >Telepon</GasBtnOutline
                 >
-                <GasBtnPrimary icon="ti-mail" @click="router.visit(inquiry())"
-                    >Kirim Inquiry</GasBtnPrimary
+                <GasBtnPrimary
+                    icon="ti-brand-whatsapp"
+                    @click="router.visit(inquiry())"
+                    >Chat WhatsApp</GasBtnPrimary
                 >
             </div>
         </div>

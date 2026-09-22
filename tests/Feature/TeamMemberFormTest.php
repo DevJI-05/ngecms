@@ -68,3 +68,42 @@ test('team member hierarchy rejects a circular reference', function () {
         ->call('save')
         ->assertHasFormErrors(['parent_id']);
 });
+
+test('team member cannot report to a peer at the same level', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $this->actingAs($admin);
+
+    $peer = TeamMember::factory()->create(['level' => 'manajer']);
+    $member = TeamMember::factory()->create(['level' => 'manajer']);
+
+    Livewire::test(EditTeamMember::class, ['record' => $member->getRouteKey()])
+        ->fillForm(['parent_id' => $peer->id])
+        ->call('save')
+        ->assertHasFormErrors(['parent_id']);
+});
+
+test('team member cannot report to someone at a lower level', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $this->actingAs($admin);
+
+    $subordinate = TeamMember::factory()->create(['level' => 'staff']);
+    $member = TeamMember::factory()->create(['level' => 'manajer']);
+
+    Livewire::test(EditTeamMember::class, ['record' => $member->getRouteKey()])
+        ->fillForm(['parent_id' => $subordinate->id])
+        ->call('save')
+        ->assertHasFormErrors(['parent_id']);
+});
+
+test('team member can report to someone at a higher level', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $this->actingAs($admin);
+
+    $director = TeamMember::factory()->create(['level' => 'direksi']);
+    $member = TeamMember::factory()->create(['level' => 'manajer']);
+
+    Livewire::test(EditTeamMember::class, ['record' => $member->getRouteKey()])
+        ->fillForm(['parent_id' => $director->id])
+        ->call('save')
+        ->assertHasNoFormErrors();
+});

@@ -4,11 +4,13 @@ namespace App\Filament\Resources\TeamMembers\Schemas;
 
 use App\Models\TeamMember;
 use App\Rules\NotCircularTeamHierarchy;
+use App\Rules\ReportsToHigherLevel;
 use App\Support\HexColor;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -49,7 +51,10 @@ class TeamMemberForm
                             ->searchable()
                             ->preload()
                             ->native(false)
-                            ->rules(fn (?TeamMember $record) => [new NotCircularTeamHierarchy($record?->id)]),
+                            ->rules(fn (Get $get, ?TeamMember $record) => [
+                                new NotCircularTeamHierarchy($record?->id),
+                                new ReportsToHigherLevel($get('level')),
+                            ]),
                         TextInput::make('initials')
                             ->label('Avatar Initials')
                             ->maxLength(3)
