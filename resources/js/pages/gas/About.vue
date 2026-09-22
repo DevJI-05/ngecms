@@ -74,6 +74,27 @@ const directors = computed(() =>
             depts: props.teamMembers.filter((m) => m.parent_id === director.id),
         })),
 );
+
+// Matches .org-card.tier-mid / .tier-dept widths and .org-row--dept gap in
+// the <style> block below. Every director column shares this width so the
+// row stays symmetric and the connecting "bus" line centers correctly,
+// even when one director has more department cards nested under them than
+// another.
+const MID_CARD_WIDTH = 172;
+const DEPT_CARD_WIDTH = 150;
+const DEPT_ROW_GAP = 12;
+
+const directorsColWidth = computed(() =>
+    Math.max(
+        MID_CARD_WIDTH,
+        ...directors.value.map((d) =>
+            d.depts.length
+                ? d.depts.length * DEPT_CARD_WIDTH +
+                  (d.depts.length - 1) * DEPT_ROW_GAP
+                : 0,
+        ),
+    ),
+);
 </script>
 
 <template>
@@ -359,12 +380,9 @@ const directors = computed(() =>
         <!-- STRUKTUR ORG -->
         <div v-show="activeTab === 'org'" class="section">
             <div class="org-wrap">
-                <div
-                    v-if="komisaris"
-                    style="text-align: center; margin-bottom: 4px"
-                >
+                <div v-if="komisaris" class="org-branch">
                     <div class="org-group-label">Dewan Komisaris</div>
-                    <div class="org-card top" style="margin: 0 auto">
+                    <div class="org-card tier-top">
                         <div
                             class="org-avatar"
                             :style="{
@@ -378,13 +396,10 @@ const directors = computed(() =>
                         <div class="org-role">{{ komisaris.role }}</div>
                     </div>
                 </div>
-                <div v-if="komisaris && direksiUtama" class="org-line-v"></div>
-                <div
-                    v-if="direksiUtama"
-                    style="text-align: center; margin-bottom: 4px"
-                >
+                <div v-if="komisaris && direksiUtama" class="org-stem"></div>
+                <div v-if="direksiUtama" class="org-branch">
                     <div class="org-group-label">Direksi</div>
-                    <div class="org-card top" style="margin: 0 auto">
+                    <div class="org-card tier-top">
                         <div
                             class="org-avatar"
                             :style="{
@@ -398,18 +413,19 @@ const directors = computed(() =>
                         <div class="org-role">{{ direksiUtama.role }}</div>
                     </div>
                 </div>
-                <div v-if="direksiUtama" class="org-line-v"></div>
-                <div class="org-directors-row">
-                    <div
-                        v-for="d in directors"
-                        :key="d.id"
-                        style="
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                        "
-                    >
-                        <div class="org-card mid">
+                <div v-if="direksiUtama && directors.length" class="org-stem"></div>
+
+                <div
+                    class="org-row org-row--mid"
+                    :class="{ 'has-bus': directors.length > 1 }"
+                    :style="{ '--tier-w': directorsColWidth + 'px' }"
+                >
+                    <div v-for="d in directors" :key="d.id" class="org-node">
+                        <div class="org-drop"></div>
+                        <div
+                            class="org-card tier-mid"
+                            :style="{ borderTopColor: d.avatar_color }"
+                        >
                             <div
                                 class="org-avatar"
                                 :style="{
@@ -422,36 +438,42 @@ const directors = computed(() =>
                             <div class="org-name">{{ d.name }}</div>
                             <div class="org-role">{{ d.role }}</div>
                         </div>
-                        <div v-if="d.depts.length" class="org-line-v"></div>
-                        <div style="display: flex; gap: 10px">
+
+                        <template v-if="d.depts.length">
+                            <div class="org-stem org-stem-sm"></div>
                             <div
-                                v-for="dept in d.depts"
-                                :key="dept.id"
-                                class="org-card dir"
-                                :style="{
-                                    minWidth: '120px',
-                                    maxWidth: '130px',
-                                    borderTopColor: dept.avatar_color,
-                                }"
+                                class="org-row org-row--dept"
+                                :class="{ 'has-bus': d.depts.length > 1 }"
                             >
                                 <div
-                                    class="org-avatar"
-                                    :style="{
-                                        width: '30px',
-                                        height: '30px',
-                                        fontSize: '11px',
-                                        background: dept.avatar_bg,
-                                        color: dept.avatar_color,
-                                    }"
+                                    v-for="dept in d.depts"
+                                    :key="dept.id"
+                                    class="org-node"
                                 >
-                                    {{ dept.initials }}
+                                    <div class="org-drop org-drop-sm"></div>
+                                    <div
+                                        class="org-card tier-dept"
+                                        :style="{ borderTopColor: dept.avatar_color }"
+                                    >
+                                        <div
+                                            class="org-avatar org-avatar-sm"
+                                            :style="{
+                                                background: dept.avatar_bg,
+                                                color: dept.avatar_color,
+                                            }"
+                                        >
+                                            {{ dept.initials }}
+                                        </div>
+                                        <div class="org-name">
+                                            {{ dept.name }}
+                                        </div>
+                                        <div class="org-role">
+                                            {{ dept.role }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="org-name" style="font-size: 11.5px">
-                                    {{ dept.name }}
-                                </div>
-                                <div class="org-role">{{ dept.role }}</div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -627,43 +649,89 @@ const directors = computed(() =>
     flex-direction: column;
     align-items: center;
     gap: 0;
+    padding: 40px 24px;
+    border-radius: var(--border-radius-lg);
+    background:
+        radial-gradient(
+            circle at 1px 1px,
+            var(--color-border-tertiary) 1px,
+            transparent 0
+        )
+        0 0 / 22px 22px,
+        var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
 }
+
+.org-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .org-card {
+    position: relative;
     background: var(--color-background-primary);
     border: 0.5px solid var(--color-border-tertiary);
     border-radius: var(--border-radius-lg);
-    padding: 12px 16px;
+    padding: 14px 12px;
     text-align: center;
-    min-width: 140px;
-    max-width: 160px;
+    box-shadow: 0 1px 2px rgba(16, 35, 58, 0.06);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
-.org-card.top {
+.org-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(16, 35, 58, 0.12);
+}
+
+.org-card.tier-top {
+    width: 200px;
     border-top: 3px solid #185fa5;
-    min-width: 180px;
+    padding: 18px 14px;
 }
-.org-card.mid {
+.org-card.tier-mid {
+    width: 172px;
     border-top: 3px solid #ef9f27;
 }
-.org-card.dir {
+.org-card.tier-dept {
+    width: 150px;
     border-top: 3px solid #3b6d11;
+    padding: 12px 10px;
 }
+
 .org-avatar {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 15px;
     margin: 0 auto 8px;
+    box-shadow: 0 0 0 3px var(--color-background-primary);
 }
+.tier-mid .org-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+}
+.org-avatar-sm {
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+}
+
 .org-name {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 13px;
     color: var(--color-text-primary);
-    line-height: 1.2;
+    line-height: 1.25;
+}
+.tier-dept .org-name {
+    font-size: 11.5px;
 }
 .org-role {
     font-size: 10.5px;
@@ -671,19 +739,84 @@ const directors = computed(() =>
     margin-top: 3px;
     line-height: 1.3;
 }
-.org-line-v {
-    width: 2px;
-    height: 18px;
-    background: var(--color-border-secondary);
-    margin: 0 auto;
+
+.org-group-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-bottom: 8px;
 }
 
-.org-directors-row {
+/* connector lines */
+.org-stem {
+    width: 2px;
+    height: 24px;
+    background: var(--color-border-secondary);
+    margin: 0 auto;
+    position: relative;
+}
+.org-stem::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-border-secondary);
+    transform: translate(-50%, 50%);
+}
+.org-stem-sm {
+    height: 20px;
+}
+
+.org-row {
+    position: relative;
     display: flex;
-    gap: 14px;
-    justify-content: center;
-    margin-bottom: 4px;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px 24px;
+    row-gap: 32px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+}
+.org-row.has-bus::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(var(--tier-w) / 2);
+    right: calc(var(--tier-w) / 2);
+    height: 2px;
+    background: var(--color-border-secondary);
+}
+.org-row--mid {
+    /* overridden per-instance via inline style to the widest department
+       branch, so every director column is the same width and the
+       has-bus line centers correctly regardless of how many department
+       cards are nested under any single director */
+    --tier-w: 172px;
+}
+.org-row--dept {
+    --tier-w: 150px;
+    gap: 12px;
+}
+
+.org-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--tier-w);
+}
+.org-drop {
+    width: 2px;
+    height: 20px;
+    background: var(--color-border-secondary);
+}
+.org-drop-sm {
+    height: 16px;
 }
 
 @media (max-width: 900px) {
@@ -714,12 +847,26 @@ const directors = computed(() =>
     .prose-title {
         font-size: 19px;
     }
-    .org-card {
-        min-width: 120px;
-        max-width: 140px;
+    .org-wrap {
+        padding: 28px 12px;
     }
-    .org-card.top {
-        min-width: 150px;
+    .org-card.tier-top {
+        width: 170px;
+    }
+    .org-card.tier-mid {
+        width: 150px;
+    }
+    .org-card.tier-dept {
+        width: 128px;
+    }
+    .org-row--dept {
+        --tier-w: 128px;
+    }
+    .org-row {
+        row-gap: 24px;
+    }
+    .org-row.has-bus::before {
+        display: none;
     }
 }
 </style>
