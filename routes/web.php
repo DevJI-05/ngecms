@@ -18,9 +18,3 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::get('/portofolio', PortfolioController::class)->name('portfolio');
 Route::get('/services', ServicesController::class)->name('services');
 Route::get('/inquiry', InquiryController::class)->name('inquiry');
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
-});
-
-require __DIR__.'/settings.php';

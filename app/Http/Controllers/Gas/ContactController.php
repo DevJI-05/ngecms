@@ -28,6 +28,11 @@ class ContactController extends Controller
             'ref' => 'NGE-'.$inquiry->created_at->format('Y').'-'.str_pad((string) $inquiry->id, 4, '0', STR_PAD_LEFT),
         ]);
 
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => 'Inquiry berhasil dikirim. Tim kami akan segera menghubungi Anda.',
+        ]);
+
         return back();
     }
 }

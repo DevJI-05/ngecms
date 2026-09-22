@@ -7,6 +7,7 @@ import GasBtnWa from '@/components/gas/GasBtnWa.vue';
 import GasFooter from '@/components/gas/GasFooter.vue';
 import GasHero from '@/components/gas/GasHero.vue';
 import GasNavbar from '@/components/gas/GasNavbar.vue';
+import InputError from '@/components/InputError.vue';
 import { openWhatsApp } from '@/lib/whatsapp';
 
 const props = defineProps<{
@@ -122,7 +123,9 @@ function openMap() {
                             v-model="form.nama"
                             type="text"
                             placeholder="Budi Santoso"
+                            :class="{ 'has-error': form.errors.nama }"
                         />
+                        <InputError :message="form.errors.nama" />
                     </div>
                     <div class="field">
                         <label>Jabatan</label>
@@ -130,7 +133,9 @@ function openMap() {
                             v-model="form.jabatan"
                             type="text"
                             placeholder="Project Manager"
+                            :class="{ 'has-error': form.errors.jabatan }"
                         />
+                        <InputError :message="form.errors.jabatan" />
                     </div>
                 </div>
 
@@ -143,15 +148,23 @@ function openMap() {
                             v-model="form.email"
                             type="email"
                             placeholder="email@perusahaan.com"
+                            :class="{ 'has-error': form.errors.email }"
                         />
+                        <InputError :message="form.errors.email" />
                     </div>
                     <div class="field">
-                        <label>No. Telepon / WhatsApp</label>
+                        <label
+                            >No. Telepon / WhatsApp
+                            <span class="req-badge">Wajib</span></label
+                        >
                         <input
                             v-model="form.telepon"
                             type="tel"
                             placeholder="+62 812 xxxx xxxx"
+                            maxlength="14"
+                            :class="{ 'has-error': form.errors.telepon }"
                         />
+                        <InputError :message="form.errors.telepon" />
                     </div>
                 </div>
 
@@ -161,7 +174,9 @@ function openMap() {
                         v-model="form.perusahaan"
                         type="text"
                         placeholder="PT. Contoh Industri"
+                        :class="{ 'has-error': form.errors.perusahaan }"
                     />
+                    <InputError :message="form.errors.perusahaan" />
                 </div>
 
                 <div class="field-row">
@@ -170,7 +185,10 @@ function openMap() {
                             >Jenis Layanan
                             <span class="req-badge">Wajib</span></label
                         >
-                        <select v-model="form.layanan">
+                        <select
+                            v-model="form.layanan"
+                            :class="{ 'has-error': form.errors.layanan }"
+                        >
                             <option value="">-- Pilih layanan --</option>
                             <option>Gas Pipeline Construction</option>
                             <option>CNG Station &amp; Distribution</option>
@@ -179,6 +197,7 @@ function openMap() {
                             <option>Emergency Response</option>
                             <option>Lainnya</option>
                         </select>
+                        <InputError :message="form.errors.layanan" />
                     </div>
                     <div class="field">
                         <label>Estimasi Nilai Proyek</label>
@@ -190,6 +209,7 @@ function openMap() {
                             <option>Rp 20 – 100 Miliar</option>
                             <option>&gt; Rp 100 Miliar</option>
                         </select>
+                        <InputError :message="form.errors.estimasi" />
                     </div>
                 </div>
 
@@ -199,7 +219,9 @@ function openMap() {
                         v-model="form.lokasi"
                         type="text"
                         placeholder="Contoh: Kawasan Industri Karawang, Jawa Barat"
+                        :class="{ 'has-error': form.errors.lokasi }"
                     />
+                    <InputError :message="form.errors.lokasi" />
                 </div>
 
                 <div class="field">
@@ -210,7 +232,9 @@ function openMap() {
                     <textarea
                         v-model="form.pesan"
                         placeholder="Jelaskan kebutuhan proyek Anda — panjang pipa, tekanan gas, kapasitas CNG, timeline, atau pertanyaan teknis lainnya..."
+                        :class="{ 'has-error': form.errors.pesan }"
                     ></textarea>
+                    <InputError :message="form.errors.pesan" />
                 </div>
 
                 <div class="field">
@@ -224,6 +248,27 @@ function openMap() {
                         <option>Rekanan / Mitra Bisnis</option>
                         <option>Lainnya</option>
                     </select>
+                    <InputError :message="form.errors.sumber" />
+                </div>
+
+                <div class="error-box" :class="{ show: form.hasErrors }">
+                    <i
+                        class="ti ti-alert-circle"
+                        style="
+                            color: #b3261e;
+                            font-size: 22px;
+                            flex-shrink: 0;
+                            margin-top: 1px;
+                        "
+                        aria-hidden="true"
+                    ></i>
+                    <div>
+                        <div class="error-title">Inquiry gagal dikirim</div>
+                        <div class="error-desc">
+                            Periksa kembali field yang bertanda merah di
+                            bawah, lalu kirim ulang form.
+                        </div>
+                    </div>
                 </div>
 
                 <div class="submit-row">
@@ -513,6 +558,19 @@ function openMap() {
     resize: vertical;
     min-height: 90px;
 }
+.field :deep(p) {
+    margin-top: 5px;
+}
+.field input.has-error,
+.field select.has-error,
+.field textarea.has-error {
+    border-color: #b3261e;
+}
+.field input.has-error:focus,
+.field select.has-error:focus,
+.field textarea.has-error:focus {
+    box-shadow: 0 0 0 2px rgba(179, 38, 30, 0.15);
+}
 
 .req-badge {
     display: inline-block;
@@ -595,6 +653,31 @@ function openMap() {
 .success-desc {
     font-size: 12.5px;
     color: #3b6d11;
+    line-height: 1.5;
+}
+
+.error-box {
+    display: none;
+    background: #fbeae8;
+    border: 0.5px solid #e2a19b;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 14px;
+    align-items: flex-start;
+    gap: 12px;
+}
+.error-box.show {
+    display: flex;
+}
+.error-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: #7a1f18;
+    margin-bottom: 3px;
+}
+.error-desc {
+    font-size: 12.5px;
+    color: #b3261e;
     line-height: 1.5;
 }
 
