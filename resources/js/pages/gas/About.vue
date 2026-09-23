@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import GasBtnOutline from '@/components/gas/GasBtnOutline.vue';
 import GasBtnPrimary from '@/components/gas/GasBtnPrimary.vue';
 import GasBtnWa from '@/components/gas/GasBtnWa.vue';
@@ -95,6 +95,176 @@ const directorsColWidth = computed(() =>
         ),
     ),
 );
+
+// The org chart is wider than a mobile screen and keeps its full desktop
+// size — instead of shrinking cards or wrapping the directors row into a
+// misleading chain, it lives on a pannable/pinch-zoomable canvas on mobile
+// so people can drag and pinch to explore it, same as a map. Desktop
+// already fits it comfortably, so it stays a plain, centered, static
+// layout there — no drag/zoom behavior needed or wanted.
+const ORG_ZOOM_MIN = 0.5;
+const ORG_ZOOM_MAX = 2.5;
+const ORG_MOBILE_QUERY = '(max-width: 768px)';
+
+const isMobileView = ref(false);
+let orgMql: MediaQueryList | undefined;
+function updateIsMobileView() {
+    isMobileView.value = orgMql?.matches ?? false;
+}
+
+const orgCanvasEl = ref<HTMLElement | null>(null);
+const orgContentEl = ref<HTMLElement | null>(null);
+const orgZoom = ref(1);
+const orgPan = ref({ x: 0, y: 0 });
+const orgDefaultPan = ref({ x: 0, y: 0 });
+const orgIsDirty = computed(
+    () =>
+        orgZoom.value !== 1 ||
+        orgPan.value.x !== orgDefaultPan.value.x ||
+        orgPan.value.y !== orgDefaultPan.value.y,
+);
+
+// Komisaris Utama and Direktur Utama sit at the horizontal center of the
+// chart (the directors row below them is what makes the chart wider than
+// the canvas). So the default view always centers the chart — never
+// flush-left — otherwise the first thing people see on mobile is whichever
+// director happens to be on the left edge instead of the top of the
+// hierarchy.
+function computeDefaultPan() {
+    const canvas = orgCanvasEl.value;
+    const content = orgContentEl.value;
+
+    if (!isMobileView.value || !canvas || !content) {
+        return { x: 0, y: 0 };
+    }
+
+    const canvasWidth = canvas.clientWidth;
+    const contentWidth = content.scrollWidth;
+
+    return {
+        x: (canvasWidth - contentWidth) / 2,
+        y: 0,
+    };
+}
+
+const orgAnimating = ref(false);
+function resetOrgView() {
+    orgAnimating.value = true;
+    orgZoom.value = 1;
+    orgDefaultPan.value = computeDefaultPan();
+    orgPan.value = { ...orgDefaultPan.value };
+    setTimeout(() => {
+        orgAnimating.value = false;
+    }, 220);
+}
+
+function clampZoom(z: number) {
+    return Math.min(ORG_ZOOM_MAX, Math.max(ORG_ZOOM_MIN, z));
+}
+
+function touchDistance(a: Touch, b: Touch) {
+    return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+}
+
+type OrgTouchState =
+    | { mode: 'pan'; startX: number; startY: number; startPan: { x: number; y: number } }
+    | {
+          mode: 'pinch';
+          startDist: number;
+          startZoom: number;
+          startPan: { x: number; y: number };
+      };
+
+let orgTouchState: OrgTouchState | null = null;
+
+function onOrgTouchStart(e: TouchEvent) {
+    if (!isMobileView.value) {
+        return;
+    }
+
+    if (e.touches.length === 1) {
+        orgTouchState = {
+            mode: 'pan',
+            startX: e.touches[0].clientX,
+            startY: e.touches[0].clientY,
+            startPan: { ...orgPan.value },
+        };
+    } else if (e.touches.length === 2) {
+        orgTouchState = {
+            mode: 'pinch',
+            startDist: touchDistance(e.touches[0], e.touches[1]),
+            startZoom: orgZoom.value,
+            startPan: { ...orgPan.value },
+        };
+    }
+}
+
+function onOrgTouchMove(e: TouchEvent) {
+    if (!orgTouchState) {
+        return;
+    }
+
+    e.preventDefault();
+
+    if (orgTouchState.mode === 'pan' && e.touches.length === 1) {
+        const dx = e.touches[0].clientX - orgTouchState.startX;
+        const dy = e.touches[0].clientY - orgTouchState.startY;
+        orgPan.value = {
+            x: orgTouchState.startPan.x + dx,
+            y: orgTouchState.startPan.y + dy,
+        };
+    } else if (orgTouchState.mode === 'pinch' && e.touches.length === 2) {
+        const dist = touchDistance(e.touches[0], e.touches[1]);
+        orgZoom.value = clampZoom(
+            orgTouchState.startZoom * (dist / orgTouchState.startDist),
+        );
+    }
+}
+
+function onOrgTouchEnd(e: TouchEvent) {
+    if (e.touches.length === 1) {
+        orgTouchState = {
+            mode: 'pan',
+            startX: e.touches[0].clientX,
+            startY: e.touches[0].clientY,
+            startPan: { ...orgPan.value },
+        };
+    } else {
+        orgTouchState = null;
+    }
+}
+
+let orgResizeTimeout: ReturnType<typeof setTimeout> | undefined;
+function onOrgWindowResize() {
+    if (activeTab.value !== 'org') {
+        return;
+    }
+
+    clearTimeout(orgResizeTimeout);
+    orgResizeTimeout = setTimeout(resetOrgView, 150);
+}
+
+onMounted(() => {
+    orgMql = window.matchMedia(ORG_MOBILE_QUERY);
+    updateIsMobileView();
+    orgMql.addEventListener('change', updateIsMobileView);
+    window.addEventListener('resize', onOrgWindowResize);
+});
+onUnmounted(() => {
+    orgMql?.removeEventListener('change', updateIsMobileView);
+    window.removeEventListener('resize', onOrgWindowResize);
+    clearTimeout(orgResizeTimeout);
+});
+watch(activeTab, (tab) => {
+    if (tab === 'org') {
+        nextTick(resetOrgView);
+    }
+});
+watch(isMobileView, () => {
+    if (activeTab.value === 'org') {
+        nextTick(resetOrgView);
+    }
+});
 </script>
 
 <template>
@@ -379,7 +549,40 @@ const directorsColWidth = computed(() =>
 
         <!-- STRUKTUR ORG -->
         <div v-show="activeTab === 'org'" class="section">
-            <div class="org-wrap">
+            <div
+                class="org-canvas"
+                :class="{ 'is-interactive': isMobileView }"
+                ref="orgCanvasEl"
+                @touchstart="onOrgTouchStart"
+                @touchmove="onOrgTouchMove"
+                @touchend="onOrgTouchEnd"
+                @touchcancel="onOrgTouchEnd"
+            >
+                <button
+                    v-if="isMobileView && orgIsDirty"
+                    type="button"
+                    class="org-reset-btn"
+                    @click="resetOrgView"
+                >
+                    <i class="ti ti-refresh-alert" aria-hidden="true"></i>
+                    Reset
+                </button>
+                <div v-if="isMobileView" class="org-hint">
+                    <i class="ti ti-arrows-move" aria-hidden="true"></i>
+                    Geser & cubit untuk zoom
+                </div>
+                <div
+                    class="org-wrap"
+                    :class="{ 'org-anim': orgAnimating }"
+                    ref="orgContentEl"
+                    :style="
+                        isMobileView
+                            ? {
+                                  transform: `translate(${orgPan.x}px, ${orgPan.y}px) scale(${orgZoom})`,
+                              }
+                            : {}
+                    "
+                >
                 <div v-if="komisaris" class="org-branch">
                     <div class="org-group-label">Dewan Komisaris</div>
                     <div class="org-card tier-top">
@@ -475,6 +678,7 @@ const directorsColWidth = computed(() =>
                             </div>
                         </template>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -644,13 +848,69 @@ const directorsColWidth = computed(() =>
 }
 
 /* STRUKTUR ORGANISASI */
+.org-canvas {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    border-radius: var(--border-radius-lg);
+    border: 0.5px solid var(--color-border-tertiary);
+}
+/* Drag/pinch-zoom is a mobile-only affordance — desktop already fits the
+   whole chart, so it stays a plain, static, centered layout. */
+.org-canvas.is-interactive {
+    display: block;
+    overflow: hidden;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+}
+.org-canvas.is-interactive:active {
+    cursor: grabbing;
+}
+
+.org-reset-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(16, 35, 58, 0.15);
+    cursor: pointer;
+}
+
+.org-hint {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    font-size: 10.5px;
+    color: var(--color-text-tertiary);
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 999px;
+    opacity: 0.85;
+    pointer-events: none;
+}
+
 .org-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0;
     padding: 40px 24px;
-    border-radius: var(--border-radius-lg);
     background:
         radial-gradient(
             circle at 1px 1px,
@@ -659,7 +919,12 @@ const directorsColWidth = computed(() =>
         )
         0 0 / 22px 22px,
         var(--color-background-secondary);
-    border: 0.5px solid var(--color-border-tertiary);
+    transform-origin: center top;
+    width: max-content;
+    max-width: none;
+}
+.org-wrap.org-anim {
+    transition: transform 0.2s ease;
 }
 
 .org-branch {
@@ -798,6 +1063,11 @@ const directorsColWidth = computed(() =>
        has-bus line centers correctly regardless of how many department
        cards are nested under any single director */
     --tier-w: 172px;
+    /* Cards always stay full size and never wrap into a stacked chain —
+       the canvas (see .org-canvas) is what handles small screens, via
+       pan and pinch-zoom instead of shrinking or reflowing anything. */
+    flex-wrap: nowrap;
+    max-width: none;
 }
 .org-row--dept {
     --tier-w: 150px;
@@ -846,27 +1116,6 @@ const directorsColWidth = computed(() =>
     }
     .prose-title {
         font-size: 19px;
-    }
-    .org-wrap {
-        padding: 28px 12px;
-    }
-    .org-card.tier-top {
-        width: 170px;
-    }
-    .org-card.tier-mid {
-        width: 150px;
-    }
-    .org-card.tier-dept {
-        width: 128px;
-    }
-    .org-row--dept {
-        --tier-w: 128px;
-    }
-    .org-row {
-        row-gap: 24px;
-    }
-    .org-row.has-bus::before {
-        display: none;
     }
 }
 </style>
