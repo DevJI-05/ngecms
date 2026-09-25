@@ -37,14 +37,7 @@ const mobileOpen = ref(false);
     <nav :class="variant === 'topbar' ? 'topbar' : 'navbar'">
         <div :class="variant === 'topbar' ? 'logo-row' : 'logo'">
             <div :class="variant === 'topbar' ? 'logo-box' : 'logo-icon'">
-                <i
-                    class="ti ti-flame"
-                    style="color: #042c53"
-                    :style="{
-                        fontSize: variant === 'topbar' ? '18px' : '20px',
-                    }"
-                    aria-hidden="true"
-                ></i>
+                <img src="/favicon-512.png" alt="" class="logo-img" aria-hidden="true" />
             </div>
             <div v-if="variant === 'topbar'">
                 <div class="logo-name">{{ companyName }}</div>
@@ -138,8 +131,6 @@ const mobileOpen = ref(false);
 .logo-box {
     width: 32px;
     height: 32px;
-    background: #ef9f27;
-    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -191,12 +182,15 @@ const mobileOpen = ref(false);
 .logo-icon {
     width: 36px;
     height: 36px;
-    background: #ef9f27;
-    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+}
+.logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 .logo-text {
     font-family: 'Barlow Condensed', sans-serif;
