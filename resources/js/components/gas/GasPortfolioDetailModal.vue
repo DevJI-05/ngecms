@@ -24,6 +24,12 @@ defineEmits<{ close: []; inquiry: [] }>();
                     &#x2715;
                 </button>
             </div>
+            <img
+                v-if="project.image_url"
+                :src="project.image_url"
+                :alt="project.name"
+                class="detail-image"
+            />
             <div class="detail-body">
                 <div class="det-stat-row">
                     <div
@@ -117,6 +123,12 @@ defineEmits<{ close: []; inquiry: [] }>();
     font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
     margin-top: 4px;
+}
+.detail-image {
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    display: block;
 }
 .close-btn {
     background: rgba(255, 255, 255, 0.12);

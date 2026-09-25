@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class PortfolioProject extends Model
 {
@@ -16,6 +17,7 @@ class PortfolioProject extends Model
         'specs',
         'status',
         'icon',
+        'image',
         'color',
         'bg_light',
         'accent_text',
@@ -24,6 +26,10 @@ class PortfolioProject extends Model
         'scope',
         'highlights',
         'sort_order',
+    ];
+
+    protected $appends = [
+        'image_url',
     ];
 
     protected function casts(): array
@@ -35,5 +41,10 @@ class PortfolioProject extends Model
             'scope' => 'array',
             'highlights' => 'array',
         ];
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        return $this->image ? Storage::disk('public')->url($this->image) : null;
     }
 }

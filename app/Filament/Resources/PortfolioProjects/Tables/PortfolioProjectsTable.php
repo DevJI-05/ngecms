@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ColorColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -20,6 +21,10 @@ class PortfolioProjectsTable
             ->reorderable('sort_order')
             ->striped()
             ->columns([
+                ImageColumn::make('image')
+                    ->label('Image')
+                    ->disk('public')
+                    ->square(),
                 TextColumn::make('name')
                     ->label('Project Name')
                     ->weight('semibold')

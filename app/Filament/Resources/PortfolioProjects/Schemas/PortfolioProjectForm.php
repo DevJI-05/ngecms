@@ -6,6 +6,7 @@ use App\Filament\Forms\Components\IconPicker;
 use App\Support\HexColor;
 use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -68,6 +69,15 @@ class PortfolioProjectForm
                             ->options(ServiceIconOptions::options())
                             ->required()
                             ->rule(Rule::in(array_keys(ServiceIconOptions::options()))),
+                        FileUpload::make('image')
+                            ->label('Project Image')
+                            ->helperText('Optional. Shown on the project card and detail view instead of the icon overlay.')
+                            ->image()
+                            ->disk('public')
+                            ->directory('portfolio-projects')
+                            ->visibility('public')
+                            ->imageEditor()
+                            ->columnSpanFull(),
                     ]),
 
                 Section::make('Appearance')

@@ -10,6 +10,7 @@ export interface PortfolioProject {
     specs: string[];
     status: 'done' | 'ongoing';
     icon: string;
+    image_url: string | null;
     color: string;
     bg_light: string;
     accent_text: string;
@@ -34,7 +35,13 @@ const catLabel = catLabels[props.project.cat];
 <template>
     <div class="pcard" @click="$emit('open', project.id)">
         <div class="pcard-img" :style="{ background: project.bg_light }">
-            <div class="pcard-img-inner">
+            <img
+                v-if="project.image_url"
+                :src="project.image_url"
+                :alt="project.name"
+                class="pcard-img-photo"
+            />
+            <div v-else class="pcard-img-inner">
                 <i
                     class="ti"
                     :class="project.icon"
@@ -124,6 +131,11 @@ const catLabel = catLabels[props.project.cat];
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.pcard-img-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .pcard-cat-badge {
     position: absolute;

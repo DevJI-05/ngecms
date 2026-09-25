@@ -7,6 +7,8 @@ use App\Http\Controllers\Gas\HomeController;
 use App\Http\Controllers\Gas\InquiryController;
 use App\Http\Controllers\Gas\PortfolioController;
 use App\Http\Controllers\Gas\ServicesController;
+use App\Http\Controllers\InquiryExportController;
+use Filament\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -18,3 +20,7 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::get('/portofolio', PortfolioController::class)->name('portfolio');
 Route::get('/services', ServicesController::class)->name('services');
 Route::get('/inquiry', InquiryController::class)->name('inquiry');
+
+Route::get('/admin/inquiries/export', InquiryExportController::class)
+    ->middleware(Authenticate::class)
+    ->name('admin.inquiries.export');

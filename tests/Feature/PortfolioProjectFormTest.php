@@ -4,6 +4,8 @@ use App\Filament\Resources\PortfolioProjects\Pages\CreatePortfolioProject;
 use App\Models\PortfolioProject;
 use App\Models\User;
 use App\Support\ServiceIconOptions;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 function validPortfolioProjectData(array $overrides = []): array
@@ -104,4 +106,23 @@ test('portfolio project creation rejects an icon that is not in the curated pick
         ->fillForm(validPortfolioProjectData(['icon' => 'test']))
         ->call('create')
         ->assertHasFormErrors(['icon']);
+});
+
+test('admin can upload a project image', function () {
+    Storage::fake('public');
+
+    $admin = User::factory()->create(['is_admin' => true]);
+    $this->actingAs($admin);
+
+    $image = UploadedFile::fake()->image('project.jpg');
+
+    Livewire::test(CreatePortfolioProject::class)
+        ->fillForm(validPortfolioProjectData(['image' => $image]))
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    $project = PortfolioProject::query()->where('name', 'Proyek Uji Coba')->first();
+
+    Storage::disk('public')->assertExists($project->image);
+    expect($project->image_url)->toContain($project->image);
 });

@@ -14,27 +14,27 @@ class TeamMemberSeeder extends Seeder
     {
         $komisaris = TeamMember::query()->updateOrCreate(
             ['name' => 'Ir. Darmawan Kurniawan'],
-            ['role' => 'Komisaris Utama', 'level' => 'komisaris', 'parent_id' => null, 'initials' => 'DK', 'avatar_bg' => '#E6F1FB', 'avatar_color' => '#0C447C', 'sort_order' => 0],
+            ['role' => 'Komisaris Utama', 'parent_id' => null, 'initials' => 'DK', 'avatar_bg' => '#E6F1FB', 'avatar_color' => '#0C447C', 'sort_order' => 0],
         );
 
         $direkturUtama = TeamMember::query()->updateOrCreate(
             ['name' => 'Ir. Hendra Santoso, M.T.'],
-            ['role' => 'Direktur Utama', 'level' => 'direksi', 'parent_id' => $komisaris->id, 'initials' => 'HS', 'avatar_bg' => '#042C53', 'avatar_color' => '#B5D4F4', 'sort_order' => 1],
+            ['role' => 'Direktur Utama', 'parent_id' => $komisaris->id, 'initials' => 'HS', 'avatar_bg' => '#042C53', 'avatar_color' => '#B5D4F4', 'sort_order' => 1],
         );
 
         $direkturTeknik = TeamMember::query()->updateOrCreate(
             ['name' => 'Rudi Pratama, S.T.'],
-            ['role' => 'Direktur Teknik & Operasi', 'level' => 'manajer', 'parent_id' => $direkturUtama->id, 'initials' => 'RP', 'avatar_bg' => '#FAEEDA', 'avatar_color' => '#633806', 'sort_order' => 2],
+            ['role' => 'Direktur Teknik & Operasi', 'parent_id' => $direkturUtama->id, 'initials' => 'RP', 'avatar_bg' => '#FAEEDA', 'avatar_color' => '#633806', 'sort_order' => 2],
         );
 
         $direkturBisnis = TeamMember::query()->updateOrCreate(
             ['name' => 'Sari Andini, M.B.A.'],
-            ['role' => 'Direktur Bisnis & Keuangan', 'level' => 'manajer', 'parent_id' => $direkturUtama->id, 'initials' => 'SA', 'avatar_bg' => '#FAEEDA', 'avatar_color' => '#633806', 'sort_order' => 3],
+            ['role' => 'Direktur Bisnis & Keuangan', 'parent_id' => $direkturUtama->id, 'initials' => 'SA', 'avatar_bg' => '#FAEEDA', 'avatar_color' => '#633806', 'sort_order' => 3],
         );
 
         $direkturHse = TeamMember::query()->updateOrCreate(
             ['name' => 'Agus Wibowo, S.T.'],
-            ['role' => 'Direktur HSE & QA/QC', 'level' => 'manajer', 'parent_id' => $direkturUtama->id, 'initials' => 'AW', 'avatar_bg' => '#FAEEDA', 'avatar_color' => '#633806', 'sort_order' => 4],
+            ['role' => 'Direktur HSE & QA/QC', 'parent_id' => $direkturUtama->id, 'initials' => 'AW', 'avatar_bg' => '#FAEEDA', 'avatar_color' => '#633806', 'sort_order' => 4],
         );
 
         $departments = [
@@ -49,7 +49,7 @@ class TeamMemberSeeder extends Seeder
         foreach ($departments as $department) {
             TeamMember::query()->updateOrCreate(
                 ['name' => $department['name'], 'parent_id' => $department['parent_id']],
-                [...$department, 'level' => 'staff'],
+                $department,
             );
         }
     }

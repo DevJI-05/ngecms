@@ -11,18 +11,13 @@ import GasNavbar from '@/components/gas/GasNavbar.vue';
 import GasStatBox from '@/components/gas/GasStatBox.vue';
 import GasTimelineItem from '@/components/gas/GasTimelineItem.vue';
 import GasValueCard from '@/components/gas/GasValueCard.vue';
+import OrgChartNode from '@/components/gas/OrgChartNode.vue';
+import { buildOrgTree, rowWidth, type OrgTreeMember } from '@/lib/orgTree';
 import { openWhatsApp } from '@/lib/whatsapp';
 import { certifications, contact } from '@/routes';
 
-interface TeamMember {
-    id: number;
+interface TeamMember extends OrgTreeMember {
     parent_id: number | null;
-    name: string;
-    role: string;
-    level: 'komisaris' | 'direksi' | 'manajer' | 'staff';
-    initials: string;
-    avatar_bg: string;
-    avatar_color: string;
 }
 
 const props = defineProps<{
@@ -60,41 +55,10 @@ const tabs = [
 ];
 const activeTab = ref('profil');
 
-const komisaris = computed(() =>
-    props.teamMembers.find((m) => m.level === 'komisaris'),
-);
-const direksiUtama = computed(() =>
-    props.teamMembers.find((m) => m.level === 'direksi'),
-);
-const directors = computed(() =>
-    props.teamMembers
-        .filter((m) => m.level === 'manajer')
-        .map((director) => ({
-            ...director,
-            depts: props.teamMembers.filter((m) => m.parent_id === director.id),
-        })),
-);
-
-// Matches .org-card.tier-mid / .tier-dept widths and .org-row--dept gap in
-// the <style> block below. Every director column shares this width so the
-// row stays symmetric and the connecting "bus" line centers correctly,
-// even when one director has more department cards nested under them than
-// another.
-const MID_CARD_WIDTH = 172;
-const DEPT_CARD_WIDTH = 150;
-const DEPT_ROW_GAP = 12;
-
-const directorsColWidth = computed(() =>
-    Math.max(
-        MID_CARD_WIDTH,
-        ...directors.value.map((d) =>
-            d.depts.length
-                ? d.depts.length * DEPT_CARD_WIDTH +
-                  (d.depts.length - 1) * DEPT_ROW_GAP
-                : 0,
-        ),
-    ),
-);
+// The org chart has no fixed number of tiers — it's built from whatever
+// `parent_id` chains the team members form, to unlimited depth.
+const orgRoots = computed(() => buildOrgTree(props.teamMembers));
+const orgRootRowWidth = computed(() => rowWidth(orgRoots.value, 0));
 
 // The org chart is wider than a mobile screen and keeps its full desktop
 // size — instead of shrinking cards or wrapping the directors row into a
@@ -583,101 +547,17 @@ watch(isMobileView, () => {
                             : {}
                     "
                 >
-                <div v-if="komisaris" class="org-branch">
-                    <div class="org-group-label">Dewan Komisaris</div>
-                    <div class="org-card tier-top">
-                        <div
-                            class="org-avatar"
-                            :style="{
-                                background: komisaris.avatar_bg,
-                                color: komisaris.avatar_color,
-                            }"
-                        >
-                            {{ komisaris.initials }}
-                        </div>
-                        <div class="org-name">{{ komisaris.name }}</div>
-                        <div class="org-role">{{ komisaris.role }}</div>
-                    </div>
-                </div>
-                <div v-if="komisaris && direksiUtama" class="org-stem"></div>
-                <div v-if="direksiUtama" class="org-branch">
-                    <div class="org-group-label">Direksi</div>
-                    <div class="org-card tier-top">
-                        <div
-                            class="org-avatar"
-                            :style="{
-                                background: direksiUtama.avatar_bg,
-                                color: direksiUtama.avatar_color,
-                            }"
-                        >
-                            {{ direksiUtama.initials }}
-                        </div>
-                        <div class="org-name">{{ direksiUtama.name }}</div>
-                        <div class="org-role">{{ direksiUtama.role }}</div>
-                    </div>
-                </div>
-                <div v-if="direksiUtama && directors.length" class="org-stem"></div>
-
                 <div
-                    class="org-row org-row--mid"
-                    :class="{ 'has-bus': directors.length > 1 }"
-                    :style="{ '--tier-w': directorsColWidth + 'px' }"
+                    class="org-row"
+                    :class="{ 'has-bus': orgRoots.length > 1 }"
+                    :style="{ '--tier-w': orgRootRowWidth + 'px' }"
                 >
-                    <div v-for="d in directors" :key="d.id" class="org-node">
-                        <div class="org-drop"></div>
-                        <div
-                            class="org-card tier-mid"
-                            :style="{ borderTopColor: d.avatar_color }"
-                        >
-                            <div
-                                class="org-avatar"
-                                :style="{
-                                    background: d.avatar_bg,
-                                    color: d.avatar_color,
-                                }"
-                            >
-                                {{ d.initials }}
-                            </div>
-                            <div class="org-name">{{ d.name }}</div>
-                            <div class="org-role">{{ d.role }}</div>
-                        </div>
-
-                        <template v-if="d.depts.length">
-                            <div class="org-stem org-stem-sm"></div>
-                            <div
-                                class="org-row org-row--dept"
-                                :class="{ 'has-bus': d.depts.length > 1 }"
-                            >
-                                <div
-                                    v-for="dept in d.depts"
-                                    :key="dept.id"
-                                    class="org-node"
-                                >
-                                    <div class="org-drop org-drop-sm"></div>
-                                    <div
-                                        class="org-card tier-dept"
-                                        :style="{ borderTopColor: dept.avatar_color }"
-                                    >
-                                        <div
-                                            class="org-avatar org-avatar-sm"
-                                            :style="{
-                                                background: dept.avatar_bg,
-                                                color: dept.avatar_color,
-                                            }"
-                                        >
-                                            {{ dept.initials }}
-                                        </div>
-                                        <div class="org-name">
-                                            {{ dept.name }}
-                                        </div>
-                                        <div class="org-role">
-                                            {{ dept.role }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
+                    <OrgChartNode
+                        v-for="root in orgRoots"
+                        :key="root.member.id"
+                        :node="root"
+                        :depth="0"
+                    />
                 </div>
                 </div>
             </div>
@@ -710,15 +590,6 @@ watch(isMobileView, () => {
     font-family: 'Barlow', sans-serif;
     color: var(--color-text-primary);
     background: var(--color-background-tertiary);
-}
-
-.org-group-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--color-text-tertiary);
-    margin-bottom: 6px;
 }
 
 /* TAB NAV */
@@ -927,125 +798,19 @@ watch(isMobileView, () => {
     transition: transform 0.2s ease;
 }
 
-.org-branch {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.org-card {
-    position: relative;
-    background: var(--color-background-primary);
-    border: 0.5px solid var(--color-border-tertiary);
-    border-radius: var(--border-radius-lg);
-    padding: 14px 12px;
-    text-align: center;
-    box-shadow: 0 1px 2px rgba(16, 35, 58, 0.06);
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-}
-.org-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(16, 35, 58, 0.12);
-}
-
-.org-card.tier-top {
-    width: 200px;
-    border-top: 3px solid #185fa5;
-    padding: 18px 14px;
-}
-.org-card.tier-mid {
-    width: 172px;
-    border-top: 3px solid #ef9f27;
-}
-.org-card.tier-dept {
-    width: 150px;
-    border-top: 3px solid #3b6d11;
-    padding: 12px 10px;
-}
-
-.org-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    margin: 0 auto 8px;
-    box-shadow: 0 0 0 3px var(--color-background-primary);
-}
-.tier-mid .org-avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 14px;
-}
-.org-avatar-sm {
-    width: 30px;
-    height: 30px;
-    font-size: 11px;
-}
-
-.org-name {
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--color-text-primary);
-    line-height: 1.25;
-}
-.tier-dept .org-name {
-    font-size: 11.5px;
-}
-.org-role {
-    font-size: 10.5px;
-    color: var(--color-text-tertiary);
-    margin-top: 3px;
-    line-height: 1.3;
-}
-
-.org-group-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--color-text-tertiary);
-    margin-bottom: 8px;
-}
-
-/* connector lines */
-.org-stem {
-    width: 2px;
-    height: 24px;
-    background: var(--color-border-secondary);
-    margin: 0 auto;
-    position: relative;
-}
-.org-stem::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -1px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-border-secondary);
-    transform: translate(-50%, 50%);
-}
-.org-stem-sm {
-    height: 20px;
-}
-
+/* The tree itself (cards, tiers, connector lines) is rendered by the
+   recursive OrgChartNode component. Only the outermost row — the chart's
+   root(s) — is laid out here, reusing the same --tier-w/has-bus convention
+   so the connector line centers correctly above however many roots there
+   are (almost always exactly one). */
 .org-row {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 24px 24px;
-    row-gap: 32px;
+    gap: 24px;
     width: fit-content;
-    max-width: 100%;
+    max-width: none;
     margin: 0 auto;
 }
 .org-row.has-bus::before {
@@ -1056,37 +821,6 @@ watch(isMobileView, () => {
     right: calc(var(--tier-w) / 2);
     height: 2px;
     background: var(--color-border-secondary);
-}
-.org-row--mid {
-    /* overridden per-instance via inline style to the widest department
-       branch, so every director column is the same width and the
-       has-bus line centers correctly regardless of how many department
-       cards are nested under any single director */
-    --tier-w: 172px;
-    /* Cards always stay full size and never wrap into a stacked chain —
-       the canvas (see .org-canvas) is what handles small screens, via
-       pan and pinch-zoom instead of shrinking or reflowing anything. */
-    flex-wrap: nowrap;
-    max-width: none;
-}
-.org-row--dept {
-    --tier-w: 150px;
-    gap: 12px;
-}
-
-.org-node {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: var(--tier-w);
-}
-.org-drop {
-    width: 2px;
-    height: 20px;
-    background: var(--color-border-secondary);
-}
-.org-drop-sm {
-    height: 16px;
 }
 
 @media (max-width: 900px) {

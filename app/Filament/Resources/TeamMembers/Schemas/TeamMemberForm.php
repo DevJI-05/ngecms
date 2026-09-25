@@ -4,13 +4,11 @@ namespace App\Filament\Resources\TeamMembers\Schemas;
 
 use App\Models\TeamMember;
 use App\Rules\NotCircularTeamHierarchy;
-use App\Rules\ReportsToHigherLevel;
 use App\Support\HexColor;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -29,18 +27,9 @@ class TeamMemberForm
                         TextInput::make('role')
                             ->label('Job Title')
                             ->required(),
-                        Select::make('level')
-                            ->label('Level')
-                            ->options([
-                                'komisaris' => 'Commissioner',
-                                'direksi' => 'Board of Directors',
-                                'manajer' => 'Director / Manager',
-                                'staff' => 'Department Head / Staff',
-                            ])
-                            ->native(false)
-                            ->required(),
                         Select::make('parent_id')
                             ->label('Reports To')
+                            ->helperText('Level is derived automatically — one below whoever this member reports to. Leave empty for the top of the chart.')
                             ->relationship(
                                 name: 'parent',
                                 titleAttribute: 'name',
@@ -51,9 +40,8 @@ class TeamMemberForm
                             ->searchable()
                             ->preload()
                             ->native(false)
-                            ->rules(fn (Get $get, ?TeamMember $record) => [
+                            ->rules(fn (?TeamMember $record) => [
                                 new NotCircularTeamHierarchy($record?->id),
-                                new ReportsToHigherLevel($get('level')),
                             ]),
                         TextInput::make('initials')
                             ->label('Avatar Initials')

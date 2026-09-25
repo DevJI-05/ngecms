@@ -20,7 +20,6 @@ class TeamMemberFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'role' => $this->faker->jobTitle(),
-            'level' => $this->faker->randomElement(['komisaris', 'direksi', 'manajer', 'staff']),
             'initials' => $this->faker->lexify('??'),
             'avatar_bg' => '#ffffff',
             'avatar_color' => '#000000',

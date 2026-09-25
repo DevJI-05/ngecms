@@ -7,7 +7,6 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class TeamMembersTable
@@ -29,31 +28,11 @@ class TeamMembersTable
                 TextColumn::make('level')
                     ->label('Level')
                     ->badge()
-                    ->color(fn (string $state) => match ($state) {
-                        'komisaris' => 'gray',
-                        'direksi' => 'danger',
-                        'manajer' => 'warning',
-                        default => 'info',
-                    })
-                    ->formatStateUsing(fn (string $state) => match ($state) {
-                        'komisaris' => 'Commissioner',
-                        'direksi' => 'Board of Directors',
-                        'manajer' => 'Director / Manager',
-                        default => 'Department Head / Staff',
-                    }),
+                    ->color('gray')
+                    ->sortable(),
                 TextColumn::make('parent.name')
                     ->label('Reports To')
                     ->placeholder('—'),
-            ])
-            ->filters([
-                SelectFilter::make('level')
-                    ->label('Level')
-                    ->options([
-                        'komisaris' => 'Commissioner',
-                        'direksi' => 'Board of Directors',
-                        'manajer' => 'Director / Manager',
-                        'staff' => 'Department Head / Staff',
-                    ]),
             ])
             ->recordActions([
                 EditAction::make(),

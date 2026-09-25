@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Inquiries\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -17,6 +18,13 @@ class InquiriesTable
         return $table
             ->defaultSort('created_at', 'desc')
             ->striped()
+            ->headerActions([
+                Action::make('export')
+                    ->label('Export CSV')
+                    ->icon(Heroicon::OutlinedArrowDownTray)
+                    ->color('gray')
+                    ->url(route('admin.inquiries.export')),
+            ])
             ->columns([
                 TextColumn::make('created_at')
                     ->label('Received')

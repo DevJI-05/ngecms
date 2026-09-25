@@ -15,12 +15,31 @@ class TeamMember extends Model
         'parent_id',
         'name',
         'role',
-        'level',
         'initials',
         'avatar_bg',
         'avatar_color',
         'sort_order',
     ];
+
+    /**
+     * `level` is never set directly — it's derived from `parent_id` (see
+     * `booted()`) so the hierarchy stays consistent without admins having
+     * to keep a number in sync by hand.
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (self $member): void {
+            $member->level = $member->parent_id
+                ? (self::find($member->parent_id)?->level ?? -1) + 1
+                : 0;
+        });
+
+        static::saved(function (self $member): void {
+            if ($member->wasChanged('level')) {
+                $member->children->each(fn (self $child) => $child->save());
+            }
+        });
+    }
 
     /**
      * @return BelongsTo<TeamMember, $this>

@@ -14,7 +14,6 @@ test('team member creation accepts valid hex colors', function () {
         ->fillForm([
             'name' => 'Budi Santoso',
             'role' => 'Manajer',
-            'level' => 'manajer',
             'initials' => 'BS',
             'avatar_bg' => '#ffffff',
             'avatar_color' => '#000000',
@@ -34,7 +33,6 @@ test('team member creation rejects an invalid hex color', function (string $fiel
         ->fillForm([
             'name' => 'Budi Santoso',
             'role' => 'Manajer',
-            'level' => 'manajer',
             'initials' => 'BS',
             'avatar_bg' => '#ffffff',
             'avatar_color' => '#000000',
@@ -69,41 +67,49 @@ test('team member hierarchy rejects a circular reference', function () {
         ->assertHasFormErrors(['parent_id']);
 });
 
-test('team member cannot report to a peer at the same level', function () {
-    $admin = User::factory()->create(['is_admin' => true]);
-    $this->actingAs($admin);
+test('a team member with no parent is level 0', function () {
+    $member = TeamMember::factory()->create(['parent_id' => null]);
 
-    $peer = TeamMember::factory()->create(['level' => 'manajer']);
-    $member = TeamMember::factory()->create(['level' => 'manajer']);
-
-    Livewire::test(EditTeamMember::class, ['record' => $member->getRouteKey()])
-        ->fillForm(['parent_id' => $peer->id])
-        ->call('save')
-        ->assertHasFormErrors(['parent_id']);
+    expect($member->level)->toBe(0);
 });
 
-test('team member cannot report to someone at a lower level', function () {
-    $admin = User::factory()->create(['is_admin' => true]);
-    $this->actingAs($admin);
+test('a team member auto-derives its level as one below its parent', function () {
+    $root = TeamMember::factory()->create(['parent_id' => null]);
+    $child = TeamMember::factory()->create(['parent_id' => $root->id]);
+    $grandchild = TeamMember::factory()->create(['parent_id' => $child->id]);
 
-    $subordinate = TeamMember::factory()->create(['level' => 'staff']);
-    $member = TeamMember::factory()->create(['level' => 'manajer']);
-
-    Livewire::test(EditTeamMember::class, ['record' => $member->getRouteKey()])
-        ->fillForm(['parent_id' => $subordinate->id])
-        ->call('save')
-        ->assertHasFormErrors(['parent_id']);
+    expect($root->level)->toBe(0)
+        ->and($child->level)->toBe(1)
+        ->and($grandchild->level)->toBe(2);
 });
 
-test('team member can report to someone at a higher level', function () {
+test('re-parenting a team member cascades the new level down to its descendants', function () {
+    $rootA = TeamMember::factory()->create(['parent_id' => null]);
+    $rootB = TeamMember::factory()->create(['parent_id' => null]);
+    $child = TeamMember::factory()->create(['parent_id' => $rootA->id]);
+    $grandchild = TeamMember::factory()->create(['parent_id' => $child->id]);
+
+    // Move rootA (and everything under it) to report to rootB instead.
+    $rootA->update(['parent_id' => $rootB->id]);
+
+    expect($rootA->fresh()->level)->toBe(1)
+        ->and($child->fresh()->level)->toBe(2)
+        ->and($grandchild->fresh()->level)->toBe(3);
+});
+
+test('admin can set who a team member reports to and the level updates automatically', function () {
     $admin = User::factory()->create(['is_admin' => true]);
     $this->actingAs($admin);
 
-    $director = TeamMember::factory()->create(['level' => 'direksi']);
-    $member = TeamMember::factory()->create(['level' => 'manajer']);
+    $director = TeamMember::factory()->create(['parent_id' => null]);
+    $member = TeamMember::factory()->create(['parent_id' => null]);
 
     Livewire::test(EditTeamMember::class, ['record' => $member->getRouteKey()])
         ->fillForm(['parent_id' => $director->id])
         ->call('save')
         ->assertHasNoFormErrors();
+
+    expect($member->fresh())
+        ->parent_id->toBe($director->id)
+        ->level->toBe(1);
 });
