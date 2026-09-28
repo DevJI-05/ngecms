@@ -13,6 +13,7 @@ class Inquiry extends Model
         'telepon',
         'perusahaan',
         'layanan',
+        'layanan_detail',
         'estimasi',
         'lokasi',
         'pesan',

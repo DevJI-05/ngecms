@@ -53,13 +53,14 @@ class ManageSiteSettings extends Page
                     Tabs::make('Settings')
                         ->contained(false)
                         ->tabs([
-                            Tab::make('Company Profile')
+                            Tab::make('General')
                                 ->icon(Heroicon::OutlinedBuildingOffice)
                                 ->columns(2)
                                 ->components([
                                     TextInput::make('company_name')->label('Company Name')->required(),
                                     TextInput::make('tagline')->label('Tagline')->required(),
                                     TextInput::make('established_year')->label('Year Established')->integer()->minValue(1900)->maxValue(fn (): int => (int) now()->year)->required(),
+                                    TextInput::make('max_upload_size_mb')->label('Max File Upload Size (MB)')->helperText('Applies to all file/image uploads across the site.')->integer()->minValue(1)->maxValue(100)->required(),
                                 ]),
 
                             Tab::make('Contact & Address')

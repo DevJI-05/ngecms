@@ -5,7 +5,7 @@ namespace App\Support;
 class ServiceIconOptions
 {
     /**
-     * Curated Tabler Icons (ti-*) relevant to gas & energy services, used to
+     * Curated Tabler Icons (ti-*) relevant to gas & Energi services, used to
      * populate the icon picker on the Service resource form.
      *
      * @return array<string, string>

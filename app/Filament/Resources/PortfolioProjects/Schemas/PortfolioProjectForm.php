@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PortfolioProjects\Schemas;
 
 use App\Filament\Forms\Components\IconPicker;
+use App\Models\SiteSetting;
 use App\Support\HexColor;
 use App\Support\ServiceIconOptions;
 use Filament\Forms\Components\ColorPicker;
@@ -71,12 +72,13 @@ class PortfolioProjectForm
                             ->rule(Rule::in(array_keys(ServiceIconOptions::options()))),
                         FileUpload::make('image')
                             ->label('Project Image')
-                            ->helperText('Optional. Shown on the project card and detail view instead of the icon overlay.')
+                            ->helperText(sprintf('Optional. Shown on the project card and detail view instead of the icon overlay. Max size: %d MB.', SiteSetting::current()->max_upload_size_mb))
                             ->image()
                             ->disk('public')
                             ->directory('portfolio-projects')
                             ->visibility('public')
                             ->imageEditor()
+                            ->maxSize(SiteSetting::current()->max_upload_size_mb * 1024)
                             ->columnSpanFull(),
                     ]),
 

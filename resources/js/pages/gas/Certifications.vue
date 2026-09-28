@@ -26,7 +26,7 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Sertifikasi & Izin — Nusantara Gas Energy" />
+    <Head title="Sertifikasi & Izin — Nusantara Gas Energi" />
 
     <div class="nge pg">
         <GasHero
@@ -63,7 +63,7 @@ defineProps<{
             <GasBtnWa
                 @click="
                     openWhatsApp(
-                        'Halo, saya ingin bertanya tentang peluang kemitraan / karier di Nusantara Gas Energy.',
+                        'Halo, saya ingin bertanya tentang peluang kemitraan / karier di Nusantara Gas Energi.',
                         settings.whatsapp_number,
                     )
                 "

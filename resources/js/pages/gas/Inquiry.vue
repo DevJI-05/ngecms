@@ -88,7 +88,7 @@ const message = computed(() => {
         const f = cng;
         const info = f.info ? `\n\n*Info Tambahan:*\n${f.info}` : '';
 
-        return `Halo, selamat ${greet()} 🙏\n\nSaya *${f.nama || '[Nama Anda]'}*, ${f.jabatan || '[Jabatan]'} dari *${f.perusahaan || '[Nama Perusahaan]'}*.\n\nKami berencana membangun fasilitas *CNG – ${f.jenis}* dan ingin mendapatkan penawaran dari Nusantara Gas Energy:\n\n📍 *Lokasi:* ${f.lokasi || '[Lokasi]'}\n🏭 *Jenis Fasilitas:* ${f.jenis}\n⚡ *Kapasitas:* ${f.kapasitas || '[Kapasitas]'} MMBtu/hari\n🚌 *Peruntukan:* ${f.peruntukan}${info}\n\nDapat dijadwalkan sesi konsultasi teknis? Terima kasih 🙏`;
+        return `Halo, selamat ${greet()} 🙏\n\nSaya *${f.nama || '[Nama Anda]'}*, ${f.jabatan || '[Jabatan]'} dari *${f.perusahaan || '[Nama Perusahaan]'}*.\n\nKami berencana membangun fasilitas *CNG – ${f.jenis}* dan ingin mendapatkan penawaran dari Nusantara Gas Energi:\n\n📍 *Lokasi:* ${f.lokasi || '[Lokasi]'}\n🏭 *Jenis Fasilitas:* ${f.jenis}\n⚡ *Kapasitas:* ${f.kapasitas || '[Kapasitas]'} MMBtu/hari\n🚌 *Peruntukan:* ${f.peruntukan}${info}\n\nDapat dijadwalkan sesi konsultasi teknis? Terima kasih 🙏`;
     }
 
     const f = maintenance;
@@ -116,7 +116,7 @@ function openWA() {
 </script>
 
 <template>
-    <Head title="Template Pesan WhatsApp — Nusantara Gas Energy" />
+    <Head title="Template Pesan WhatsApp — Nusantara Gas Energi" />
 
     <div class="nge pg">
         <GasHero

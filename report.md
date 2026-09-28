@@ -1,6 +1,6 @@
-# Laporan Pengerjaan — Website Nusantara Gas Energy
+# Laporan Pengerjaan — Website Nusantara Gas Energi
 
-**Klien:** PT. Nusantara Gas Energy
+**Klien:** PT. Nusantara Gas Energi
 **Status:** ✅ Selesai, dalam tahap pemeliharaan/perbaikan lanjutan
 
 ## Progress

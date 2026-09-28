@@ -25,7 +25,7 @@ class CompanyValueIcons
             'ti-scale' => 'Fairness / Balance',
             'ti-thumb-up' => 'Reliability',
             'ti-trophy' => 'Achievement',
-            'ti-bolt' => 'Speed / Energy',
+            'ti-bolt' => 'Speed / Energi',
             'ti-flag' => 'Mission / Goal',
             'ti-clock' => 'Punctuality',
             'ti-chart-bar' => 'Performance',

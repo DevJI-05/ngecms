@@ -50,6 +50,25 @@ test('submitting the public contact form with an invalid email returns a validat
     expect(Inquiry::query()->count())->toBe(0);
 });
 
+test('submitting the public contact form with "Lainnya" service but no detail returns a validation error', function () {
+    $response = $this->from('/contact')->post('/contact', validContactData(['layanan' => 'Lainnya']));
+
+    $response->assertSessionHasErrors('layanan_detail');
+    expect(Inquiry::query()->count())->toBe(0);
+});
+
+test('submitting the public contact form with "Lainnya" service and a detail stores the inquiry', function () {
+    $response = $this->post('/contact', validContactData([
+        'layanan' => 'Lainnya',
+        'layanan_detail' => 'Konsultasi regulasi gas industri',
+    ]));
+
+    $response->assertSessionDoesntHaveErrors();
+
+    $inquiry = Inquiry::query()->where('email', 'budi@example.com')->first();
+    expect($inquiry->layanan_detail)->toBe('Konsultasi regulasi gas industri');
+});
+
 test('submitting the public contact form with valid data stores the inquiry and flashes a success confirmation and toast', function () {
     $response = $this->post('/contact', validContactData());
 

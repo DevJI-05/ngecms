@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { store } from '@/actions/App/Http/Controllers/Gas/ContactController';
 import GasBtnOutline from '@/components/gas/GasBtnOutline.vue';
 import GasBtnWa from '@/components/gas/GasBtnWa.vue';
@@ -30,6 +30,7 @@ const props = defineProps<{
         pic2_phone: string;
         map_query: string | null;
     };
+    services: string[];
 }>();
 
 const page = usePage<{
@@ -44,11 +45,21 @@ const form = useForm({
     telepon: '',
     perusahaan: '',
     layanan: '',
+    layanan_detail: '',
     estimasi: '',
     lokasi: '',
     pesan: '',
     sumber: '',
 });
+
+watch(
+    () => form.layanan,
+    (value) => {
+        if (value !== 'Lainnya') {
+            form.layanan_detail = '';
+        }
+    },
+);
 
 function submitInquiry() {
     form.post(store.url(), {
@@ -81,7 +92,7 @@ function openMap() {
 </script>
 
 <template>
-    <Head title="Hubungi Kami — Nusantara Gas Energy" />
+    <Head title="Hubungi Kami — Nusantara Gas Energi" />
 
     <div class="nge pg">
         <GasHero
@@ -190,11 +201,9 @@ function openMap() {
                             :class="{ 'has-error': form.errors.layanan }"
                         >
                             <option value="">-- Pilih layanan --</option>
-                            <option>Gas Pipeline Construction</option>
-                            <option>CNG Station &amp; Distribution</option>
-                            <option>Maintenance &amp; Inspection</option>
-                            <option>Engineering &amp; Consulting</option>
-                            <option>Emergency Response</option>
+                            <option v-for="service in services" :key="service">
+                                {{ service }}
+                            </option>
                             <option>Lainnya</option>
                         </select>
                         <InputError :message="form.errors.layanan" />
@@ -211,6 +220,20 @@ function openMap() {
                         </select>
                         <InputError :message="form.errors.estimasi" />
                     </div>
+                </div>
+
+                <div v-if="form.layanan === 'Lainnya'" class="field">
+                    <label
+                        >Sebutkan Layanan yang Anda Butuhkan
+                        <span class="req-badge">Wajib</span></label
+                    >
+                    <input
+                        v-model="form.layanan_detail"
+                        type="text"
+                        placeholder="Contoh: Konsultasi regulasi gas industri"
+                        :class="{ 'has-error': form.errors.layanan_detail }"
+                    />
+                    <InputError :message="form.errors.layanan_detail" />
                 </div>
 
                 <div class="field">

@@ -1,4 +1,4 @@
-# TODO — Filament CMS untuk Nusantara Gas Energy
+# TODO — Filament CMS untuk Nusantara Gas Energi
 
 Status: **Selesai.** Filament v4 ter-install di `/admin`, 7 Resource + 1 Settings page dibuat, semua data
 dipindah dari hardcoded Vue/TS ke database, dan ke-6 halaman publik (`resources/js/pages/gas/`) sekarang

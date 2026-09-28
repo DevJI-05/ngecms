@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Inquiries\Tables;
 
+use App\Models\Inquiry;
+use App\Support\InquiryXlsxExporter;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -10,6 +12,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class InquiriesTable
 {
@@ -20,10 +23,10 @@ class InquiriesTable
             ->striped()
             ->headerActions([
                 Action::make('export')
-                    ->label('Export CSV')
+                    ->label('Export Excel')
                     ->icon(Heroicon::OutlinedArrowDownTray)
                     ->color('gray')
-                    ->url(route('admin.inquiries.export')),
+                    ->action(fn (): StreamedResponse => InquiryXlsxExporter::streamDownload()),
             ])
             ->columns([
                 TextColumn::make('created_at')
@@ -40,6 +43,7 @@ class InquiriesTable
                     ->toggleable(),
                 TextColumn::make('layanan')
                     ->label('Service')
+                    ->description(fn (Inquiry $record): ?string => $record->layanan_detail)
                     ->toggleable(),
                 TextColumn::make('email')
                     ->label('Email')

@@ -76,7 +76,7 @@ function inquiryFromDetail() {
 </script>
 
 <template>
-    <Head title="Portofolio Proyek — Nusantara Gas Energy" />
+    <Head title="Portofolio Proyek — Nusantara Gas Energi" />
 
     <div class="nge pg">
         <GasHero

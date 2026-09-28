@@ -232,7 +232,7 @@ watch(isMobileView, () => {
 </script>
 
 <template>
-    <Head title="Tentang Kami — Nusantara Gas Energy" />
+    <Head title="Tentang Kami — Nusantara Gas Energi" />
 
     <div class="nge pg">
         <GasHero
@@ -291,7 +291,7 @@ watch(isMobileView, () => {
                         </div>
                         <div class="prose-body">
                             <p>
-                                PT. Nusantara Gas Energy didirikan pada tahun
+                                PT. Nusantara Gas Energi didirikan pada tahun
                                 2008 di Jakarta sebagai perusahaan Engineering,
                                 Procurement & Construction (EPC) yang fokus pada
                                 infrastruktur gas bumi. Bermula dari tim kecil
@@ -570,7 +570,7 @@ watch(isMobileView, () => {
             <GasBtnWa
                 @click="
                     openWhatsApp(
-                        'Halo, saya ingin bertanya tentang peluang kemitraan / karier di Nusantara Gas Energy.',
+                        'Halo, saya ingin bertanya tentang peluang kemitraan / karier di Nusantara Gas Energi.',
                         settings.whatsapp_number,
                     )
                 "
@@ -792,7 +792,9 @@ watch(isMobileView, () => {
         var(--color-background-secondary);
     transform-origin: center top;
     width: max-content;
+    min-width: 100%;
     max-width: none;
+    box-sizing: border-box;
 }
 .org-wrap.org-anim {
     transition: transform 0.2s ease;

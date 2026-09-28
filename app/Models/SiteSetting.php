@@ -33,6 +33,7 @@ class SiteSetting extends Model
         'stat_employees',
         'stat_active_clients',
         'established_year',
+        'max_upload_size_mb',
     ];
 
     protected $casts = [
@@ -42,12 +43,13 @@ class SiteSetting extends Model
         'stat_provinces' => 'integer',
         'stat_employees' => 'integer',
         'stat_active_clients' => 'integer',
+        'max_upload_size_mb' => 'integer',
     ];
 
     public static function current(): self
     {
         return static::query()->firstOrCreate(['id' => 1], [
-            'company_name' => 'Nusantara Gas Energy',
+            'company_name' => 'Nusantara Gas Energi',
             'tagline' => 'Natural Gas Solutions',
             'address' => 'Gedung Menara Gas Lt. 8, Jl. TB Simatupang No. 45, Jakarta Selatan 12560',
             'phone' => '+62 21 7890 1234',
@@ -73,6 +75,7 @@ class SiteSetting extends Model
             'stat_employees' => 350,
             'stat_active_clients' => 32,
             'established_year' => 2008,
+            'max_upload_size_mb' => 5,
         ]);
     }
 }

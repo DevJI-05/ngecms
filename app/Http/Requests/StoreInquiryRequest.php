@@ -41,6 +41,7 @@ class StoreInquiryRequest extends FormRequest
             'telepon' => ['required', 'string', 'max:14', 'regex:/^(\+62|62|0)8[0-9]{7,11}$/'],
             'perusahaan' => ['nullable', 'string', 'max:255'],
             'layanan' => ['required', 'string', 'max:255'],
+            'layanan_detail' => ['required_if:layanan,Lainnya', 'nullable', 'string', 'max:255'],
             'estimasi' => ['nullable', 'string', 'max:255'],
             'lokasi' => ['nullable', 'string', 'max:255'],
             'pesan' => ['required', 'string'],
@@ -58,6 +59,7 @@ class StoreInquiryRequest extends FormRequest
         return [
             'telepon.regex' => 'Nomor telepon/WhatsApp harus berupa nomor Indonesia yang valid, contoh: 0812xxxxxxx atau +62812xxxxxxx.',
             'telepon.max' => 'Nomor telepon/WhatsApp maksimal 14 digit.',
+            'layanan_detail.required_if' => 'Mohon sebutkan layanan yang Anda butuhkan.',
         ];
     }
 }

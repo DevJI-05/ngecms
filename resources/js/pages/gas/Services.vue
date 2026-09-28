@@ -45,7 +45,7 @@ function inquiryAbout(prompt: string) {
 </script>
 
 <template>
-    <Head title="Layanan Kami — Nusantara Gas Energy" />
+    <Head title="Layanan Kami — Nusantara Gas Energi" />
 
     <div class="nge pg">
         <GasHero

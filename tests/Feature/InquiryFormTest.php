@@ -5,7 +5,9 @@ use App\Filament\Resources\Inquiries\Pages\EditInquiry;
 use App\Filament\Resources\Inquiries\Pages\ListInquiries;
 use App\Models\Inquiry;
 use App\Models\User;
+use Filament\Actions\Testing\TestAction;
 use Livewire\Livewire;
+use OpenSpout\Reader\XLSX\Reader;
 
 function validInquiryData(array $overrides = []): array
 {
@@ -47,15 +49,16 @@ test('inquiry submitted from the public site remains read-only when edited', fun
         ->assertFormFieldIsEnabled('status');
 });
 
-test('inquiries table shows an export csv action linking to the export route', function () {
+test('inquiries table shows an enabled export action', function () {
     $admin = User::factory()->create(['is_admin' => true]);
     $this->actingAs($admin);
 
     Livewire::test(ListInquiries::class)
-        ->assertSeeHtml(route('admin.inquiries.export'));
+        ->assertActionExists(TestAction::make('export')->table())
+        ->assertActionEnabled(TestAction::make('export')->table());
 });
 
-test('admin can download the inquiries export as csv', function () {
+test('admin can download the inquiries export as xlsx', function () {
     $admin = User::factory()->create(['is_admin' => true]);
     $this->actingAs($admin);
 
@@ -64,12 +67,26 @@ test('admin can download the inquiries export as csv', function () {
     $response = $this->get(route('admin.inquiries.export'));
 
     $response->assertOk()
-        ->assertHeader('Content-Type', 'text/csv; charset=UTF-8')
+        ->assertHeader('Content-Type', 'application/vnd.ms-excel')
         ->assertDownload();
 
-    expect($response->streamedContent())
-        ->toContain('Siti Aminah')
-        ->toContain('siti@example.com');
+    $tempFile = tempnam(sys_get_temp_dir(), 'inquiries').'.xlsx';
+    file_put_contents($tempFile, $response->streamedContent());
+
+    $reader = new Reader;
+    $reader->open($tempFile);
+
+    $rows = [];
+    foreach ($reader->getSheetIterator() as $sheet) {
+        foreach ($sheet->getRowIterator() as $row) {
+            $rows[] = $row->toArray();
+        }
+    }
+    $reader->close();
+    unlink($tempFile);
+
+    expect($rows[0])->toContain('Name', 'Email');
+    expect($rows[1])->toContain('Siti Aminah', 'siti@example.com');
 });
 
 test('guests cannot download the inquiries export', function () {

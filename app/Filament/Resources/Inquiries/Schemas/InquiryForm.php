@@ -31,6 +31,7 @@ class InquiryForm
                     ->columns(2)
                     ->components([
                         TextInput::make('layanan')->label('Service')->required()->disabled($disabledWhenEditing),
+                        TextInput::make('layanan_detail')->label('Service Detail (when "Lainnya")')->disabled($disabledWhenEditing),
                         TextInput::make('estimasi')->label('Estimated Value')->disabled($disabledWhenEditing),
                         TextInput::make('lokasi')->label('Project Location')->disabled($disabledWhenEditing),
                         Textarea::make('pesan')

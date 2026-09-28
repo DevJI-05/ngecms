@@ -129,12 +129,17 @@ const mobileOpen = ref(false);
     gap: 10px;
 }
 .logo-box {
-    width: 32px;
-    height: 32px;
+    height: 40px;
+    width: auto;
+    margin-top: -20px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+}
+.logo-box .logo-img {
+    height: 100%;
+    width: auto;
 }
 .logo-name {
     font-family: 'Barlow Condensed', sans-serif;
@@ -152,6 +157,7 @@ const mobileOpen = ref(false);
 }
 .nav-pills {
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 .nav-pills :deep(a) {
@@ -180,16 +186,17 @@ const mobileOpen = ref(false);
     gap: 10px;
 }
 .logo-icon {
-    width: 36px;
-    height: 36px;
+    height: 48px;
+    width: auto;
+    margin-top: -8px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 .logo-img {
-    width: 100%;
     height: 100%;
+    width: auto;
     object-fit: contain;
 }
 .logo-text {
@@ -210,6 +217,7 @@ const mobileOpen = ref(false);
 }
 .nav-links {
     display: flex;
+    align-items: center;
     gap: 24px;
 }
 .nav-links :deep(a) {

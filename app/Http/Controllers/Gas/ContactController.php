@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Gas;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInquiryRequest;
 use App\Models\Inquiry;
+use App\Models\Service;
 use App\Models\SiteSetting;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -16,6 +17,7 @@ class ContactController extends Controller
     {
         return Inertia::render('gas/Contact', [
             'settings' => SiteSetting::current(),
+            'services' => Service::query()->orderBy('sort_order')->pluck('name'),
         ]);
     }
 
