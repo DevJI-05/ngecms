@@ -7,7 +7,7 @@ use App\Http\Controllers\Gas\HomeController;
 use App\Http\Controllers\Gas\InquiryController;
 use App\Http\Controllers\Gas\PortfolioController;
 use App\Http\Controllers\Gas\ServicesController;
-use App\Http\Controllers\InquiryExportController;
+use App\Http\Controllers\InquiryExportDownloadController;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +21,6 @@ Route::get('/portofolio', PortfolioController::class)->name('portfolio');
 Route::get('/services', ServicesController::class)->name('services');
 Route::get('/inquiry', InquiryController::class)->name('inquiry');
 
-Route::get('/admin/inquiries/export', InquiryExportController::class)
+Route::get('/admin/inquiries/export/{exportId}/download', InquiryExportDownloadController::class)
     ->middleware(Authenticate::class)
-    ->name('admin.inquiries.export');
+    ->name('admin.inquiries.export.download');

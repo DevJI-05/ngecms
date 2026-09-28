@@ -2,17 +2,23 @@
 
 namespace App\Filament\Resources\Inquiries\Tables;
 
+use App\Filament\Resources\Inquiries\Pages\ListInquiries;
+use App\Jobs\ExportInquiriesJob;
 use App\Models\Inquiry;
-use App\Support\InquiryXlsxExporter;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Radio;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 
 class InquiriesTable
 {
@@ -26,7 +32,68 @@ class InquiriesTable
                     ->label('Export Excel')
                     ->icon(Heroicon::OutlinedArrowDownTray)
                     ->color('gray')
-                    ->action(fn (): StreamedResponse => InquiryXlsxExporter::streamDownload()),
+                    ->modalHeading('Export Inquiries')
+                    ->modalSubmitActionLabel('Start Export')
+                    ->modalSubmitAction(fn (ListInquiries $livewire): ?bool => $livewire->inquiryExportStatus === 'idle' ? null : false)
+                    ->modalCancelActionLabel(fn (ListInquiries $livewire): string => $livewire->inquiryExportStatus === 'done' ? 'Close' : 'Cancel')
+                    ->mountUsing(function (?Schema $schema, ListInquiries $livewire): void {
+                        $livewire->resetInquiryExport();
+                        $schema?->fill();
+                    })
+                    ->schema([
+                        Radio::make('scope')
+                            ->label('Data to export')
+                            ->options([
+                                'all' => 'All data',
+                                'range' => 'Date range',
+                            ])
+                            ->default('all')
+                            ->live()
+                            ->inline()
+                            ->disabled(fn (ListInquiries $livewire): bool => $livewire->inquiryExportStatus !== 'idle'),
+                        DatePicker::make('dateFrom')
+                            ->label('From date')
+                            ->native(false)
+                            ->visible(fn (Get $get): bool => $get('scope') === 'range')
+                            ->required(fn (Get $get): bool => $get('scope') === 'range')
+                            ->disabled(fn (ListInquiries $livewire): bool => $livewire->inquiryExportStatus !== 'idle'),
+                        DatePicker::make('dateUntil')
+                            ->label('Until date')
+                            ->native(false)
+                            ->visible(fn (Get $get): bool => $get('scope') === 'range')
+                            ->required(fn (Get $get): bool => $get('scope') === 'range')
+                            ->afterOrEqual('dateFrom')
+                            ->disabled(fn (ListInquiries $livewire): bool => $livewire->inquiryExportStatus !== 'idle'),
+                    ])
+                    ->action(function (array $data, Action $action, ListInquiries $livewire): void {
+                        if ($livewire->inquiryExportStatus === 'processing') {
+                            $action->halt();
+                        }
+
+                        $exportId = (string) Str::uuid();
+
+                        $livewire->inquiryExportId = $exportId;
+                        $livewire->inquiryExportStatus = 'processing';
+                        $livewire->inquiryExportProcessed = 0;
+                        $livewire->inquiryExportTotal = 0;
+                        $livewire->inquiryExportError = null;
+
+                        ExportInquiriesJob::dispatch(
+                            $exportId,
+                            $data['scope'] === 'range' ? $data['dateFrom'] : null,
+                            $data['scope'] === 'range' ? $data['dateUntil'] : null,
+                        );
+
+                        $action->halt();
+                    })
+                    ->modalContentFooter(fn (ListInquiries $livewire): View => view('filament.inquiries.export-progress', [
+                        'status' => $livewire->inquiryExportStatus,
+                        'processed' => $livewire->inquiryExportProcessed,
+                        'total' => $livewire->inquiryExportTotal,
+                        'percentage' => $livewire->getInquiryExportPercentage(),
+                        'error' => $livewire->inquiryExportError,
+                        'downloadUrl' => $livewire->getInquiryExportDownloadUrl(),
+                    ])),
             ])
             ->columns([
                 TextColumn::make('created_at')
