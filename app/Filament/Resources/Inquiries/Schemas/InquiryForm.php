@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\Inquiries\Schemas;
 
+use App\Models\Inquiry;
+use App\Models\Service;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 class InquiryForm
@@ -13,6 +16,18 @@ class InquiryForm
     public static function configure(Schema $schema): Schema
     {
         $disabledWhenEditing = fn (string $operation): bool => $operation === 'edit';
+
+        $serviceOptions = function (?Inquiry $record): array {
+            $options = Service::query()->orderBy('sort_order')->pluck('name', 'name')->toArray();
+
+            if ($record && filled($record->layanan) && $record->layanan !== 'Lainnya' && ! array_key_exists($record->layanan, $options)) {
+                $options[$record->layanan] = $record->layanan;
+            }
+
+            $options['Lainnya'] = 'Lainnya';
+
+            return $options;
+        };
 
         return $schema
             ->components([
@@ -30,8 +45,18 @@ class InquiryForm
                 Section::make('Request Details')
                     ->columns(2)
                     ->components([
-                        TextInput::make('layanan')->label('Service')->required()->disabled($disabledWhenEditing),
-                        TextInput::make('layanan_detail')->label('Service Detail (when "Lainnya")')->disabled($disabledWhenEditing),
+                        Select::make('layanan')
+                            ->label('Service')
+                            ->options($serviceOptions)
+                            ->required()
+                            ->native(false)
+                            ->live()
+                            ->disabled($disabledWhenEditing),
+                        TextInput::make('layanan_detail')
+                            ->label('Service Detail (when "Lainnya")')
+                            ->visible(fn (Get $get): bool => $get('layanan') === 'Lainnya')
+                            ->required(fn (Get $get): bool => $get('layanan') === 'Lainnya')
+                            ->disabled($disabledWhenEditing),
                         TextInput::make('estimasi')->label('Estimated Value')->disabled($disabledWhenEditing),
                         TextInput::make('lokasi')->label('Project Location')->disabled($disabledWhenEditing),
                         Textarea::make('pesan')
