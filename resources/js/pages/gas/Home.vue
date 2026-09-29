@@ -75,7 +75,7 @@ const serviceCards = computed(() =>
 </script>
 
 <template>
-    <Head title="Nusantara Gas Energi — Solusi Infrastruktur Gas Bumi" />
+    <Head />
 
     <div class="nge nge-root">
         <GasHero

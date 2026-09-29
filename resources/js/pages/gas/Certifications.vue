@@ -26,7 +26,7 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Sertifikasi & Izin — Nusantara Gas Energi" />
+    <Head title="Sertifikasi & Izin" />
 
     <div class="nge pg">
         <GasHero

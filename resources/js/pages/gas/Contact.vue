@@ -90,7 +90,7 @@ function openMap() {
 </script>
 
 <template>
-    <Head title="Hubungi Kami — Nusantara Gas Energi" />
+    <Head title="Hubungi Kami" />
 
     <div class="nge pg">
         <GasHero

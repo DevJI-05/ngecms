@@ -232,7 +232,7 @@ watch(isMobileView, () => {
 </script>
 
 <template>
-    <Head title="Tentang Kami — Nusantara Gas Energi" />
+    <Head title="Tentang Kami" />
 
     <div class="nge pg">
         <GasHero

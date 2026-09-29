@@ -116,7 +116,7 @@ function openWA() {
 </script>
 
 <template>
-    <Head title="Template Pesan WhatsApp — Nusantara Gas Energi" />
+    <Head title="Template Pesan WhatsApp" />
 
     <div class="nge pg">
         <GasHero
