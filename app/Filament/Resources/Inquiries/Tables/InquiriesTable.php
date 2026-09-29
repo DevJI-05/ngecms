@@ -78,7 +78,7 @@ class InquiriesTable
                         $livewire->inquiryExportTotal = 0;
                         $livewire->inquiryExportError = null;
 
-                        ExportInquiriesJob::dispatch(
+                        ExportInquiriesJob::dispatchSync(
                             $exportId,
                             $data['scope'] === 'range' ? $data['dateFrom'] : null,
                             $data['scope'] === 'range' ? $data['dateUntil'] : null,
