@@ -80,7 +80,10 @@ class ManageSiteSettings extends Page
                                         ->mask(RawJs::make('$input.replace(/[^0-9]/g, "")'))
                                         ->required(),
                                     TextInput::make('emergency_phone')->label('24/7 Emergency Phone')->tel()->minLength(8)->maxLength(20)->mask(RawJs::make('$input.replace(/[^0-9+\-\s]/g, "")'))->required(),
-                                    TextInput::make('map_query')->label('Google Maps Query')->columnSpanFull(),
+                                    TextInput::make('map_query')
+                                        ->label('Google Maps Query')
+                                        ->helperText('Isi teks alamat, atau paste link share dari Google Maps (klik pin lokasi → Share → Copy link) untuk hasil yang lebih presisi.')
+                                        ->columnSpanFull(),
                                 ]),
 
                             Tab::make('Business Hours')

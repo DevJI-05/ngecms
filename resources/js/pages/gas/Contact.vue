@@ -80,14 +80,12 @@ function callPhone() {
 }
 
 function openMap() {
-    const query = encodeURIComponent(
-        props.settings.map_query ?? props.settings.address,
-    );
-    window.open(
-        `https://maps.google.com/?q=${query}`,
-        '_blank',
-        'noopener,noreferrer',
-    );
+    const mapQuery = props.settings.map_query ?? props.settings.address;
+    const url = /^https?:\/\//i.test(mapQuery)
+        ? mapQuery
+        : `https://maps.google.com/?q=${encodeURIComponent(mapQuery)}`;
+
+    window.open(url, '_blank', 'noopener,noreferrer');
 }
 </script>
 
@@ -497,7 +495,6 @@ function openMap() {
                             "
                             aria-hidden="true"
                         ></i>
-                        <div class="map-label">Menara Gas, TB Simatupang</div>
                         <div class="map-link">Buka di Google Maps &rarr;</div>
                     </div>
                 </div>
